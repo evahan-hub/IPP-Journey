@@ -7,31 +7,30 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="design-system.css">
 <style>
+/* Semantic aliases mapping design-system tokens to legacy var names */
 :root{
-  --bg:#f3f5f7; --panel:#ffffff; --ink:#00112c; --ink-soft:#546070; --ink-faint:#8892a2;
-  --line:#dfe3e8; --line-soft:#eef0f3;
-  --accent:#0abf53; --accent-deep:#068d3c; --accent-tint:#e6f9ed;
-  --strong:#0abf53; --partial:#d4920a; --infra:#2c6fba; --gap:#d14252; --out:#8c95a1; --unmapped:#a8b0b8;
-  --p0:#c73a2e; --p1:#b07a12; --p2:#6b7688; --explore:#4a7da8;
-  --shadow:0 1px 3px rgba(0,17,44,.04);
-  
-  /* — Type scale (Adyen CA) — */
-  --fs-display:28px; --fs-h1:24px; --fs-h2:20px; --fs-h3:16px;
-  --fs-body:14px; --fs-caption:12px; --fs-micro:10.5px;
-  --fw-bold:700; --fw-semi:600; --fw-med:500; --fw-reg:400;
+  --bg:var(--color-black-100); --panel:var(--color-white); --ink:var(--color-black-3200); --ink-soft:var(--color-black-1900); --ink-faint:var(--color-black-1300);
+  --line:var(--color-black-500); --line-soft:var(--color-black-200);
+  --accent:var(--color-green); --accent-deep:var(--ipp-accent-deep); --accent-tint:var(--ipp-accent-tint);
+  --strong:var(--color-green); --partial:var(--color-yellow-600); --infra:var(--color-blue-1700); --gap:var(--color-red-1700); --out:var(--color-black-1300); --unmapped:var(--color-black-500);
+  --p0:var(--ipp-p0); --p1:var(--ipp-p1); --p2:var(--ipp-p2); --explore:var(--ipp-explore);
+  --shadow:var(--shadow-sm);
+
+  /* — Type scale — */
+  --fs-display:var(--text-2xl); --fs-h1:var(--text-xl); --fs-h2:var(--text-xl); --fs-h3:var(--text-base);
+  --fs-body:var(--text-sm); --fs-caption:var(--text-xs); --fs-micro:10.5px;
+  --fw-bold:var(--font-weight-bold); --fw-semi:var(--font-weight-semibold); --fw-med:var(--font-weight-medium); --fw-reg:var(--font-weight-normal);
   --lh-tight:1.15; --lh-snug:1.3; --lh-normal:1.55;
   --shadow-lg:0 2px 8px rgba(0,17,44,.06),0 12px 32px rgba(0,17,44,.08);
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);
-  font-family:"Inter",system-ui,sans-serif;font-size:var(--fs-body);line-height:var(--lh-normal);
-  -webkit-font-smoothing:antialiased;
+/* Sidebar, reset, typography from design-system.css */
+body{background:var(--bg);color:var(--ink);
   background-image:radial-gradient(circle at 1px 1px,rgba(0,17,44,.02) 1px,transparent 0);
-  background-size:22px 22px;}
-.mono{font-family:"IBM Plex Mono",monospace}
-h1,h2,h3{font-family:"Inter",sans-serif;font-weight:var(--fw-bold);letter-spacing:-.01em;margin:0}
+  background-size:22px 22px;display:flex;height:100vh}
+.main-content{flex:1;overflow-y:auto;min-width:0}
+.mono{font-family:var(--font-mono)}
 h1{font-size:var(--fs-display);line-height:var(--lh-tight)}
 h2{font-size:var(--fs-h2);line-height:var(--lh-snug)}
 h3{font-size:var(--fs-h3);line-height:var(--lh-snug)}
@@ -40,8 +39,8 @@ a{color:inherit}
 /* ---- shell ---- */
 .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
 header.top{padding:42px 0 22px;border-bottom:1px solid var(--line)}
-.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600}
-header.top h1{font-size:var(--fs-display);line-height:var(--lh-tight);margin:10px 0 8px;font-weight:var(--fw-bold)}
+.eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:var(--fw-semi)}
+header.top h1{font-size:var(--fs-display);line-height:var(--lh-tight);margin:var(--spacing-2xs) 0 var(--spacing-3xs);font-weight:var(--fw-bold)}
 header.top .sub{color:var(--ink-soft);font-size:var(--fs-body)}
 .draftflag{display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:5px 12px;border:1px solid var(--line);
   border-radius:999px;background:var(--panel);font-size:12.5px;color:var(--ink-soft)}
@@ -49,10 +48,10 @@ header.top .sub{color:var(--ink-soft);font-size:var(--fs-body)}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--partial);display:inline-block;flex:none}
 
 /* ---- nav ---- */
-nav.tabs{position:sticky;top:0;z-index:40;background:rgba(243,245,247,.95);backdrop-filter:blur(8px);
+nav.tabs{display:none;position:sticky;top:0;z-index:40;background:rgba(243,245,247,.95);backdrop-filter:blur(8px);
   border-bottom:1px solid var(--line)}
 .tabs-inner{display:flex;gap:0;overflow-x:auto;padding:0}
-.tab{flex:none;border:0;background:transparent;cursor:pointer;font-family:"Inter",sans-serif;font-size:var(--fs-body);
+.tab{flex:none;border:0;background:transparent;cursor:pointer;font-family:var(--font-sans);font-size:var(--fs-body);
   font-weight:var(--fw-semi);color:var(--ink-faint);padding:14px 18px 12px;border-bottom:2px solid transparent;
   transition:.14s;white-space:nowrap;margin-bottom:-1px}
 .tab:hover{color:var(--ink)}
@@ -62,16 +61,18 @@ nav.tabs{position:sticky;top:0;z-index:40;background:rgba(243,245,247,.95);backd
 section.view{display:none;padding:34px 0 80px;animation:fade .3s ease}
 section.view.active{display:block}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.viewhead{margin-bottom:22px}
-.viewhead h2{font-size:var(--fs-h1);margin-bottom:6px}
+.viewhead{padding:var(--spacing-l) 0 var(--spacing-s);border-bottom:1px solid var(--line);margin-bottom:var(--spacing-s)}
+.viewhead .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:var(--fw-semi)}
+.viewhead h2{font-size:var(--fs-display);line-height:var(--lh-tight);margin:var(--spacing-2xs) 0 var(--spacing-3xs);font-weight:var(--fw-bold)}
+.viewhead .sub{color:var(--ink-soft);font-size:var(--fs-body);margin:0}
 .viewhead p{color:var(--ink-soft);margin:0;font-size:var(--fs-body)}
 
 /* ---- KPI ---- */
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:0 0 28px}
 .kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px 14px;box-shadow:none}
-.kpi .v{font-family:"Inter",sans-serif;font-weight:var(--fw-bold);font-size:var(--fs-h1);line-height:var(--lh-tight);letter-spacing:-.02em}
+.kpi .v{font-family:var(--font-sans);font-weight:var(--fw-bold);font-size:var(--fs-h1);line-height:var(--lh-tight);letter-spacing:-.02em}
 .kpi .l{font-size:var(--fs-caption);color:var(--ink-soft);margin-top:8px}
-.kpi .l b{color:var(--ink);font-weight:600}
+.kpi .l b{color:var(--ink);font-weight:var(--fw-semi)}
 .kpi.accent{background:var(--panel);border-color:var(--line);border-left:3px solid var(--accent);color:var(--ink)}
 .kpi.accent .v{color:var(--ink)}
 .kpi.accent .l{color:var(--ink-soft)}.kpi.accent .l b{color:var(--ink)}
@@ -87,24 +88,24 @@ section.view.active{display:block}
 .divider{height:1px;background:var(--line-soft);margin:18px 0}
 .stat-strip{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border-radius:10px;overflow:hidden;border:1px solid var(--line)}
 .stat-strip .s{background:var(--panel);padding:15px 16px}
-.stat-strip .s .num{font-family:"Inter",sans-serif;font-weight:var(--fw-bold);font-size:var(--fs-h2);color:var(--ink)}
+.stat-strip .s .num{font-family:var(--font-sans);font-weight:var(--fw-bold);font-size:var(--fs-h2);color:var(--ink)}
 .stat-strip .s .cap{font-size:var(--fs-caption);color:var(--ink-soft);margin-top:3px}
 .why-list{list-style:none;padding:0;margin:0}
 .why-list li{padding:10px 0;border-bottom:1px solid var(--line-soft);font-size:var(--fs-body);color:var(--ink-soft);display:flex;gap:10px}
 .why-list li:last-child{border:0}
-.why-list li .ix{font-family:"IBM Plex Mono";font-size:11px;color:var(--accent);font-weight:600;flex:none;margin-top:2px}
+.why-list li .ix{font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:var(--fw-semi);flex:none;margin-top:2px}
 .why-list li b{color:var(--ink);font-weight:600}
 
 /* ---- filters ---- */
 .filters{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin-bottom:20px;padding:12px 16px;
   background:var(--panel);border:1px solid var(--line);border-radius:10px}
 .fgroup{display:flex;align-items:center;gap:8px}
-.fgroup .flab{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
-.chip{border:1px solid var(--line);background:#fff;cursor:pointer;font-family:"Inter";font-weight:600;font-size:12.5px;
+.fgroup .flab{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+.chip{border:1px solid var(--line);background:var(--color-white);cursor:pointer;font-family:var(--font-sans);font-weight:var(--fw-semi);font-size:12.5px;
   padding:6px 12px;border-radius:999px;color:var(--ink-soft);transition:.14s}
 .chip:hover{border-color:var(--ink-faint)}
 .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-.fcount{margin-left:auto;font-family:"IBM Plex Mono";font-size:12px;color:var(--ink-faint)}
+.fcount{margin-left:auto;font-family:var(--font-mono);font-size:12px;color:var(--ink-faint)}
 
 /* ---- opportunity cards ---- */
 .opp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
@@ -113,18 +114,18 @@ section.view.active{display:block}
 .opp:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:#cfd6cf}
 .opp::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cv,var(--out))}
 .opp .row1{display:flex;align-items:center;gap:9px;margin-bottom:7px}
-.opp .oid{font-family:"IBM Plex Mono";font-weight:600;font-size:12px;color:var(--ink-faint)}
+.opp .oid{font-family:var(--font-mono);font-weight:var(--fw-semi);font-size:12px;color:var(--ink-faint)}
 .opp h3{font-size:var(--fs-h3);line-height:var(--lh-snug);margin:2px 0 8px}
 .opp .desc{font-size:var(--fs-caption);color:var(--ink-soft);line-height:var(--lh-normal);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .opp .meta{display:flex;gap:7px;margin-top:13px;flex-wrap:wrap}
-.badge{font-family:"IBM Plex Mono";font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:6px;letter-spacing:.02em}
+.badge{font-family:var(--font-mono);font-size:10.5px;font-weight:var(--fw-semi);padding:3px 9px;border-radius:6px;letter-spacing:.02em}
 .pri-P0{background:#fbe7e4;color:var(--p0)}.pri-P1{background:#e8f3de;color:var(--p1)}
 .pri-P2{background:#edeeec;color:var(--p2)}.pri-Explore{background:#e6eef4;color:var(--explore)}
 .cv{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--ink-soft)}
 .cv .cvdot{width:9px;height:9px;border-radius:50%;background:var(--cvc)}
 .cv-strong{--cvc:var(--strong)}.cv-partial{--cvc:var(--partial)}.cv-infra{--cvc:var(--infra)}
 .cv-gap{--cvc:var(--gap)}.cv-out{--cvc:var(--out)}.cv-unmapped{--cvc:var(--unmapped)}
-.opp .conv{margin-left:auto;font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-faint)}
+.opp .conv{margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--ink-faint)}
 
 /* ---- drawer ---- */
 .scrim{position:fixed;inset:0;background:rgba(0,17,44,.38);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:.22s;z-index:80}
@@ -142,20 +143,20 @@ section.view.active{display:block}
 .drawer .dmeta{display:flex;gap:8px;flex-wrap:wrap}
 .drawer .dbody{padding:22px 28px 40px}
 .drawer .dsec{margin-bottom:20px}
-.drawer .dsec .k{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:7px}
+.drawer .dsec .k{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:7px}
 .drawer .dsec .vtxt{font-size:var(--fs-body);color:var(--ink-soft)}
 .signal{display:grid;grid-template-columns:1fr;gap:12px}
 .signal .sg{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fff}
 .signal .sg .sk{font-size:11.5px;font-weight:600;color:var(--ink);margin-bottom:3px}
 .signal .sg .sv{font-size:13px;color:var(--ink-soft)}
 .where{display:flex;flex-wrap:wrap;gap:7px}
-.wtag{font-family:"IBM Plex Mono";font-size:11px;font-weight:600;padding:5px 10px;border-radius:7px;background:var(--accent-tint);color:var(--accent-deep)}
+.wtag{font-family:var(--font-mono);font-size:11px;font-weight:var(--fw-semi);padding:5px 10px;border-radius:7px;background:var(--accent-tint);color:var(--accent-deep)}
 .wtag.star{background:#e8f3de;color:var(--p1)}
 .whybox{background:var(--accent-tint);border:1px solid #cfe4d9;border-radius:10px;padding:14px 16px;font-size:14px;color:var(--accent-deep)}
 
 /* ---- journey ---- */
 .jtoggle{display:inline-flex;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px}
-.jtoggle button{border:0;background:transparent;cursor:pointer;font-family:"Inter",sans-serif;font-weight:var(--fw-semi);font-size:var(--fs-caption);
+.jtoggle button{border:0;background:transparent;cursor:pointer;font-family:var(--font-sans);font-weight:var(--fw-semi);font-size:var(--fs-caption);
   padding:6px 14px;border-radius:7px;color:var(--ink-faint);transition:.14s;white-space:nowrap}
 .jtoggle button:hover{color:var(--ink)}
 .jtoggle button.on{background:var(--ink);color:#fff}
@@ -164,24 +165,21 @@ section.view.active{display:block}
   padding:28px 24px 32px}
 .phase-flow{display:flex;gap:0;min-width:min-content;align-items:stretch}
 .phase-col{flex:none;display:flex;flex-direction:column;gap:10px}
-.phase-col .phase-head{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--accent);font-weight:600;padding:0 4px 10px;white-space:nowrap}
+.phase-col .phase-head{font-family:var(--font-sans);font-size:13px;letter-spacing:0;text-transform:none;
+  color:var(--ink);font-weight:var(--fw-bold);padding:0 4px 10px;white-space:nowrap}
 .phase-connector{flex:none;width:36px;display:flex;align-items:center;justify-content:center;position:relative;margin-top:28px}
-.phase-connector::before{content:"";width:100%;height:1.5px;background:var(--line)}
-.phase-connector::after{content:"";position:absolute;right:2px;top:50%;transform:translateY(-50%);
-  border:5px solid transparent;border-left:6px solid var(--line)}
 .step{flex:none;width:186px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;
   position:relative;transition:.16s;cursor:default}
 .step.has{cursor:pointer}.step.has:hover{border-color:#b8c0c8;box-shadow:var(--shadow-lg);transform:translateY(-2px)}
 .step.star{border-color:var(--accent);border-width:1.5px;background:linear-gradient(168deg,#f0faf4,#fff)}
-.step .sid{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint);font-weight:600}
+.step .sid{font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);font-weight:600}
 .step .slabel{font-size:13px;font-weight:600;line-height:1.25;margin:4px 0 9px;min-height:32px}
 .step .snote{font-size:11px;color:var(--ink-faint);line-height:1.4;margin-bottom:10px;min-height:30px}
 .step .sopps{display:flex;flex-wrap:wrap;gap:4px;min-height:20px}
-.opin{font-family:"IBM Plex Mono";font-size:10px;font-weight:600;padding:2px 6px;border-radius:5px;background:var(--accent-tint);color:var(--accent-deep)}
-.step.star .star-i{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;
+.opin{font-family:var(--font-mono);font-size:10px;font-weight:var(--fw-semi);padding:2px 6px;border-radius:5px;background:var(--accent-tint);color:var(--accent-deep)}
+.step.star .star-i{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:var(--fw-semi);
   color:var(--accent);background:var(--accent-tint);padding:3px 9px;border-radius:6px;margin-bottom:6px;
-  font-family:'IBM Plex Mono',monospace;letter-spacing:.02em}
+  font-family:var(--font-mono);letter-spacing:.02em}
 .step .empty{font-size:11px;color:var(--unmapped);font-style:italic}
 .starnote{margin-top:10px;font-size:12.5px;color:var(--accent);display:flex;gap:7px;align-items:flex-start}
 .starnote .si{flex:none}
@@ -195,13 +193,13 @@ table.heat{border-collapse:collapse;width:100%;min-width:980px}
 table.heat th,table.heat td{border-bottom:1px solid var(--line-soft);border-right:1px solid var(--line-soft);text-align:center;padding:0}
 table.heat thead th{position:sticky;top:0;background:var(--panel);font-weight:600;font-size:10.5px;color:var(--ink-soft);
   padding:10px 4px;vertical-align:top;line-height:1.25;z-index:2}
-table.heat thead th .jhead{font-family:"IBM Plex Mono";font-size:9px;letter-spacing:.08em;color:var(--ink-faint);text-transform:uppercase}
+table.heat thead th .jhead{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;color:var(--ink-faint);text-transform:uppercase}
 table.heat thead th.star{background:#f4faf6}
-table.heat thead th .cid{font-family:"IBM Plex Mono";font-weight:600;color:var(--ink);font-size:11px}
+table.heat thead th .cid{font-family:var(--font-mono);font-weight:var(--fw-semi);color:var(--ink);font-size:11px}
 .rowhead{text-align:left!important;padding:11px 14px!important;position:sticky;left:0;background:var(--panel);z-index:1;
   min-width:230px;border-right:1px solid var(--line)!important;cursor:pointer}
 .rowhead .rh{display:flex;align-items:center;gap:9px}
-.rowhead .roid{font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-faint);font-weight:600}
+.rowhead .roid{font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);font-weight:600}
 .rowhead .rtitle{font-size:13px;font-weight:600;line-height:1.2}
 .rowhead .rcv{margin-left:auto;width:10px;height:10px;border-radius:50%;flex:none}
 .cell{height:46px;position:relative}
@@ -213,22 +211,22 @@ table.heat thead th .cid{font-family:"IBM Plex Mono";font-weight:600;color:var(-
 .cell.colstar{background:#fdfaf2}
 table.heat tr:hover .rowhead{background:#fff}
 .heat tr.dim{opacity:.28}
-.totrow td{font-family:"IBM Plex Mono";font-size:12px;font-weight:600;color:var(--ink);padding:9px 4px!important;background:#f3f6fa}
-.totrow .rowhead{background:#f3f6fa;font-family:"Inter";font-size:12px;color:var(--ink-soft)}
+.totrow td{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--ink);padding:9px 4px!important;background:#f3f6fa}
+.totrow .rowhead{background:#f3f6fa;font-family:var(--font-sans);font-size:12px;color:var(--ink-soft)}
 .htip{position:fixed;z-index:120;background:var(--ink);color:#fff;padding:9px 12px;border-radius:9px;font-size:12.5px;
   max-width:230px;line-height:1.4;pointer-events:none;opacity:0;transition:opacity .12s;box-shadow:var(--shadow-lg)}
 .htip.on{opacity:1}
-.htip .tt{font-family:"IBM Plex Mono";font-size:10px;letter-spacing:.05em;color:#9fd9bf;margin-bottom:3px}
+.htip .tt{font-family:var(--font-mono);font-size:10px;letter-spacing:.05em;color:#9fd9bf;margin-bottom:3px}
 
 /* ---- leverage ---- */
 .lev-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .lev{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;box-shadow:var(--shadow);position:relative}
-.lev .lr{position:absolute;top:14px;right:16px;font-family:"Inter",sans-serif;font-weight:var(--fw-bold);font-size:var(--fs-display);color:var(--line);line-height:1}
-.lev .lj{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.lev .lr{position:absolute;top:14px;right:16px;font-family:var(--font-sans);font-weight:var(--fw-bold);font-size:var(--fs-display);color:var(--line);line-height:1}
+.lev .lj{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
 .lev h3{font-size:var(--fs-h3);margin:6px 0 6px;padding-right:34px}
 .lev .lwhy{font-size:13px;color:var(--ink-soft);margin-bottom:11px}
 .lev .lconv{display:flex;align-items:center;gap:10px}
-.lev .lcount{font-family:"IBM Plex Mono";font-size:11px;font-weight:600;color:var(--ink);background:var(--accent-tint);padding:3px 9px;border-radius:6px}
+.lev .lcount{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--ink);background:var(--accent-tint);padding:3px 9px;border-radius:6px}
 .lev .lopps{display:flex;gap:5px;flex-wrap:wrap}
 .lev.top{background:var(--panel);border-color:var(--line);border-left:3px solid var(--accent)}
 .lev.top .lr{color:var(--line)}.lev.top .lj{color:var(--accent)}.lev.top h3{color:var(--ink)}
@@ -241,7 +239,7 @@ table.heat tr:hover .rowhead{background:#fff}
 .pritable .ph{color:var(--ink-soft);font-size:14px;margin:0 0 16px}
 .prow{display:grid;grid-template-columns:46px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--line-soft);align-items:start}
 .prow:last-child{border:0}
-.prow .pidcell{font-family:"IBM Plex Mono";font-weight:600;font-size:13px;color:var(--ink)}
+.prow .pidcell{font-family:var(--font-mono);font-weight:var(--fw-semi);font-size:13px;color:var(--ink)}
 .prow .ptop{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:8px}
 .prow .pname{font-weight:var(--fw-semi);font-size:var(--fs-body)}
 .prow .pwhy{font-size:var(--fs-body);color:var(--ink-soft)}
@@ -253,6 +251,7 @@ footer{border-top:1px solid var(--line);padding:26px 0 50px;color:var(--ink-fain
 footer b{color:var(--ink-soft)}
 
 @media(max-width:860px){
+  .sidebar{display:none}
   .kpis{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}
   .opp-grid{grid-template-columns:1fr}.lev-grid{grid-template-columns:1fr}
   .wrap{padding:0 18px}
@@ -273,13 +272,13 @@ footer b{color:var(--ink-soft)}
   )}
 .donut::after{content:"";position:absolute;inset:32%;border-radius:50%;background:var(--panel)}
 .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;
-  font-family:"IBM Plex Mono",monospace;pointer-events:none}
+  font-family:var(--font-mono);pointer-events:none}
 .donut-center .dc-v{font-size:var(--fs-h2);font-weight:var(--fw-bold);color:var(--ink)}
 .donut-center .dc-l{font-size:var(--fs-micro);color:var(--ink-faint)}
 .chart-legend{display:flex;flex-direction:column;gap:8px;flex:1}
 .chart-legend .cl{display:flex;align-items:center;gap:9px;font-size:var(--fs-caption)}
 .chart-legend .cl .clc{width:10px;height:10px;border-radius:3px;flex:none}
-.chart-legend .cl .clv{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-weight:var(--fw-semi);color:var(--ink)}
+.chart-legend .cl .clv{margin-left:auto;font-family:var(--font-mono);font-weight:var(--fw-semi);color:var(--ink)}
 .chart-legend .cl .cln{color:var(--ink-soft)}
 .mobile-callout{margin-top:16px;background:var(--accent-tint);border:1px solid #c8e0c2;border-radius:8px;padding:12px 14px;
   font-size:var(--fs-caption);color:var(--accent);display:flex;gap:8px;align-items:flex-start}
@@ -287,27 +286,85 @@ footer b{color:var(--ink-soft)}
 
 /* — Device badges on journey — */
 .dev-filter{display:inline-flex;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px}
-.dev-filter button{border:0;background:transparent;cursor:pointer;font-family:"Inter",sans-serif;font-size:var(--fs-caption);
+.dev-filter button{border:0;background:transparent;cursor:pointer;font-family:var(--font-sans);font-size:var(--fs-caption);
   font-weight:var(--fw-semi);padding:6px 14px;border-radius:7px;color:var(--ink-faint);transition:.14s;white-space:nowrap}
 .dev-filter button:hover{color:var(--ink)}
 .dev-filter button.on{background:var(--ink);color:#fff}
 .dbadge{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:var(--fw-semi);
-  padding:2px 7px;border-radius:5px;margin-top:6px;letter-spacing:.02em;font-family:"IBM Plex Mono",monospace}
+  padding:2px 7px;border-radius:5px;margin-top:6px;letter-spacing:.02em;font-family:var(--font-mono)}
 .dbadge.db-both{background:#e6f9ed;color:#068d3c}
 .dbadge.db-terminal{background:#eef0f3;color:var(--ink-faint)}
 .step.dimmed{opacity:.22;pointer-events:none;transform:scale(.97)}
+
+/* ---- Solutions grid ---- */
+.sol-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.sol-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 22px 18px;
+  cursor:pointer;transition:.16s;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.sol-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:#cfd6cf}
+.sol-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent)}
+.sol-card .sol-icon{font-size:22px;margin-bottom:8px;display:block}
+.sol-card .sol-name{font-size:var(--fs-h3);font-weight:var(--fw-bold);color:var(--ink);line-height:var(--lh-snug);margin-bottom:6px}
+.sol-card .sol-desc{font-size:var(--fs-body);color:var(--ink-soft);line-height:var(--lh-normal)}
+.sol-card .sol-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.sol-card .sol-tags .wtag{font-size:10.5px}
 </style>
 </head>
 <body>
 
-<header class="top">
-  <div class="wrap">
-    <div class="eyebrow">In-Person Payments</div>
-    <h1>IPP Journey Analysis</h1>
-    <p class="sub">A single source of truth for where merchants and submerchants meet friction across the terminal lifecycle — and where the opportunities to fix it converge.</p>
-    <div class="draftflag"><span class="dot"></span><span><b>First draft.</b>&nbsp;Built from the existing Figma journey map and research artefacts. Not yet validated with individual PMs — feedback sharpens the mapping.</span></div>
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar">
+  <div class="sb-top">
+    <a class="sb-brand" href="Landing.html" style="text-decoration:none">
+      <svg width="68" height="22" viewBox="0 0 101.6 32.9" fill="#0ABF53"><path d="M14.3,7.5H0.3V12l9.2,0c0.6,0,1,0.5,1,1v7.9h-2c-0.6,0-1-0.5-1-1v-5.7H3.6c-2,0-3.6,1.6-3.6,3.6v4c0,2,1.6,3.6,3.6,3.6h14.3V11.1C17.9,9.1,16.3,7.5,14.3,7.5z"/><path d="M31.4,20.9h-2c-0.6,0-1-0.5-1-1V7.5h-3.9c-2,0-3.6,1.6-3.6,3.6v10.7c0,2,1.6,3.6,3.6,3.6h14.3V0h-7.5L31.4,20.9z"/><path d="M52.3,20.9h-2c-0.6,0-1-0.5-1-1V7.5h-7.5v14.3c0,2,1.6,3.6,3.6,3.6h6.9v2.2H42.1v5.2h14.1c2,0,3.6-1.6,3.6-3.6V7.5h-7.5V20.9z"/><path d="M77.1,7.5H62.7v14.3c0,2,1.6,3.6,3.6,3.6h14.1v-4.5h-9.2c-0.6,0-1-0.5-1-1V12h2c0.6,0,1,0.5,1,1v5.7h3.9c2,0,3.6-1.6,3.6-3.6v-4C80.7,9.1,79.1,7.5,77.1,7.5z"/><path d="M98,7.5H83.7v17.9h7.5V12h2c0.6,0,1,0.5,1,1v12.4h7.5V11.1C101.6,9.1,100,7.5,98,7.5z"/></svg>
+      <span>IPP Journey</span>
+    </a>
   </div>
-</header>
+
+  <nav class="sb-nav">
+    <a class="sb-link active-link" href="#overview" onclick="switchTab('overview')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Context
+    </a>
+    <a class="sb-link" href="#journey" onclick="switchTab('journey')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
+      Journey map
+    </a>
+    <a class="sb-link" href="#sysinfo" onclick="switchTab('sysinfo')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      System doc
+    </a>
+    <a class="sb-link" href="#solutions" onclick="switchTab('solutions')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a4 4 0 00-8 0v2"/></svg>
+      IPP Solutions
+    </a>
+    <a class="sb-link" href="#opps" onclick="switchTab('opps')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg>
+      Opportunities
+    </a>
+    <a class="sb-link" href="#coverage" onclick="switchTab('coverage')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+      Coverage heatmap
+    </a>
+    <a class="sb-link" href="#leverage" onclick="switchTab('leverage')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10m6 10V4M6 20v-4"/></svg>
+      Leverage &amp; priority
+    </a>
+
+    <div class="sb-divider"></div>
+  </nav>
+
+  <div class="sb-bottom">
+    <div class="sb-cta-box">
+      <span class="dot"></span> <b>Work in progress</b>
+      <p style="margin:8px 0 0;font-size:var(--text-xs);color:var(--color-black-1700);line-height:1.55">This is a living document shaped by research and the Figma journey map.</p>
+      <p style="margin:6px 0 0;font-size:var(--text-xs);color:var(--color-black-1700);line-height:1.55">Got ideas, corrections, or feedback? Would love to hear from you!</p>
+      <a href="slack://user?team=T025TN82G&id=U099UUXHZ62" class="sb-cta-btn" style="margin-top:12px">Chat with @eva_han</a>
+    </div>
+  </div>
+</aside>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="main-content">
 
 <nav class="tabs"><div class="wrap"><div class="tabs-inner" id="tabs">
   <button class="tab active" data-v="overview"><span class="n">01</span>Why journeys, now</button>
@@ -322,6 +379,9 @@ footer b{color:var(--ink-soft)}
 
 <!-- ===== OVERVIEW ===== -->
 <section class="view active" id="overview">
+  <div class="viewhead"><h2>IPP Journey Analysis</h2>
+    <p class="sub">A single source of truth for where merchants and submerchants meet friction across the terminal lifecycle — and where the opportunities to fix it converge.</p>
+  </div>
   <div class="grid2">
     <div>
       <div class="card prose" style="margin-bottom:14px">
@@ -379,7 +439,7 @@ footer b{color:var(--ink-soft)}
 <!-- ===== OPPORTUNITIES ===== -->
 <section class="view" id="opps">
   <div class="viewhead"><h2>Opportunity portfolio</h2>
-    <p>Ten opportunities surfaced across both journeys. Coverage status maps H1/H2 2026 initiatives against each opportunity — it isn't subjective. Tap any card for the full evidence and priority reasoning.</p></div>
+    <p class="sub">Ten opportunities surfaced across both journeys. Coverage status maps H1/H2 2026 initiatives against each opportunity — it isn't subjective. Tap any card for the full evidence and priority reasoning.</p></div>
   <div class="kpis">
     <div class="kpi accent"><div class="v">10</div><div class="l"><b>opportunities</b> identified — 8 mapped to journeys, 2 pending research</div></div>
     <div class="kpi"><div class="v">4</div><div class="l"><b>P0 opportunities</b> carry the strongest evidence and business case</div></div>
@@ -404,14 +464,14 @@ footer b{color:var(--ink-soft)}
 <!-- ===== JOURNEY ===== -->
 <section class="view" id="journey">
   <div class="viewhead"><h2>Journey map</h2>
-    <p>Where merchants and submerchants hit friction across the terminal lifecycle — and where opportunities cluster into high-leverage intervention points.</p></div>
+    <p class="sub">Where merchants and submerchants hit friction across the terminal lifecycle — and where opportunities cluster into high-leverage intervention points.</p></div>
   <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:16px;flex-wrap:wrap"><div class="jtoggle" id="jtoggle"><button class="on" data-j="A">A · Merchant Configuration</button><button data-j="B">B · Submerchant Onboarding (AfP)</button></div><div class="dev-filter" id="devFilter"><button class="on" data-d="all">All devices</button><button data-d="both">📱 Mobile relevant</button><button data-d="terminal">Terminal only</button></div></div><div id="journeyBody"></div>
 </section>
 
 <!-- ===== COVERAGE ===== -->
 <section class="view" id="coverage">
   <div class="viewhead"><h2>Coverage heatmap</h2>
-    <p>What is covered at each journey moment. Rows are opportunities, columns are journey sub-steps. Hover a filled cell for what's covered there; tap an opportunity to isolate its row.</p></div>
+    <p class="sub">What is covered at each journey moment. Rows are opportunities, columns are journey sub-steps. Hover a filled cell for what's covered there; tap an opportunity to isolate its row.</p></div>
   <div class="legend">
     <span><i class="lg" style="background:var(--strong)"></i>Strong — multiple active initiatives</span>
     <span><i class="lg" style="background:var(--partial)"></i>Partial / Infra only</span>
@@ -424,7 +484,7 @@ footer b{color:var(--ink-soft)}
 <!-- ===== LEVERAGE ===== -->
 <section class="view" id="leverage">
   <div class="viewhead"><h2>Leverage &amp; priority</h2>
-    <p>Where opportunities converge — and why each is prioritised the way it is. Leverage is simply the count of opportunities meeting at one moment; priority weighs evidence, business impact, urgency, and foundational dependency.</p></div>
+    <p class="sub">Where opportunities converge — and why each is prioritised the way it is. Leverage is simply the count of opportunities meeting at one moment; priority weighs evidence, business impact, urgency, and foundational dependency.</p></div>
   <h3 style="font-size:16px;margin-bottom:14px">Highest-leverage moments across both journeys</h3>
   <div class="lev-grid" id="levGrid"></div>
 
@@ -443,7 +503,7 @@ footer b{color:var(--ink-soft)}
 <!-- ===== SYSTEM CONTEXT ===== -->
 <section class="view" id="sysinfo">
   <div class="viewhead"><h2>System context &amp; documentation</h2>
-    <p>Technical architecture, configuration hierarchy, and documentation references gathered from Hub and Adyen Docs — grounding the journey map in how the system actually works.</p></div>
+    <p class="sub">Technical architecture, configuration hierarchy, and documentation references gathered from Hub and Adyen Docs — grounding the journey map in how the system actually works.</p></div>
 
   <div class="grid2" style="margin-bottom:22px">
     <div class="card prose">
@@ -462,16 +522,6 @@ footer b{color:var(--ink-soft)}
       <p>The EMV config flow has <b>5 phases</b>, triggered when a terminal boots or merchant settings change. This is the deepest layer of configuration — card-scheme-specific parameters that determine payment behaviour.</p>
     </div>
     <div>
-      <div class="card prose" style="margin-bottom:14px">
-        <h3>Device Fleet Management teams</h3>
-        <ul class="why-list">
-          <li><span class="ix">01</span><span><b>Device configuration</b> — Config generation, delivery, CA/BO tools, inheritance, BIN tables</span></li>
-          <li><span class="ix">02</span><span><b>SoftPOS management</b> — SDK management, companion app config, SDK diagnosis</span></li>
-          <li><span class="ix">03</span><span><b>Custom configuration</b> — OPI config, branding, theming, customization</span></li>
-          <li><span class="ix">04</span><span><b>Apple Tap to Pay</b> — Payment profiles, TtP configuration</span></li>
-          <li><span class="ix">05</span><span><b>Kernel &amp; EMV</b> — Kernel configurations, AID configuration</span></li>
-        </ul>
-      </div>
       <div class="card prose">
         <h3>Supply chain journey</h3>
         <p>The IPP Platform Supply Chain team smooths <b>the terminal's journey from warehouse to merchant</b>. Services include:</p>
@@ -540,15 +590,19 @@ footer b{color:var(--ink-soft)}
   </div>
 </section>
 
+<!-- ===== IPP SOLUTIONS ===== -->
+<section class="view" id="solutions">
+  <div class="viewhead"><h2>In-Person Payments Solutions</h2>
+    <p class="sub">The full IPP portfolio — from software-first SoftPOS to Adyen-designed terminals, fleet management, mobile SDKs, and third-party integrations.</p></div>
+  <div class="sol-grid" id="solGrid"></div>
+</section>
+
 </main>
 
 <div class="scrim" id="scrim"></div>
 <aside class="drawer" id="drawer"></aside>
 <div class="htip" id="htip"></div>
 
-<footer><div class="wrap">
-  <b>IPP Journey Analysis</b> · First draft · Source: existing Adyen merchant journey map (Phases 1–5) and IPP packaging research. Coverage derived from H1/H2 2026 Devices Fleet Management planning. Feedback welcome.
-</div></footer>
 
 <script>
 const DATA = {"opps": [{"id": "O1", "title": "Flexible configuration scoping", "priority": "P0", "coverage": "gap", "coverageLabel": "Gap", "desc": "Account structure forces manual overhead for franchises, regional groups and multi-brand setups. Decisions made at setup get locked in and cause downstream pain.", "evidence": "High \u2014 5 evidence points, 22% workaround stat, 4 named merchants", "business": "High \u2014 blocks 1\u21925M scaling; structurally caps growth for franchise / multi-brand", "urgency": "High \u2014 competitive risk (36% mention better PSPs); merchants create dummy stores today", "dependency": "Yes \u2014 every other opp operates within the account-structure model", "why": "Scores high on all four signals. Under-invested due to org complexity, not strategic unimportance."}, {"id": "O2", "title": "Scalable deployment of settings & assets", "priority": "P0", "coverage": "partial", "coverageLabel": "Partial", "desc": "No bulk apply across merchant accounts or stores; deploying configs and assets is manual at fleet scale.", "evidence": "High \u2014 Adidas Olympics miss, 36% competitive comparison, top survey request", "business": "High \u2014 directly enables campaign revenue moments", "urgency": "High \u2014 already costing real money (Olympics missed)", "dependency": "Partial \u2014 depends on O1 to be fully effective", "why": "Quantified business loss plus competitive pressure. The Adidas anecdote alone justifies P0."}, {"id": "O3", "title": "Settings transparency & override management", "priority": "P0", "coverage": "strong", "coverageLabel": "Strong", "desc": "73% override at device level; inheritance logic is opaque; no overview of what is set where.", "evidence": "Highest \u2014 7 evidence points, \u201conly 27% never overridden\u201d, usability-test failures", "business": "High \u2014 directly serves the 15% support-reduction target (inheritance drives tickets)", "urgency": "High \u2014 confusion compounds with fleet size; worsens as Adyen scales", "dependency": "Yes \u2014 every self-service feature depends on transparency", "why": "Most evidence of any opportunity plus a direct line to the 2026 OKR. Strongest case in the tree."}, {"id": "O4", "title": "Submerchant activation kit", "priority": "P0", "coverage": "partial", "coverageLabel": "Partial", "desc": "Activation is the #1 pain for AfP platforms; manual workarounds at scale. First boot, passcode and Wi-Fi are major friction.", "evidence": "Highest in B-journey \u2014 Tide 200/mo, Fresha 4h/day, Palisis 30%, Munu 5%", "business": "High \u2014 caps AfP segment growth (Adyen's fastest-growing area)", "urgency": "High \u2014 losing platforms to competitive PSPs implicitly", "dependency": "No \u2014 but cross-squad fragmentation makes it harder, not less important", "why": "Highest quantified evidence in either journey plus strategic AfP importance. Coverage fragments across squads."}, {"id": "O5", "title": "Device customization at scale", "priority": "P1", "coverage": "unmapped", "coverageLabel": "Unmapped", "desc": "MVP exists for SFO1 only; not extensible across fleet or models; merchants want segment-based content.", "evidence": "Medium \u2014 5 evidence points from Branding research only", "business": "Medium \u2014 supports merchant brand investment, no direct 2026 OKR hit", "urgency": "Medium \u2014 desirable but not blocking; MVP exists for SFO1", "dependency": "No", "why": "Real demand but the business case is \u201cmerchant satisfaction\u201d rather than a quantified Adyen-side outcome."}, {"id": "O6", "title": "Merchant self-service & role-based access", "priority": "P1", "coverage": "strong", "coverageLabel": "Strong", "desc": "Many settings require Adyen support intervention; access controls within the merchant org are missing.", "evidence": "Medium-High \u2014 5 evidence points including the AllSaints escalation", "business": "High \u2014 directly serves the 15% support reduction", "urgency": "Medium \u2014 manageable today, but every new merchant adds friction", "dependency": "No \u2014 depends on O3 to be safe", "why": "Strong evidence plus outcome link. Delivered through O3 work. Could be P0 if weighted on support target alone."}, {"id": "O7", "title": "Setting taxonomy & shared language", "priority": "P1", "coverage": "partial", "coverageLabel": "Partial", "desc": "No shared definitions; misleading names; unclear merchant-facing vs internal classification.", "evidence": "High \u2014 6 evidence points with concrete examples (contactless floor limit, t\u00e9l\u00e9collecte, EventUrl)", "business": "High \u2014 drives support tickets directly", "urgency": "Medium \u2014 slow burn; worsens with scale and new markets", "dependency": "Yes \u2014 every self-service capability degrades without it", "why": "Strong evidence, but cost is spread across many small tickets with no single Olympics-style anecdote. Could be P0."}, {"id": "O8", "title": "Branded packaging & preboarding", "priority": "P2", "coverage": "out", "coverageLabel": "Not Devices-owned", "desc": "Platforms carry shipping, branding and preboarding overhead outside their core business.", "evidence": "High within IPP \u2014 4 quantified evidence points", "business": "Medium \u2014 platform stickiness, not a direct Adyen revenue line", "urgency": "Low for Devices \u2014 owned elsewhere", "dependency": "No", "why": "Real opportunity, but not Devices-owned. P2 reflects tracking for completeness, not active ownership."}, {"id": "O9", "title": "Dynamic / personalized terminal content", "priority": "Explore", "coverage": "unmapped", "coverageLabel": "Unmapped", "desc": "Signals for transaction- or loyalty-driven content; no current way to deliver.", "evidence": "Low-Medium \u2014 4 evidence points, mostly aspirational", "business": "Unclear \u2014 no quantified business case yet", "urgency": "Low \u2014 desirable, not blocking", "dependency": "No \u2014 depends on O5 first", "why": "Demand is real but the use case is unproven. Mantel's 68-category content is interesting, not a roadmap commitment."}, {"id": "O10", "title": "Configuration lifecycle controls", "priority": "P1", "coverage": "infra", "coverageLabel": "Infra only", "desc": "No scheduling, no TEST\u2194LIVE parity, no rollback for setting changes.", "evidence": "Medium \u2014 5 evidence points in a \u201cwhat we lack\u201d framing", "business": "High \u2014 enables scheduling (Adidas) and rollback (troubleshooting)", "urgency": "Medium \u2014 infra investment substantial, user-facing missing", "dependency": "Yes \u2014 TEST\u2194LIVE, scheduling, rollback are platform capabilities", "why": "Infra work is happening. Risk: infra ships without user-facing scope. Would be P0 if infra stalled."}], "journeyA": [{"id": "1.a", "label": "Preparation", "phase": "1 \u00b7 Exploration", "opps": [], "star": false, "note": "No setting interaction", "device": "both"}, {"id": "1.b", "label": "Account Setup & Decision", "phase": "1 \u00b7 Exploration", "opps": ["O1"], "star": false, "note": "Structure rigidity baked in", "device": "both"}, {"id": "2.a", "label": "Initial Ordering", "phase": "2 \u00b7 Test & Integration", "opps": [], "star": false, "note": "Logistics", "device": "terminal"}, {"id": "2.b", "label": "Test Terminal Delivery", "phase": "2 \u00b7 Test & Integration", "opps": [], "star": false, "note": "Hardware arrival", "device": "terminal"}, {"id": "2.c", "label": "Test Configuration", "phase": "2 \u00b7 Test & Integration", "opps": ["O3", "O7", "O10"], "star": false, "note": "First setting encounter", "device": "both"}, {"id": "2.d", "label": "Testing", "phase": "2 \u00b7 Test & Integration", "opps": ["O3", "O10"], "star": false, "note": "Override patterns emerge", "device": "both"}, {"id": "3.a", "label": "Ordering & Delivery", "phase": "3 \u00b7 Migration to LIVE", "opps": [], "star": false, "note": "Logistics", "device": "terminal"}, {"id": "3.b", "label": "Terminal Delivery", "phase": "3 \u00b7 Migration to LIVE", "opps": [], "star": false, "note": "Bulk hardware arrival", "device": "terminal"}, {"id": "3.c", "label": "Initial Configuration", "phase": "3 \u00b7 Migration to LIVE", "opps": ["O1", "O2", "O3", "O7", "O10"], "star": true, "note": "HIGHEST LEVERAGE moment \u2014 5 opps converge", "device": "both"}, {"id": "4.a", "label": "Routine Configuration", "phase": "4 \u00b7 BAU / Troubleshooting", "opps": ["O2", "O3", "O6", "O7"], "star": false, "note": "Compounding pain", "device": "both"}, {"id": "4.b", "label": "First Troubleshooting", "phase": "4 \u00b7 BAU / Troubleshooting", "opps": ["O3", "O6", "O7", "O10"], "star": true, "note": "Where the 15% support-reduction target lives", "device": "both"}, {"id": "5.a", "label": "Malfunction & Replacement Ordering", "phase": "5 \u00b7 Terminal Replacements", "opps": ["O10"], "star": false, "note": "Version history", "device": "terminal"}, {"id": "5.b", "label": "Setting Up Replacements in Store", "phase": "5 \u00b7 Terminal Replacements", "opps": ["O2", "O4"], "star": false, "note": "Replacement config inheritance", "device": "terminal"}, {"id": "5.c", "label": "FM Configuration", "phase": "5 \u00b7 Terminal Replacements", "opps": ["O3", "O7", "O10"], "star": false, "note": "Same as 3.c, smaller scope", "device": "terminal"}, {"id": "5.d", "label": "Return Faulty Terminals", "phase": "5 \u00b7 Terminal Replacements", "opps": [], "star": false, "note": "Logistics", "device": "terminal"}], "journeyB": [{"id": "B1.a", "label": "Platform Orders Bulk Hardware", "phase": "B1 \u00b7 Platform setup", "opps": [], "star": false, "note": "Hardware order", "device": "terminal"}, {"id": "B1.b", "label": "Define Packaging & Branding", "phase": "B1 \u00b7 Platform setup", "opps": ["O8"], "star": false, "note": "Branded packaging needs", "device": "terminal"}, {"id": "B2.a", "label": "Preboard at Warehouse", "phase": "B2 \u00b7 Preboarding", "opps": ["O8"], "star": false, "note": "Preboarding service \u2014 Fresha 4h/day, Palisis 30% ops time", "device": "terminal"}, {"id": "B2.b", "label": "Insert Activation Guide & QR Codes", "phase": "B2 \u00b7 Preboarding", "opps": ["O4"], "star": false, "note": "Topper, stickers, QR codes in box", "device": "terminal"}, {"id": "B3.a", "label": "Dropship to Submerchant", "phase": "B3 \u00b7 Delivery", "opps": [], "star": false, "note": "Logistics", "device": "terminal"}, {"id": "B3.b", "label": "Submerchant Receives Package", "phase": "B3 \u00b7 Delivery", "opps": ["O8"], "star": false, "note": "Branding affects delivery acceptance", "device": "terminal"}, {"id": "B4.a", "label": "Unbox Terminal", "phase": "B4 \u00b7 Activation", "opps": ["O4"], "star": true, "note": "First impression, branding", "device": "terminal"}, {"id": "B4.b", "label": "Connect Wi-Fi & Enter Passcode", "phase": "B4 \u00b7 Activation", "opps": ["O4"], "star": true, "note": "Tide: 200 tickets/month from passcode alone", "device": "terminal"}, {"id": "B4.c", "label": "First Boot & Software Updates", "phase": "B4 \u00b7 Activation", "opps": ["O4"], "star": true, "note": "Munu: confusing updates \u2192 failed onboardings", "device": "terminal"}, {"id": "B4.d", "label": "First Test Transaction", "phase": "B4 \u00b7 Activation", "opps": ["O4"], "star": true, "note": "Activation success moment", "device": "terminal"}, {"id": "B5.a", "label": "Day-to-day Use", "phase": "B5 \u00b7 BAU", "opps": [], "star": false, "note": "Normal operation", "device": "terminal"}, {"id": "B5.b", "label": "Replacement Cycle", "phase": "B5 \u00b7 BAU", "opps": ["O4"], "star": false, "note": "AfP submerchants face activation again", "device": "terminal"}], "heatCols": [{"id": "1.b", "j": "A", "label": "Account setup", "star": false}, {"id": "2.c", "j": "A", "label": "Test config", "star": false}, {"id": "2.d", "j": "A", "label": "Testing", "star": false}, {"id": "3.c", "j": "A", "label": "Initial config (LIVE)", "star": true}, {"id": "4.a", "j": "A", "label": "Routine config", "star": false}, {"id": "4.b", "j": "A", "label": "Troubleshooting", "star": true}, {"id": "5.a", "j": "A", "label": "Malfunction / replace", "star": false}, {"id": "5.b", "j": "A", "label": "Replace in store", "star": false}, {"id": "5.c", "j": "A", "label": "FM config", "star": false}, {"id": "B1.b", "j": "B", "label": "Packaging & branding", "star": false}, {"id": "B2.a", "j": "B", "label": "Preboarding", "star": false}, {"id": "B2.b", "j": "B", "label": "Activation guide", "star": false}, {"id": "B3.b", "j": "B", "label": "Submerchant receives", "star": false}, {"id": "B4", "j": "B", "label": "Activation phase", "star": true}, {"id": "B5.b", "j": "B", "label": "Replacement cycle", "star": false}], "heat": {"O1": {"1.b": "Account structure choice", "3.c": "Rigidity surfaces at scale"}, "O2": {"3.c": "Bulk apply across fleet", "4.a": "Routine bulk edits", "5.b": "Replacement inheritance"}, "O3": {"2.c": "First setting overview", "2.d": "Override visibility", "3.c": "Inheritance visualisation", "4.a": "Daily settings overview", "4.b": "Troubleshooting transparency", "5.c": "FM-level settings"}, "O4": {"5.b": "AfP replacement activation", "B2.b": "Topper / QR in box", "B4": "Full activation kit", "B5.b": "Re-activation"}, "O6": {"4.a": "Self-serve setting changes", "4.b": "Self-serve troubleshooting"}, "O7": {"2.c": "Setting names at first encounter", "4.a": "Names at scale", "4.b": "Routine name clarity", "5.c": "FM-level taxonomy"}, "O8": {"B1.b": "Define branding", "B2.a": "Preboarding service", "B3.b": "Delivery acceptance"}, "O10": {"2.c": "TEST\u2192LIVE promotion", "2.d": "Rollback during testing", "3.c": "Lifecycle at scale", "4.b": "Version history", "5.c": "Config history for replacement"}}, "heatOrder": ["O1", "O2", "O3", "O4", "O6", "O7", "O8", "O10"], "leverage": [{"rank": 1, "journey": "A \u00b7 Config", "step": "3.c Initial Configuration", "count": 5, "why": "Single highest-leverage moment in the Config journey", "opps": ["O1", "O2", "O3", "O7", "O10"]}, {"rank": 2, "journey": "A \u00b7 Config", "step": "4.b First Troubleshooting", "count": 4, "why": "Where the 15% support reduction lives", "opps": ["O3", "O6", "O7", "O10"]}, {"rank": 3, "journey": "A \u00b7 Config", "step": "4.a Routine Configuration", "count": 4, "why": "Sustained, compounding pain", "opps": ["O2", "O3", "O6", "O7"]}, {"rank": 4, "journey": "B \u00b7 Submerchant", "step": "B4 Activation (all sub-steps)", "count": 4, "why": "Tide passcode tickets + Munu failed onboardings", "opps": ["O4"]}, {"rank": 5, "journey": "A \u00b7 Config", "step": "2.c Test Configuration", "count": 3, "why": "First setting encounter", "opps": ["O3", "O7", "O10"]}, {"rank": 6, "journey": "A \u00b7 Config", "step": "5.c FM Configuration", "count": 3, "why": "Replacements re-run the config problem", "opps": ["O3", "O7", "O10"]}]};
@@ -753,6 +807,61 @@ function renderLeverage(){
 }
 
 renderOpps();renderJourney();renderHeat();renderLeverage();
+
+/* ---- Solutions page ---- */
+const SOL_LIST = [
+  {key:"aod",icon:"📱",name:"Adyen On Device",desc:"SoftPOS solution using smartphones/tablets as payment terminals. Includes Tap to Pay on iPhone and Android — no hardware needed.",tags:["Tap to Pay","SoftPOS","iPhone","Android"]},
+  {key:"at",icon:"🔲",name:"Adyen Terminals",desc:"Adyen-designed payment terminals (S1E4 Pro, S1F4 Pro, countertop, portable). Full PCI compliance, built-in connectivity.",tags:["S1E4 Pro","S1F4 Pro","Countertop","Portable"]},
+  {key:"ant",icon:"🤖",name:"Android Terminals",desc:"Android-based smart terminals that run custom apps alongside payments. Supports third-party app deployment.",tags:["Android","Smart Terminal","Custom Apps"]},
+  {key:"fm",icon:"⚙️",name:"Fleet Management",desc:"Centralized terminal management: remote config, firmware updates, monitoring, and diagnostics.",tags:["Remote Config","Firmware","Monitoring","Diagnostics"]},
+  {key:"h2h",icon:"🔗",name:"Host to Host (BYOD)",desc:"Bring Your Own Device integration. Connect existing third-party terminals to Adyen via API gateway.",tags:["BYOD","API Gateway","Third-party"]},
+  {key:"acc",icon:"🔌",name:"IPP Accessories",desc:"Complementary hardware: charging docks, receipt printers, barcode scanners, mounting solutions.",tags:["Docks","Printers","Scanners","Mounts"]},
+  {key:"kio",icon:"🏧",name:"Kiosks",desc:"Self-service/unattended payment solutions. Kiosk mode terminals for vending, parking, self-checkout.",tags:["Self-service","Unattended","Vending","Self-checkout"]},
+  {key:"mob",icon:"📲",name:"Mobile Solutions",desc:"Mobile SDK for iOS/Android apps. Card readers + phone combos, on-the-go payments.",tags:["Mobile SDK","iOS","Android","Card Readers"]},
+  {key:"pci",icon:"🔒",name:"PCI PTS 6 & Tap to Pay Transition",desc:"Migration support for PCI PTS 6 compliance. Upgrade paths and Tap to Pay enablement.",tags:["PCI PTS 6","Migration","Compliance"]},
+  {key:"tpi",icon:"🔀",name:"Third Party Interactions — IPP",desc:"Integrations with external systems: POS providers, ECR systems, loyalty platforms, ERPs.",tags:["POS","ECR","Loyalty","ERP"]}
+];
+function renderSolutions(){
+  const g=document.getElementById('solGrid');g.innerHTML='';
+  SOL_LIST.forEach(s=>{
+    const el=document.createElement('div');el.className='sol-card';
+    el.innerHTML=`<span class="sol-icon">${s.icon}</span>
+      <div class="sol-name">${s.name}</div>
+      <div class="sol-desc">${s.desc}</div>
+      <div class="sol-tags">${s.tags.map(t=>`<span class="wtag">${t}</span>`).join('')}</div>`;
+    el.onclick=()=>openSolDrawer(s);
+    g.appendChild(el);
+  });
+}
+function openSolDrawer(s){
+  const d=document.getElementById('drawer');
+  d.innerHTML=`<div class="dhead"><span class="dbar" style="background:var(--accent)"></span>
+    <button class="close" onclick="closeDrawer()">×</button>
+    <span class="oid mono" style="color:var(--ink-faint);font-size:12px;font-weight:600">IPP SOLUTION</span>
+    <h3>${s.name}</h3></div>
+    <div class="dbody">
+      <div class="dsec"><div class="vtxt" style="font-size:14px;line-height:1.55">${s.desc}</div></div>
+      <div class="dsec"><div class="k">Capabilities</div>
+        <div class="where">${s.tags.map(t=>`<span class="wtag">${t}</span>`).join('')}</div></div>
+    </div>`;
+  d.classList.add('on');document.getElementById('scrim').classList.add('on');
+}
+renderSolutions();
+
+/* ---- sidebar tab switching ---- */
+function switchTab(v){
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.classList.toggle('active',t.dataset.v===v);
+  });
+  document.querySelectorAll('section.view').forEach(s=>{
+    s.classList.toggle('active',s.id===v);
+  });
+  document.querySelectorAll('.sidebar .sb-nav .sb-link').forEach(a=>{
+    const href=a.getAttribute('href');
+    a.classList.toggle('active-link',href==='#'+v);
+  });
+}
 </script>
+</div><!-- /main-content -->
 </body>
 </html>

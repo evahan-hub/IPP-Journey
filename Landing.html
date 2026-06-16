@@ -7,151 +7,128 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="design-system.css">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
+/* Sidebar styles now come from design-system.css */
 body{
-  font-family:"Inter",system-ui,-apple-system,sans-serif;
-  font-size:14px;line-height:1.5;color:#0d0d0d;
-  -webkit-font-smoothing:antialiased;
-  display:flex;background:#fff;
+  display:flex;height:100vh;background:var(--color-white);
 }
-
-/* ---- sidebar ---- */
-.sidebar{
-  width:260px;flex:none;display:flex;flex-direction:column;
-  padding:12px 12px 16px;border-right:1px solid #ececec;
-  background:#f9f9f9;height:100vh;position:sticky;top:0;
-  overflow-y:auto;
-}
-.sb-top{margin-bottom:8px}
-.sb-brand{
-  display:flex;align-items:center;gap:8px;padding:8px 10px;
-  font-weight:700;font-size:15px;letter-spacing:-.01em;cursor:default;
-}
-.sb-brand .accent{color:#0abf53}
-.sb-nav{flex:1;display:flex;flex-direction:column;gap:1px;margin-top:4px}
-.sb-link{
-  display:flex;align-items:center;gap:12px;padding:10px 12px;
-  border-radius:10px;font-size:14px;font-weight:500;color:#0d0d0d;
-  text-decoration:none;transition:background .12s;cursor:pointer;
-}
-.sb-link:hover{background:#ebebeb}
-.sb-link svg{flex:none;color:#666;width:18px;height:18px}
-.sb-link .kbd{
-  margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;
-  color:#999;font-weight:500;
-}
-.sb-divider{height:1px;background:#e5e5e5;margin:8px 4px}
-.sb-bottom{margin-top:auto;display:flex;flex-direction:column;gap:1px}
-.sb-bottom .sb-link{color:#666;font-size:13px}
-.sb-bottom .sb-link:hover{color:#0d0d0d}
-.sb-cta-box{
-  margin-top:12px;padding:14px;border-radius:12px;background:#fff;
-  border:1px solid #e5e5e5;
-}
-.sb-cta-box .cta-title{font-weight:700;font-size:13px;margin-bottom:4px;color:#0d0d0d}
-.sb-cta-box .cta-desc{font-size:12px;color:#666;line-height:1.45;margin-bottom:12px}
-.sb-cta-btn{
-  display:flex;align-items:center;justify-content:center;
-  width:100%;padding:9px 0;border-radius:9999px;border:1px solid #d9d9d9;
-  background:#fff;font-family:"Inter",sans-serif;font-size:13px;font-weight:600;
-  color:#0d0d0d;cursor:pointer;transition:.15s;text-decoration:none;
-}
-.sb-cta-btn:hover{background:#f5f5f5;border-color:#c0c0c0}
 
 /* ---- main ---- */
 .main{
   flex:1;display:flex;flex-direction:column;min-height:100vh;
+  overflow-y:auto;min-width:0;
 }
 
 /* ---- topbar ---- */
 .topbar{
   display:flex;align-items:center;justify-content:flex-end;
-  padding:12px 20px;gap:8px;flex:none;
+  padding:var(--spacing-2xs) var(--spacing-s);gap:var(--spacing-3xs);flex:none;
 }
 .topbar-title{
-  margin-right:auto;font-family:"IBM Plex Mono",monospace;
-  font-size:13px;color:#999;font-weight:500;letter-spacing:.04em;
+  margin-right:auto;font-family:var(--font-mono);
+  font-size:var(--text-xs);color:var(--color-black-1300);
+  font-weight:var(--font-weight-medium);letter-spacing:.04em;
 }
-.btn-outline{
-  display:inline-flex;align-items:center;justify-content:center;
-  padding:7px 16px;border-radius:9999px;border:1px solid #d9d9d9;
-  background:#fff;font-family:"Inter",sans-serif;font-size:13px;font-weight:600;
-  color:#0d0d0d;cursor:pointer;transition:.15s;text-decoration:none;
-}
-.btn-outline:hover{background:#f5f5f5;border-color:#c0c0c0}
-.btn-filled{
-  display:inline-flex;align-items:center;justify-content:center;
-  padding:7px 16px;border-radius:9999px;border:1px solid #0d0d0d;
-  background:#0d0d0d;font-family:"Inter",sans-serif;font-size:13px;font-weight:600;
-  color:#fff;cursor:pointer;transition:.15s;text-decoration:none;
-}
-.btn-filled:hover{background:#2a2a2a}
 
 /* ---- center content ---- */
 .center{
   flex:1;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;padding:0 28px 60px;
+  justify-content:center;padding:0 var(--spacing-m) var(--spacing-xl);
 }
 .hero-headline{
-  font-size:clamp(24px,3.2vw,32px);font-weight:700;letter-spacing:-.02em;
-  color:#0d0d0d;margin-bottom:28px;text-align:center;
+  font-size:clamp(24px,3.2vw,32px);font-weight:var(--font-weight-bold);letter-spacing:-.02em;
+  color:var(--color-black);margin-bottom:var(--spacing-s);text-align:center;
 }
+.hero-cta{
+  display:inline-flex;align-items:center;gap:var(--spacing-2xs);
+  padding:var(--spacing-2xs) var(--spacing-m);border-radius:9999px;
+  background:var(--color-black);color:var(--color-white);
+  font-family:var(--font-sans);font-size:var(--text-base);font-weight:var(--font-weight-semibold);
+  text-decoration:none;transition:all var(--default-transition-duration) var(--default-transition-timing-function);
+  margin-bottom:var(--spacing-m);
+}
+.hero-cta:hover{background:var(--color-black-2800);transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+.hero-cta svg{color:var(--color-white)}
 
 /* ---- search bar ---- */
 .search-bar{
   width:100%;max-width:620px;display:flex;align-items:center;
-  background:#f4f4f4;border:1px solid #e5e5e5;border-radius:9999px;
-  padding:6px 8px 6px 18px;gap:8px;transition:border-color .15s,box-shadow .15s;
+  background:var(--color-black-100);border:1px solid var(--color-black-500);border-radius:9999px;
+  padding:6px 8px 6px 18px;gap:var(--spacing-3xs);
+  transition:border-color var(--default-transition-duration),box-shadow var(--default-transition-duration);
 }
-.search-bar:focus-within{border-color:#c0c0c0;box-shadow:0 0 0 4px rgba(0,0,0,.04)}
-.search-icon{flex:none;color:#999;display:flex;align-items:center}
+.search-bar:focus-within{border-color:var(--color-black-1300);box-shadow:0 0 0 4px var(--main-light-primary)}
+.search-icon{flex:none;color:var(--color-black-1300);display:flex;align-items:center}
 .search-input{
   flex:1;border:none;outline:none;background:transparent;
-  font-family:"Inter",sans-serif;font-size:15px;color:#0d0d0d;
-  padding:8px 0;
+  font-family:var(--font-sans);font-size:var(--text-base);color:var(--color-black);
+  padding:var(--spacing-3xs) 0;
 }
-.search-input::placeholder{color:#999}
+.search-input::placeholder{color:var(--color-black-1300)}
 .search-actions{display:flex;align-items:center;gap:6px;flex:none}
 .sa-btn{
   display:flex;align-items:center;justify-content:center;
   width:34px;height:34px;border-radius:50%;border:none;
-  background:transparent;color:#666;cursor:pointer;transition:.12s;
+  background:transparent;color:var(--color-black-1700);cursor:pointer;
+  transition:background var(--default-transition-duration);
 }
-.sa-btn:hover{background:#e8e8e8}
+.sa-btn:hover{background:var(--color-black-200)}
 .sa-pill{
   display:inline-flex;align-items:center;gap:6px;
   padding:7px 14px;border-radius:9999px;border:none;
-  background:#0d0d0d;color:#fff;font-family:"Inter",sans-serif;
-  font-size:13px;font-weight:600;cursor:pointer;transition:.12s;
+  background:var(--color-black);color:var(--color-white);font-family:var(--font-sans);
+  font-size:var(--text-xs);font-weight:var(--font-weight-semibold);cursor:pointer;
+  transition:background var(--default-transition-duration);
   text-decoration:none;
 }
-.sa-pill:hover{background:#2a2a2a}
+.sa-pill:hover{background:var(--color-black-2800)}
 .sa-pill svg{flex:none}
 
 /* ---- quick links ---- */
 .quick-links{
-  display:flex;gap:8px;margin-top:18px;flex-wrap:wrap;justify-content:center;
+  display:flex;gap:var(--spacing-3xs);margin-top:var(--spacing-xs);flex-wrap:wrap;justify-content:center;
 }
 .ql{
   display:inline-flex;align-items:center;gap:6px;
-  padding:7px 14px;border-radius:9999px;border:1px solid #e5e5e5;
-  background:#fff;font-size:13px;font-weight:500;color:#666;
-  cursor:pointer;transition:.15s;text-decoration:none;
+  padding:7px 14px;border-radius:9999px;border:1px solid var(--color-black-500);
+  background:var(--color-white);font-size:var(--text-xs);font-weight:var(--font-weight-medium);
+  color:var(--color-black-1700);cursor:pointer;
+  transition:all var(--default-transition-duration) var(--default-transition-timing-function);
+  text-decoration:none;
 }
-.ql:hover{border-color:#c0c0c0;color:#0d0d0d;background:#fafafa}
+.ql:hover{border-color:var(--color-black-1300);color:var(--color-black);background:var(--color-black-100)}
 .ql .ql-dot{width:7px;height:7px;border-radius:50%;flex:none}
 
 /* ---- footer ---- */
 .footer{
-  padding:14px 20px;text-align:center;font-size:12px;color:#999;
+  padding:var(--spacing-xs) var(--spacing-s);text-align:center;
+  font-size:var(--text-xs);color:var(--color-black-1300);
 }
-.footer a{color:#666;text-decoration:underline;text-underline-offset:2px}
+.footer a{color:var(--color-black-1700);text-decoration:underline;text-underline-offset:2px}
+
+.dot{width:7px;height:7px;border-radius:50%;background:var(--color-yellow-600);display:inline-block;flex:none}
 
 /* ---- responsive ---- */
+.search-results{position:absolute;top:100%;left:0;right:0;background:var(--color-white);border:1px solid var(--color-black-400);
+  border-radius:var(--radius-m);margin-top:6px;max-height:340px;overflow-y:auto;display:none;z-index:50;
+  box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.search-results.open{display:block}
+.sr-item{display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;transition:background .1s;
+  text-decoration:none;color:var(--color-black-3200);font-size:13.5px}
+.sr-item:hover,.sr-item.active{background:var(--color-black-100)}
+.sr-tag{font-family:var(--font-mono);font-size:10px;font-weight:var(--font-weight-semibold);letter-spacing:.04em;
+  padding:2px 7px;border-radius:5px;flex:none;text-transform:uppercase}
+.sr-tag.opp{background:#fbe7e4;color:#c73a2e}
+.sr-tag.journey{background:#e6eef4;color:#2c6fba}
+.sr-tag.section{background:#e8f3de;color:#3a7d0a}
+.sr-title{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sr-hint{font-size:11px;color:var(--color-black-1300);flex:none}
+.sr-empty{padding:16px;text-align:center;color:var(--color-black-1300);font-size:13px}
+.sr-group{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--color-black-1300);padding:10px 16px 4px;font-weight:var(--font-weight-semibold)}
+
 @media(max-width:768px){
-  .sidebar{display:none}
   .topbar-title{display:block}
 }
 </style>
@@ -161,20 +138,28 @@ body{
 <!-- ===== SIDEBAR ===== -->
 <aside class="sidebar">
   <div class="sb-top">
-    <div class="sb-brand">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0abf53" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
-      <span>IPP Journey <span class="accent">Analysis</span></span>
-    </div>
+    <a class="sb-brand" href="Landing.html" style="text-decoration:none">
+      <svg width="68" height="22" viewBox="0 0 101.6 32.9" fill="#0ABF53"><path d="M14.3,7.5H0.3V12l9.2,0c0.6,0,1,0.5,1,1v7.9h-2c-0.6,0-1-0.5-1-1v-5.7H3.6c-2,0-3.6,1.6-3.6,3.6v4c0,2,1.6,3.6,3.6,3.6h14.3V11.1C17.9,9.1,16.3,7.5,14.3,7.5z"/><path d="M31.4,20.9h-2c-0.6,0-1-0.5-1-1V7.5h-3.9c-2,0-3.6,1.6-3.6,3.6v10.7c0,2,1.6,3.6,3.6,3.6h14.3V0h-7.5L31.4,20.9z"/><path d="M52.3,20.9h-2c-0.6,0-1-0.5-1-1V7.5h-7.5v14.3c0,2,1.6,3.6,3.6,3.6h6.9v2.2H42.1v5.2h14.1c2,0,3.6-1.6,3.6-3.6V7.5h-7.5V20.9z"/><path d="M77.1,7.5H62.7v14.3c0,2,1.6,3.6,3.6,3.6h14.1v-4.5h-9.2c-0.6,0-1-0.5-1-1V12h2c0.6,0,1,0.5,1,1v5.7h3.9c2,0,3.6-1.6,3.6-3.6v-4C80.7,9.1,79.1,7.5,77.1,7.5z"/><path d="M98,7.5H83.7v17.9h7.5V12h2c0.6,0,1,0.5,1,1v12.4h7.5V11.1C101.6,9.1,100,7.5,98,7.5z"/></svg>
+      <span>IPP Journey</span>
+    </a>
   </div>
 
   <nav class="sb-nav">
-    <a class="sb-link" href="IPP%20Journey.html">
+    <a class="sb-link" href="IPP%20Journey.html#overview">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-      Open dashboard
+      Context
     </a>
     <a class="sb-link" href="IPP%20Journey.html#journey">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
       Journey map
+    </a>
+    <a class="sb-link" href="IPP%20Journey.html#sysinfo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      System doc
+    </a>
+    <a class="sb-link" href="IPP%20Journey.html#solutions">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a4 4 0 00-8 0v2"/></svg>
+      IPP Solutions
     </a>
     <a class="sb-link" href="IPP%20Journey.html#opps">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg>
@@ -190,28 +175,14 @@ body{
     </a>
 
     <div class="sb-divider"></div>
-
-    <a class="sb-link" href="IPP%20Journey.html#sysinfo">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-      System context
-    </a>
   </nav>
 
   <div class="sb-bottom">
-    <div class="sb-divider"></div>
-    <a class="sb-link" href="IPP%20Journey.html#overview">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
-      Documentation
-    </a>
-    <a class="sb-link" href="#">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3m.08 4h.01"/></svg>
-      Help
-    </a>
-
     <div class="sb-cta-box">
-      <div class="cta-title">10 opportunities mapped</div>
-      <div class="cta-desc">Explore friction points across the terminal lifecycle — grounded in research evidence.</div>
-      <a href="IPP%20Journey.html" class="sb-cta-btn">Open dashboard</a>
+      <span class="dot"></span> <b>Work in progress</b>
+      <p style="margin:8px 0 0;font-size:var(--text-xs);color:var(--color-black-1700);line-height:1.55">This is a living document shaped by research and the Figma journey map.</p>
+      <p style="margin:6px 0 0;font-size:var(--text-xs);color:var(--color-black-1700);line-height:1.55">Got ideas, corrections, or feedback? Would love to hear from you!</p>
+      <a href="slack://user?team=T025TN82G&id=U099UUXHZ62" class="sb-cta-btn" style="margin-top:12px">Chat with @eva_han</a>
     </div>
   </div>
 </aside>
@@ -219,28 +190,22 @@ body{
 <!-- ===== MAIN ===== -->
 <div class="main">
 
-  <!-- topbar -->
-  <header class="topbar">
-    <span class="topbar-title">IPP Journey Analysis</span>
-    <a href="IPP%20Journey.html#sysinfo" class="btn-outline">System context</a>
-    <a href="IPP%20Journey.html" class="btn-filled">Open dashboard</a>
-  </header>
-
   <!-- center hero -->
   <div class="center">
-    <h1 class="hero-headline">Where does the journey break?</h1>
+    <h1 class="hero-headline">Where should we invest next?</h1>
 
-    <div class="search-bar">
+    <div class="search-bar" style="position:relative">
       <span class="search-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </span>
-      <input class="search-input" id="searchInput" type="text" placeholder="Explore opportunities, journeys, coverage...">
+      <input class="search-input" id="searchInput" type="text" placeholder="Search opportunities, journeys, leverage points..." autocomplete="off">
       <div class="search-actions">
         <a href="IPP%20Journey.html" class="sa-pill">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
-          Explore
+          Explore all
         </a>
       </div>
+      <div class="search-results" id="searchResults"></div>
     </div>
 
     <div class="quick-links">
@@ -259,20 +224,90 @@ body{
     </div>
   </div>
 
-  <!-- footer -->
-  <footer class="footer">
-    IPP Journey Analysis · First draft · Source: existing Adyen merchant journey map &amp; IPP packaging research.
-  </footer>
 
 </div>
 
 <script>
-/* Navigate on Enter in the search bar */
-document.getElementById('searchInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') {
-    window.location.href = 'IPP%20Journey.html';
+/* ── Searchable index ── */
+const INDEX = [
+  /* Opportunities */
+  {type:"opp",tag:"O1 · P0",title:"Flexible configuration scoping",desc:"Account structure forces manual overhead for franchises",href:"IPP%20Journey.html#opps",keywords:"configuration scoping account franchise multi-brand setup structure P0 gap"},
+  {type:"opp",tag:"O2 · P0",title:"Scalable deployment of settings & assets",desc:"No bulk apply across merchant accounts or stores",href:"IPP%20Journey.html#opps",keywords:"deployment settings assets bulk fleet scale campaign P0 partial"},
+  {type:"opp",tag:"O3 · P0",title:"Settings transparency & override management",desc:"73% override at device level; inheritance logic is opaque",href:"IPP%20Journey.html#opps",keywords:"settings transparency override inheritance device terminal P0 strong"},
+  {type:"opp",tag:"O4 · P0",title:"Frictionless first-terminal activation",desc:"Onboarding a terminal requires too many manual steps",href:"IPP%20Journey.html#opps",keywords:"terminal activation onboarding first setup boarding P0 partial"},
+  {type:"opp",tag:"O5 · P1",title:"Brand consistency from unboxing to checkout",desc:"No preview of branding; merchants discover mistakes post-deployment",href:"IPP%20Journey.html#opps",keywords:"brand branding unboxing checkout customisation splash screen P1"},
+  {type:"opp",tag:"O6 · P1",title:"Partner/platform terminal configuration",desc:"Platforms can't configure terminals for sub-merchants at scale",href:"IPP%20Journey.html#opps",keywords:"partner platform sub-merchant AfP configuration P1"},
+  {type:"opp",tag:"O7 · P1",title:"Self-serve diagnostics & health visibility",desc:"Merchants lack real-time device health data",href:"IPP%20Journey.html#opps",keywords:"diagnostics health monitoring self-serve visibility P1"},
+  {type:"opp",tag:"O8 · P2",title:"Predictable & transparent supply chain",desc:"No delivery tracking; merchants can't plan go-live dates",href:"IPP%20Journey.html#opps",keywords:"supply chain delivery shipping tracking logistics P2"},
+  {type:"opp",tag:"O9 · Explore",title:"Campaign-led terminal experience",desc:"Seasonal or event-based terminal setups require manual effort",href:"IPP%20Journey.html#opps",keywords:"campaign seasonal event terminal experience explore"},
+  {type:"opp",tag:"O10 · Explore",title:"Cross-channel journey continuity",desc:"Online-to-offline handoffs break for merchants",href:"IPP%20Journey.html#opps",keywords:"cross-channel omnichannel online offline continuity explore"},
+
+  /* Sections */
+  {type:"section",tag:"Section",title:"Context & overview",desc:"Why journeys matter now",href:"IPP%20Journey.html#overview",keywords:"context overview why journeys background"},
+  {type:"section",tag:"Section",title:"Journey map",desc:"Merchant & submerchant terminal lifecycle",href:"IPP%20Journey.html#journey",keywords:"journey map lifecycle phases steps friction"},
+  {type:"section",tag:"Section",title:"Opportunity portfolio",desc:"10 opportunities with priority and coverage",href:"IPP%20Journey.html#opps",keywords:"opportunity portfolio priority P0 P1 P2 investment"},
+  {type:"section",tag:"Section",title:"Coverage heatmap",desc:"What's covered at each journey moment",href:"IPP%20Journey.html#coverage",keywords:"coverage heatmap strong partial gap initiatives"},
+  {type:"section",tag:"Section",title:"Leverage & priority",desc:"Where opportunities converge",href:"IPP%20Journey.html#leverage",keywords:"leverage priority convergence highest impact invest"},
+  {type:"section",tag:"Section",title:"System doc",desc:"Technical architecture & documentation",href:"IPP%20Journey.html#sysinfo",keywords:"system documentation architecture configuration hierarchy docs"},
+
+  /* Journeys */
+  {type:"journey",tag:"Journey A",title:"Merchant Configuration",desc:"Terminal ordering → activation → daily operation",href:"IPP%20Journey.html#journey",keywords:"merchant configuration terminal ordering activation operation journey A"},
+  {type:"journey",tag:"Journey B",title:"Submerchant Onboarding (AfP)",desc:"Platform-driven terminal provisioning for sub-merchants",href:"IPP%20Journey.html#journey",keywords:"submerchant onboarding AfP platform provisioning journey B"},
+];
+
+const input = document.getElementById('searchInput');
+const results = document.getElementById('searchResults');
+let activeIdx = -1;
+
+function search(q) {
+  if (!q.trim()) { results.classList.remove('open'); return; }
+  const terms = q.toLowerCase().split(/\s+/);
+  const scored = INDEX.map(item => {
+    const hay = (item.title + ' ' + item.desc + ' ' + item.keywords + ' ' + item.tag).toLowerCase();
+    const hits = terms.filter(t => hay.includes(t)).length;
+    return { ...item, score: hits };
+  }).filter(i => i.score > 0).sort((a, b) => b.score - a.score).slice(0, 8);
+
+  if (!scored.length) {
+    results.innerHTML = '<div class="sr-empty">No results — try a different keyword</div>';
+    results.classList.add('open'); activeIdx = -1; return;
   }
+
+  results.innerHTML = scored.map((r, i) =>
+    `<a class="sr-item" href="${r.href}" data-i="${i}">
+      <span class="sr-tag ${r.type}">${r.tag}</span>
+      <span class="sr-title">${r.title}</span>
+      <span class="sr-hint">${r.desc}</span>
+    </a>`
+  ).join('');
+  results.classList.add('open');
+  activeIdx = -1;
+}
+
+input.addEventListener('input', () => search(input.value));
+
+input.addEventListener('keydown', e => {
+  const items = results.querySelectorAll('.sr-item');
+  if (e.key === 'ArrowDown') { e.preventDefault(); activeIdx = Math.min(activeIdx + 1, items.length - 1); highlight(items); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); activeIdx = Math.max(activeIdx - 1, 0); highlight(items); }
+  else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (activeIdx >= 0 && items[activeIdx]) items[activeIdx].click();
+    else if (items.length) items[0].click();
+    else window.location.href = 'IPP%20Journey.html';
+  }
+  else if (e.key === 'Escape') { results.classList.remove('open'); input.blur(); }
 });
+
+function highlight(items) {
+  items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+  if (items[activeIdx]) items[activeIdx].scrollIntoView({ block: 'nearest' });
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-bar')) results.classList.remove('open');
+});
+input.addEventListener('focus', () => { if (input.value.trim()) search(input.value); });
 </script>
 
 </body>

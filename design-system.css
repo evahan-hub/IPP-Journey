@@ -1,0 +1,250 @@
+/* ============================================================
+   IPP Journey — Design System
+   Based on Adyen corporate website tokens
+   ============================================================ */
+
+:root {
+  /* ---- Colors: Neutrals ---- */
+  --color-black-000: #fff;
+  --color-black-100: #f4f5f6;
+  --color-black-200: #ecedef;
+  --color-black-500: #d1d5d8;
+  --color-black-1300: #8c959d;
+  --color-black-1700: #6c7782;
+  --color-black-1900: #5c6874;
+  --color-black-2500: #2f3e4d;
+  --color-black-2800: #1a2b3b;
+  --color-black-3000: #0d1e2e;
+  --color-black-3200: #001222;
+
+  /* ---- Colors: Semantic aliases ---- */
+  --color-white: var(--color-black-000);
+  --color-grey: var(--color-black-100);
+  --color-black: var(--color-black-3200);
+
+  /* ---- Colors: Brand & accent ---- */
+  --color-green-900: #00d16a;
+  --color-green: var(--color-green-900);
+  --color-yellow-600: #ffc200;
+  --color-orange-1000: #ff9e11;
+  --color-red-200: #feeaea;
+  --color-red-1700: #ff4a0d;
+  --color-blue-1700: #006bd7;
+  --color-purple-1000: #cb96ff;
+  --color-sand-100: #f6f5f4;
+  --color-sand-300: #e6e4e2;
+
+  /* ---- Surfaces & overlays ---- */
+  --main-surface: var(--color-black-000);
+  --main-light-primary: color-mix(in srgb, var(--color-black-3200) 4.2%, transparent);
+  --main-light-secondary: color-mix(in srgb, var(--color-black-3200) 7.4%, transparent);
+  --main-elevated: color-mix(in srgb, var(--color-black-3200) 17.8%, transparent);
+  --main-contrast-secondary: color-mix(in srgb, var(--color-black-3200) 44.7%, transparent);
+  --main-contrast-primary: color-mix(in srgb, var(--color-black-3200) 57.2%, transparent);
+  --main-strong: color-mix(in srgb, var(--color-black-3200) 81.2%, transparent);
+  --main-solid: var(--color-black-3200);
+  --active-primary: var(--color-green-900);
+
+  /* ---- Typography ---- */
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --base-font-size: 0.9375rem;
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.33333;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.42857;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.4;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.33333;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ---- Spacing (base = 1.25rem / 20px) ---- */
+  --base-spacing: 1.25rem;
+  --spacing-3xs: calc(var(--base-spacing) * 0.25);   /*  5px */
+  --spacing-2xs: calc(var(--base-spacing) * 0.5);    /* 10px */
+  --spacing-xs:  calc(var(--base-spacing) * 0.75);   /* 15px */
+  --spacing-s:   calc(var(--base-spacing) * 1);       /* 20px */
+  --spacing-m:   calc(var(--base-spacing) * 1.5);     /* 30px */
+  --spacing-l:   calc(var(--base-spacing) * 2);       /* 40px */
+  --spacing-xl:  calc(var(--base-spacing) * 3);       /* 60px */
+  --spacing-2xl: calc(var(--base-spacing) * 4);       /* 80px */
+  --spacing-3xl: calc(var(--base-spacing) * 5);       /* 100px */
+  --spacing-4xl: calc(var(--base-spacing) * 6);       /* 120px */
+  --spacing-5xl: calc(var(--base-spacing) * 8);       /* 160px */
+  --spacing-6xl: calc(var(--base-spacing) * 10);      /* 200px */
+
+  /* ---- Radius ---- */
+  --base-radius: 5px;
+  --radius-m: var(--base-radius);
+  --radius-l: calc(var(--base-radius) * 4);  /* 20px */
+
+  /* ---- Grid ---- */
+  --grid-gap: var(--spacing-s);
+  --grid-max-width: 1280px;
+  --grid-unit: 12;
+
+  /* ---- Shadows ---- */
+  --shadow-sm: 0 1px 3px rgba(0, 18, 34, 0.04);
+  --shadow-lg: 0 2px 8px rgba(0, 18, 34, 0.06), 0 12px 32px rgba(0, 18, 34, 0.08);
+
+  /* ---- Blur ---- */
+  --background-blur-m: 20px;
+  --background-blur-l: 40px;
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: linear(0 0%, .0059 1%, .0225 2%, .0479 3%, .0806 4%, .1191 5%, .1621 6%, .2085 7%, .2573 8%, .3075 9%, .3583 10%, .4092 11%, .4593 12%, .5084 13%, .556 14%, .6018 15%, .6454 16%, .6867 17%, .7256 18%, .762 19%, .7958 20%, .827 21%, .8557 22%, .8818 23%, .9054 24%, .9267 25%, .9457 26%, .9626 27%, .9774 28%, .9903 29%, 1.0014 30%, 1.0109 31%, 1.0189 32%, 1.0255 33%, 1.0308 34%, 1.035 35%, 1.0382 36%, 1.0404 37%, 1.0419 38%, 1.0427 39%, 1.0428 40%, 1.0425 41%, 1.0417 42%, 1.0405 43%, 1.0391 44%, 1.0374 45%, 1.0355 46%, 1.0335 47%, 1.0314 48%, 1.0292 49%, 1.027 50%, 1.0249 51%, 1.0227 52%, 1.0206 53%, 1.0186 54%, 1.0167 55%, 1.0148 56%, 1.0131 57%, 1.0114 58%, 1.0099 59%, 1.0085 60%, 1.0071 61%, 1.0059 62%, 1.0048 63%, 1.0039 64%, 1.003 65%, 1.0022 66%, 1.0015 67%, 1.0008 68%, 1.0003 69%, .9998 70%, .9995 71%, .9991 72%, .9989 73%, .9986 74%, .9985 75%, .9983 76%, .9983 77%, .9982 78%, .9982 79%, .9982 80%, .9982 81%, .9982 82%, .9983 83%, .9983 84%, .9984 85%, .9985 86%, .9986 87%, .9987 88%, .9988 89%, .9989 90%, .999 91%, .999 92%, .9991 93%, .9992 94%, .9993 95%, .9994 96%, .9995 97%, .9995 98%, .9996 99%, .9997 100%);
+  --out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --motion-default-duration: 0.6s;
+  --motion-default-ease: cubic-bezier(0.19, 1, 0.22, 1);
+  --default-transition-duration: 0.15s;
+  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ---- IPP-specific semantic tokens ---- */
+  --ipp-bg: var(--color-black-100);
+  --ipp-panel: var(--color-white);
+  --ipp-ink: var(--color-black-3200);
+  --ipp-ink-soft: var(--color-black-1900);
+  --ipp-ink-faint: var(--color-black-1300);
+  --ipp-line: var(--color-black-500);
+  --ipp-line-soft: var(--color-black-200);
+  --ipp-accent: var(--color-green);
+  --ipp-accent-deep: #068d3c;
+  --ipp-accent-tint: #e6f9ed;
+
+  /* Priority colors */
+  --ipp-p0: var(--color-red-1700);
+  --ipp-p1: var(--color-orange-1000);
+  --ipp-p2: var(--color-black-1700);
+  --ipp-explore: var(--color-blue-1700);
+
+  /* Coverage colors */
+  --ipp-strong: var(--color-green);
+  --ipp-partial: var(--color-yellow-600);
+  --ipp-infra: var(--color-blue-1700);
+  --ipp-gap: var(--color-red-1700);
+  --ipp-out: var(--color-black-1300);
+  --ipp-unmapped: var(--color-black-500);
+}
+
+/* ============================================================
+   Base reset & defaults
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100% }
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  color: var(--ipp-ink);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 {
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+a { color: inherit }
+
+/* ============================================================
+   Sidebar (shared across all pages)
+   ============================================================ */
+.sidebar {
+  width: 260px; flex: none; display: flex; flex-direction: column;
+  padding: var(--spacing-2xs) var(--spacing-2xs) var(--spacing-xs);
+  border-right: 1px solid var(--ipp-line-soft);
+  background: var(--color-black-100); height: 100vh;
+  position: sticky; top: 0; overflow-y: auto;
+}
+.sb-top { margin-bottom: var(--spacing-3xs) }
+.sb-brand {
+  display: flex; align-items: center; gap: var(--spacing-3xs);
+  padding: var(--spacing-3xs) var(--spacing-2xs);
+  font-weight: var(--font-weight-bold); font-size: var(--text-base);
+  letter-spacing: -0.01em; cursor: default; text-decoration: none; color: var(--ipp-ink);
+}
+.sb-nav { flex: 1; display: flex; flex-direction: column; gap: 1px; margin-top: var(--spacing-3xs) }
+.sb-link {
+  display: flex; align-items: center; gap: var(--spacing-2xs);
+  padding: var(--spacing-2xs) var(--spacing-2xs);
+  border-radius: var(--radius-l);
+  font-size: var(--text-sm); font-weight: var(--font-weight-medium);
+  color: var(--ipp-ink); text-decoration: none;
+  transition: background var(--default-transition-duration) var(--default-transition-timing-function);
+  cursor: pointer;
+}
+.sb-link:hover { background: var(--ipp-line-soft) }
+.sb-link.active-link { background: var(--ipp-line-soft) }
+.sb-link svg { flex: none; color: var(--color-black-1700); width: 18px; height: 18px }
+.sb-divider { height: 1px; background: var(--color-black-500); margin: var(--spacing-3xs) var(--spacing-3xs) }
+.sb-bottom { margin-top: auto; display: flex; flex-direction: column; gap: 1px }
+.sb-bottom .sb-link { color: var(--color-black-1700); font-size: var(--text-xs) }
+.sb-bottom .sb-link:hover { color: var(--ipp-ink) }
+.sb-cta-box {
+  margin-top: var(--spacing-2xs); padding: var(--spacing-xs);
+  border-radius: 4px; background: var(--color-white);
+  border: none;
+}
+.sb-cta-box .cta-title { font-weight: var(--font-weight-bold); font-size: var(--text-xs); margin-bottom: var(--spacing-3xs); color: var(--ipp-ink) }
+.sb-cta-box .cta-desc { font-size: var(--text-xs); color: var(--color-black-1700); line-height: 1.45; margin-bottom: var(--spacing-2xs) }
+.sb-cta-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; padding: 9px 0; border-radius: 9999px;
+  border: 1px solid var(--color-black-500); background: var(--color-white);
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: var(--font-weight-semibold);
+  color: var(--ipp-ink); cursor: pointer;
+  transition: all var(--default-transition-duration) var(--default-transition-timing-function);
+  text-decoration: none;
+}
+.sb-cta-btn:hover { background: var(--color-black-100); border-color: var(--color-black-1300) }
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+.btn-outline {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 7px 16px; border-radius: 9999px;
+  border: 1px solid var(--color-black-500); background: var(--color-white);
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: var(--font-weight-semibold);
+  color: var(--ipp-ink); cursor: pointer;
+  transition: all var(--default-transition-duration) var(--default-transition-timing-function);
+  text-decoration: none;
+}
+.btn-outline:hover { background: var(--color-black-100); border-color: var(--color-black-1300) }
+
+.btn-filled {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 7px 16px; border-radius: 9999px;
+  border: 1px solid var(--color-black-3200); background: var(--color-black-3200);
+  font-family: var(--font-sans); font-size: var(--text-xs); font-weight: var(--font-weight-semibold);
+  color: var(--color-white); cursor: pointer;
+  transition: all var(--default-transition-duration) var(--default-transition-timing-function);
+  text-decoration: none;
+}
+.btn-filled:hover { background: var(--color-black-2800) }
+
+/* ============================================================
+   Eyebrow label (section header)
+   ============================================================ */
+.eyebrow {
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ipp-accent); font-weight: var(--font-weight-semibold);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 768px) {
+  .sidebar { display: none }
+}
