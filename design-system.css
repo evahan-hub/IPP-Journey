@@ -187,6 +187,7 @@ a { color: inherit }
 .sb-link.active-link { background: var(--ipp-line-soft) }
 .sb-link svg { flex: none; color: var(--color-black-1700); width: 18px; height: 18px }
 .sb-divider { height: 1px; background: var(--color-black-500); margin: var(--spacing-3xs) var(--spacing-3xs) }
+.sb-section-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--color-black-1300); font-weight: var(--font-weight-semibold); padding: var(--spacing-3xs) var(--spacing-2xs) 2px }
 .sb-bottom { margin-top: auto; display: flex; flex-direction: column; gap: 1px }
 .sb-bottom .sb-link { color: var(--color-black-1700); font-size: var(--text-xs) }
 .sb-bottom .sb-link:hover { color: var(--ipp-ink) }

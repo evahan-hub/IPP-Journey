@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Service Blueprint · IPP Journey Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="design-system.css">
+<style>
+:root{
+  --bg:var(--color-black-100); --panel:var(--color-white); --ink:var(--color-black-3200); --ink-soft:var(--color-black-1900); --ink-faint:var(--color-black-1300);
+  --line:var(--color-black-500); --line-soft:var(--color-black-200);
+  --accent:var(--color-green); --accent-deep:var(--ipp-accent-deep); --accent-tint:var(--ipp-accent-tint);
+  --gap:var(--color-red-1700); --infra:var(--color-blue-1700); --unmapped:var(--color-black-1300);
+  --fw-bold:var(--font-weight-bold); --fw-semi:var(--font-weight-semibold); --fw-med:var(--font-weight-medium);
+  --shadow-lg:0 12px 32px rgba(0,17,44,.12);
+}
+body{background:var(--bg);color:var(--ink);
+  background-image:radial-gradient(circle at 1px 1px,rgba(0,17,44,.02) 1px,transparent 0);background-size:22px 22px;
+  display:flex;height:100vh}
+.main-content{flex:1;overflow-y:auto;min-width:0}
+.wrap{max-width:1440px;margin:0 auto;padding:36px 28px 80px}
+.viewhead{padding:0 0 18px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.viewhead h1{font-size:var(--text-2xl);line-height:1.15;margin:0 0 6px;font-weight:var(--fw-bold)}
+.viewhead .sub{color:var(--ink-soft);font-size:var(--text-sm);margin:0;max-width:860px}
+
+/* ---- KPIs ---- */
+.bp-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px 14px}
+.kpi .v{font-weight:var(--fw-bold);font-size:28px;line-height:1.15;letter-spacing:-.02em}
+.kpi .l{font-size:12px;color:var(--ink-soft);margin-top:6px}
+.kpi .l b{color:var(--ink);font-weight:var(--fw-semi)}
+.kpi.accent{border-left:3px solid var(--accent)}
+
+/* ---- Toolbar ---- */
+.toolbar{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.toolbar select{font:inherit;font-size:12px;padding:7px 10px;border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--ink);max-width:280px}
+.toolbar select:focus{outline:none;border-color:var(--accent)}
+.toolbar .fl{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);font-weight:var(--fw-semi);margin-bottom:4px}
+.toolbar .ff{display:flex;flex-direction:column;gap:4px}
+.toolbar .freset{font:inherit;font-size:11px;padding:7px 12px;border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--ink-soft);cursor:pointer;align-self:flex-end}
+.toolbar .freset:hover{border-color:var(--accent);color:var(--accent-deep)}
+.toolbar .fhint{font-size:11px;color:var(--ink-faint);margin-left:auto;align-self:center}
+
+/* Multi-select dropdown */
+.ms-wrap{position:relative}
+.ms-btn{font:inherit;font-size:12px;padding:7px 28px 7px 10px;border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--ink);
+  cursor:pointer;min-width:200px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:relative}
+.ms-btn::after{content:"";position:absolute;right:10px;top:50%;transform:translateY(-50%);border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid var(--ink-faint)}
+.ms-btn:hover,.ms-btn.open{border-color:var(--accent)}
+.ms-drop{display:none;position:absolute;top:calc(100% + 4px);left:0;min-width:100%;max-height:280px;overflow-y:auto;
+  background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow-lg);z-index:50;padding:4px 0}
+.ms-drop.open{display:block}
+.ms-drop label{display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:12px;color:var(--ink);cursor:pointer;white-space:nowrap}
+.ms-drop label:hover{background:var(--bg)}
+.ms-drop label input{accent-color:var(--accent);margin:0;flex:none}
+.ms-drop .ms-all{border-bottom:1px solid var(--line-soft);padding-bottom:6px;margin-bottom:2px;font-weight:var(--fw-semi)}
+.ms-dot{width:6px;height:6px;border-radius:50%;flex:none}
+.ms-group-hdr{font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);font-weight:var(--fw-semi);padding:8px 12px 4px;border-top:1px solid var(--line-soft);margin-top:2px;display:flex;align-items:center;justify-content:space-between}
+.ms-group-hdr:first-of-type{border-top:0;margin-top:0}
+.ms-group-hdr .ms-grp-btn{font:inherit;font-size:9px;color:var(--accent);cursor:pointer;background:none;border:none;padding:0;letter-spacing:.05em;text-transform:uppercase;font-weight:var(--fw-semi)}
+.ms-group-hdr .ms-grp-btn:hover{text-decoration:underline}
+
+/* ---- Canvas ---- */
+.bp-canvas{border:1px solid var(--line);border-radius:12px;overflow-x:auto;overflow-y:visible;
+  background:#f8f9fb;background-image:radial-gradient(circle,#dfe3e8 .8px,transparent .8px);background-size:18px 18px;
+  padding:28px 24px 32px}
+.bp-flow{display:flex;gap:0;min-width:min-content;align-items:flex-start}
+.bp-phase{flex:none;display:flex;flex-direction:column;gap:10px;width:248px}
+.bp-connector{flex:none;width:28px;display:flex;align-items:center;justify-content:center;margin-top:28px;color:var(--ink-faint)}
+.bp-connector svg{width:16px;height:16px}
+
+/* Phase header */
+.bp-phhead{width:100%;border-radius:10px;padding:14px 16px;margin-bottom:4px;background:var(--panel);border:2.5px solid #64748b}
+.bp-phhead .bp-phlabel{font-family:'Inter',var(--font-body);font-size:13px;font-weight:700;letter-spacing:0;color:var(--ink)}
+.bp-phhead .bp-phsub{font-size:11px;margin-top:4px;color:var(--ink-soft)}
+
+/* Job card */
+.bp-job{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+  position:relative;transition:opacity .2s}
+.bp-job.dimmed{opacity:.18;pointer-events:none}
+.bp-job .bp-step{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-faint);font-weight:600}
+.bp-job .bp-big{font-size:12.5px;font-weight:600;line-height:1.3;margin:4px 0 0;color:var(--ink)}
+.bp-job .bp-meta{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.bp-job .bp-paincount{display:inline-flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:10px;font-weight:600;
+  color:var(--gap);padding:3px 8px;border-radius:5px;background:rgba(220,50,50,.06)}
+.bp-job .bp-littlecount{display:inline-flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:10px;font-weight:600;
+  color:var(--ink-faint);padding:3px 8px;border-radius:5px;background:rgba(0,0,0,.03);cursor:pointer;transition:all .15s}
+.bp-job .bp-littlecount:hover{color:var(--accent-deep);background:var(--accent-tint);border-color:var(--accent)}
+.bp-job .bp-noopp{font-size:11px;color:var(--unmapped);font-style:italic;margin-top:10px}
+
+/* Actor group */
+.bp-actors{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line-soft)}
+.bp-agroup{margin-bottom:10px}
+.bp-agroup:last-child{margin-bottom:0}
+.bp-abadge{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;
+  padding:3px 9px;border-radius:5px;margin-bottom:5px}
+.bp-abadge .bp-adot{width:6px;height:6px;border-radius:50%;flex:none}
+
+/* Sub-steps row */
+.bp-subs{background:var(--panel);border:1px solid var(--line-soft);border-radius:8px;padding:10px 14px;margin-bottom:2px;overflow:hidden}
+.bp-subs .bp-subs-toggle{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);font-weight:var(--fw-semi);margin-bottom:0;cursor:pointer;display:flex;align-items:center;gap:5px;user-select:none}
+.bp-subs .bp-subs-toggle::before{content:"";display:inline-block;width:0;height:0;border-left:4px solid var(--ink-faint);border-top:3px solid transparent;border-bottom:3px solid transparent;transition:transform .2s}
+.bp-subs.open .bp-subs-toggle::before{transform:rotate(90deg)}
+.bp-subs .bp-subs-toggle .bp-subs-count{color:var(--ink-faint);font-weight:var(--fw-med);opacity:.7}
+.bp-subs .bp-sub-body{max-height:0;overflow:hidden;transition:max-height .25s ease,margin .25s ease;margin-top:0}
+.bp-subs.open .bp-sub-body{max-height:500px;margin-top:6px}
+.bp-sub-flow{display:flex;flex-wrap:wrap;gap:4px}
+.bp-sub-grp{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);font-weight:var(--fw-semi);margin:8px 0 4px;width:100%}
+.bp-sub-grp:first-child{margin-top:0}
+.bp-sub-tag{font-size:10px;font-weight:var(--fw-med);color:var(--ink-soft);background:var(--bg);border:1px solid var(--line-soft);border-radius:5px;padding:3px 7px;white-space:nowrap}
+.bp-sub-tag.star{border-color:var(--accent);color:var(--accent-deep);background:var(--accent-tint)}
+
+/* Opportunity item */
+.bp-opp{display:flex;align-items:flex-start;gap:6px;padding:4px 0;font-size:11.5px;line-height:1.35}
+.bp-opp .bp-oname{flex:1;min-width:0;font-weight:var(--fw-med);color:var(--ink)}
+.bp-opp .bp-oname .bp-chk{color:#3a7d0a;font-weight:700;margin-left:3px}
+.bp-opp .bp-otags{display:flex;gap:3px;flex:none;flex-wrap:wrap}
+.bp-nbadge{font-family:var(--font-mono);font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;white-space:nowrap}
+.bp-nbadge.inn{background:var(--accent-tint);color:var(--accent-deep)}
+.bp-nbadge.fru{background:rgba(220,50,50,.07);color:var(--gap)}
+.bp-nbadge.aut{background:rgba(90,120,200,.08);color:var(--infra)}
+.bp-nbadge.mix{background:#fef3cd;color:#856404}
+.bp-sbadge{font-family:var(--font-mono);font-size:9px;font-weight:700;color:var(--ink-soft)}
+.bp-owner{font-family:var(--font-mono);font-size:9px;font-weight:var(--fw-semi);padding:2px 6px;border-radius:4px}
+.bp-owner.owner-ipp{color:var(--accent-deep);background:var(--accent-tint)}
+.bp-owner.owner-oc{color:var(--infra);background:rgba(90,120,200,.08)}
+
+/* ---- Drawer ---- */
+.scrim{position:fixed;inset:0;background:rgba(0,17,44,.38);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:.22s;z-index:80}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(540px,94vw);background:var(--panel);z-index:90;
+  transform:translateX(102%);transition:transform .28s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-lg);
+  overflow-y:auto;border-left:1px solid var(--line)}
+.drawer.on{transform:none}
+.drawer .dhead{padding:26px 28px 20px;border-bottom:1px solid var(--line);position:relative}
+.drawer .dbar{position:absolute;left:0;top:0;bottom:0;width:5px}
+.drawer .close{position:absolute;top:18px;right:20px;border:1px solid var(--line);background:#fff;border-radius:8px;
+  width:32px;height:32px;cursor:pointer;font-size:17px;color:var(--ink-soft);line-height:1}
+.drawer .close:hover{background:var(--line-soft)}
+.drawer .dhead h3{font-size:20px;margin:10px 0 6px;padding-right:30px;line-height:1.25;font-weight:var(--fw-bold)}
+.drawer .dhead .dsub{font-size:var(--text-sm);color:var(--ink-soft);margin:0;line-height:1.45}
+.drawer .dbody{padding:22px 28px 40px}
+.drawer .dsec{margin-bottom:24px}
+.drawer .dsec .k{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);font-weight:var(--fw-semi);margin-bottom:10px}
+.drawer .pain-list{list-style:none;padding:0;margin:0}
+.drawer .pain-list li{position:relative;padding:8px 0 8px 16px;font-size:13px;color:var(--ink-soft);line-height:1.5;border-bottom:1px solid var(--line-soft)}
+.drawer .pain-list li:last-child{border-bottom:0}
+.drawer .pain-list li::before{content:"";position:absolute;left:0;top:14px;width:6px;height:6px;border-radius:50%;background:var(--gap)}
+.drawer .opp-item{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:8px}
+.drawer .opp-item:last-child{margin-bottom:0}
+.drawer .opp-item .opp-title{font-weight:var(--fw-semi);font-size:13.5px;color:var(--ink);display:flex;align-items:center;gap:6px}
+.drawer .opp-item .opp-title .bp-chk{color:#3a7d0a;font-weight:700}
+.drawer .opp-item .opp-meta{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;align-items:center}
+.drawer .opp-item .opp-actor{font-size:11px;color:var(--ink-soft)}
+.drawer .opp-item .opp-tasks{margin-top:8px;padding:0;list-style:none}
+.drawer .opp-item .opp-tasks li{font-size:12px;color:var(--ink-faint);line-height:1.45;padding:2px 0 2px 12px;position:relative}
+.drawer .opp-item .opp-tasks li::before{content:"\2013";position:absolute;left:0;color:var(--line)}
+.drawer .empty-note{font-size:13px;color:var(--unmapped);font-style:italic}
+.bp-phhead{cursor:pointer;transition:.16s}
+.bp-phhead:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+
+.mono{font-family:var(--font-mono)}
+@media(max-width:860px){.wrap{padding:36px 16px 60px}.bp-kpis{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar">
+  <div class="sb-top">
+    <a class="sb-brand" href="Landing.html" style="text-decoration:none">
+      <svg width="68" height="22" viewBox="0 0 101.6 32.9" fill="#0ABF53"><path d="M14.3,7.5H0.3V12l9.2,0c0.6,0,1,0.5,1,1v7.9h-2c-0.6,0-1-0.5-1-1v-5.7H3.6c-2,0-3.6,1.6-3.6,3.6v4c0,2,1.6,3.6,3.6,3.6h14.3V11.1C17.9,9.1,16.3,7.5,14.3,7.5z"/><path d="M31.4,20.9h-2c-0.6,0-1-0.5-1-1V7.5h-3.9c-2,0-3.6,1.6-3.6,3.6v10.7c0,2,1.6,3.6,3.6,3.6h14.3V0h-7.5L31.4,20.9z"/><path d="M52.3,20.9h-2c-0.6,0-1-0.5-1-1V7.5h-7.5v14.3c0,2,1.6,3.6,3.6,3.6h6.9v2.2H42.1v5.2h14.1c2,0,3.6-1.6,3.6-3.6V7.5h-7.5V20.9z"/><path d="M77.1,7.5H62.7v14.3c0,2,1.6,3.6,3.6,3.6h14.1v-4.5h-9.2c-0.6,0-1-0.5-1-1V12h2c0.6,0,1,0.5,1,1v5.7h3.9c2,0,3.6-1.6,3.6-3.6v-4C80.7,9.1,79.1,7.5,77.1,7.5z"/><path d="M98,7.5H83.7v17.9h7.5V12h2c0.6,0,1,0.5,1,1v12.4h7.5V11.1C101.6,9.1,100,7.5,98,7.5z"/></svg>
+      <span>IPP Journey</span>
+    </a>
+  </div>
+
+  <nav class="sb-nav">
+    <a class="sb-link" href="IPP%20Journey.html#overview">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Context
+    </a>
+    <a class="sb-link active-link" href="IPP%20Journey.html#serviceblueprint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3z"/><path d="M14 3h7v4h-7z"/><path d="M14 10h7v4h-7z"/><path d="M3 14h7v7H3z"/><path d="M14 17h7v4h-7z"/></svg>
+      Journey map
+    </a>
+    <a class="sb-link" href="IPP%20Journey.html#sysinfo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      System doc
+    </a>
+    <div class="sb-divider"></div>
+    <div class="sb-section-label">Source of truth</div>
+    <a class="sb-link" href="Data%20source.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      Data source
+    </a>
+  </nav>
+
+  <div class="sb-bottom">
+    <div class="sb-cta-box">
+      <span class="dot" style="width:7px;height:7px;border-radius:50%;background:var(--color-yellow-600);display:inline-block"></span> <b>Work in progress</b>
+      <p style="margin:8px 0 0;font-size:var(--text-xs);color:var(--color-black-1700);line-height:1.55">This is a living document shaped by research and the Figma journey map.</p>
+      <a href="slack://user?team=T025TN82G&id=U099UUXHZ62" class="sb-cta-btn" style="margin-top:12px">Chat with @eva_han</a>
+    </div>
+  </div>
+</aside>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="main-content">
+<main class="wrap">
+  <div class="viewhead">
+    <h1>Journey map</h1>
+    <p class="sub">A journey, cascading from strategic phases to JTBD actors responsible for each opportunity. Filter by actors and owners to isolate stakeholder-specific views.</p>
+  </div>
+
+  <div class="bp-kpis">
+    <div class="kpi accent" style="cursor:pointer" onclick="openAllOppsDrawer()"><div class="v" id="kpiOpps">19</div><div class="l"><b>IPP Opportunities</b> mapped across the journey</div></div>
+    <div class="kpi"><div class="v" id="kpiActors">13</div><div class="l"><b>Distinct actors</b> across all opportunities</div></div>
+    <div class="kpi"><div class="v">5</div><div class="l"><b>Phases</b> from exploration to fleet ops</div></div>
+    <div class="kpi"><div class="v" id="kpiXL">4</div><div class="l"><b>XL-sized</b> opportunities — highest impact</div></div>
+  </div>
+
+  <div class="toolbar" id="toolbar">
+    <div class="ff"><span class="fl">Actor</span><div class="ms-wrap" id="msActor"><button type="button" class="ms-btn" id="msActorBtn">All actors</button><div class="ms-drop" id="msActorDrop"></div></div></div>
+    <div class="ff"><span class="fl">Owner</span><div class="ms-wrap" id="msOwner"><button type="button" class="ms-btn" id="msOwnerBtn" style="min-width:140px">All owners</button><div class="ms-drop" id="msOwnerDrop"></div></div></div>
+    <div class="ff"><span class="fl">Opportunity size</span><div class="ms-wrap" id="msSize"><button type="button" class="ms-btn" id="msSizeBtn" style="min-width:140px">All sizes</button><div class="ms-drop" id="msSizeDrop"></div></div></div>
+    <button type="button" class="freset" id="fReset">Reset filters</button>
+    <span class="fhint" id="fHint">Showing all 19 opportunities</span>
+  </div>
+
+  <div class="bp-canvas"><div class="bp-flow" id="bpCanvas"></div></div>
+
+</main>
+</div>
+
+<!-- ===== DRAWER ===== -->
+<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer"></div>
+
+<script>
+/* ---- DATA ---- */
+const STEPS = [
+  {step:"1. Plan", big:"Plan the best approach to accept payments in-store in new markets", pains:0, littles:13, painList:[], subs:["1.a Preparation","1.b Account Setup & Decision"], littleList:["Find the best payment provider","Sign the contract","Scope the pilot plan","Scope the rollout plan","Establish an optimal account structure","Decide on payment methods per country","Decide on payout","Evaluate shopper journey","Define payment device needs","Decide on device management","Decide on network setup","Decide on reconciliation & reporting","Ensure day-to-day operation is supported"]},
+  {step:"2. Validate / Test", big:"Validate the planned POS solution to see if it fulfills business needs", pains:9, littles:6, subs:["2.a Initial Ordering","2.b Test Terminal Delivery","2.c Test Configuration","2.d Testing"], painList:["API credentials management not straightforward","Not all terminals available at all times / terminal shortage","Merchants don't know when terminals will be delivered","Hundreds of possible settings - high learning curve","Boarding not intuitive if terminals not pre-assigned in CA / Mgmt API","Merchants unsure how to configure and afraid of making mistakes","Impact of reboots and maintenance calls is unclear","No overview of all settings or overrides","Technical complexity means merchants need a lot of help from Adyen"], littleList:["Create account structure (test)","Order and set up test devices","Implement integration","Test payment flow","Test payout","Test reconciliation"]},
+  {step:"3. Scale / Go Live", big:"Scale validated POS solution to all stores for opening day", pains:0, littles:9, painList:[], subs:["3.a Ordering & Delivery","3.b Terminal Delivery","3.c Initial Configuration \u2b50"], littleList:["Ensure smooth transition from test to live","Create account structure (live)","Order and set up live devices","Run network & connectivity test in pilot store","Test payment flow live","Test payout live","Test reconciliation live","Set up firmware update strategy","Roll out to all stores"]},
+  {step:"4. Shopper retention", big:"Increase shopper retention with the best payment experience", pains:3, littles:2, subs:[], painList:["Customization term has no single meaning, causing confusion across teams","Displaying various brands confuses sub-merchants about who to contact","Platforms see lack of customization as a missed branding and marketing opportunity"], littleList:["Increase customer loyalty","Support shoppers with their queries about payments"]},
+  {step:"5. Streamline ops", big:"Streamline operational work in stores to reduce costs", pains:4, littles:3, painList:["Merchants not autonomous - rely on support and commercial teams","No proactive way to discover what is going wrong","No immediate support channel for emergencies when shoppers are blocked","Troubleshooting manually done by platforms and time-consuming"], subs:["4.a Routine Configuration","4.b First Troubleshooting \u2b50"], littleList:["Install Android apps/certificates on terminals","Migrate to managing devices through API","Be aware of any anomalies (e.g. drop in transactions or volume)"]},
+  {step:"6. Stay competitive", big:"Stay competitive with the most innovative payment solutions", pains:3, littles:5, subs:[], painList:["Merchants not aware of all new features Adyen offers","Hard to communicate a growing feature set","Merchants afraid firmware updates will cause malfunctions"], littleList:["Be aware of the newest features","Implement new features quickly and safely","Support shoppers with the latest payment technology","Request Adyen new features, payment methods, technologies","Ensure devices get new firmware when needed"]},
+  {step:"7. Ramp up", big:"Open new stores and scale to new markets", pains:0, littles:2, painList:[], subs:[], littleList:["Open new stores (existing legal entity)","Scale in a new market (requires a different legal entity)"]},
+  {step:"8. Secure every sale", big:"Secure every possible in-store sale", pains:8, littles:3, subs:["B1.a Platform orders bulk hardware","B1.b Define packaging & branding","B2.a Preboard at warehouse","B2.b Insert activation guide & QR codes","B3.a Dropship to submerchant","B3.b Submerchant receives package","B4.a Unbox terminal","B4.b Connect Wi-Fi & enter passcode","B4.c First boot & software updates","B4.d First test transaction","B5.a Day-to-day use","B5.b Replacement cycle"], painList:["Lack of visibility into terminal failure rates makes forecasting harder","Lack of visibility in available terminal stock complicates ordering","No direct Adyen point of contact with IPP expertise slows ordering","Lack of visibility in logistics creates manual overhead","No incentive to recollect inactive terminals from churned sub-merchants","Redistributing terminals not actively supported by Adyen","Resetting terminals to factory settings is not intuitive","Refurbishment not part of Adyen offering"], littleList:["Set up payment features to allow more transactions (tipping, offline payments)","Ensure payment devices are well distributed across stores","Prevent fraud and security flaws via POS (e.g. unreferenced refunds)"]},
+  {step:"9. Fleet operational", big:"Ensure my fleet is always operational", pains:6, littles:6, subs:["5.a Malfunction & Replacement Ordering","5.b Setting Up Replacements in Store","5.c FM Configuration","5.d Return Faulty Terminals"], painList:["Lack of quick support and Adyen expertise when terminal is defective","No access to terminal logs, leading to unnecessary replacements","Insufficient communication from Adyen about recurring problems","Warranty policy insufficient; warranty process cumbersome; Adyen SLA does not match immediate replacement needs","Platforms rely on costly third parties; TRS too expensive; no EDI/API connection; manual handling time-consuming","Accessory replacement not included in TRS - extra costs for platforms"], littleList:["Be aware of any issues","Evaluate the severity of the issue","Investigate the issue","Resolve all issues that compromise shoppers' payment experience","Have broken devices replaced","Ensure the same issues won't happen again"]}
+];
+
+// [name, relatedJobs[], nature, size, owner, actor, addressed?]
+const OPPS = [
+  ["Android app flow",["Install Android apps/certificates on terminals","Upload apps and certificates","Schedule deployment","Train staff"],"Innovation","XL","IPP Platform","IT / Field Operations Manager"],
+  ["Get latest, relevant features/updates",["Stay competitive in in-store payment experience","Implement new features quickly and safely","Benefit from newest features","Ensure devices get new firmware"],"Innovation","L","IPP Platform","Product / Payments Manager"],
+  ["Increase customer loyalty",["Increase customer loyalty"],"Innovation","L","IPP Platform","Marketing / CRM Manager"],
+  ["Increase shopper personalized experience",["Provide personalized experience"],"Innovation","L","IPP Platform","Marketing / CX Manager"],
+  ["POS solution scaling",["Scale in a new market (different legal entity)"],"Innovation","\u2014","IPP Platform","Head of Payments / Expansion Lead"],
+  ["TIS, TRS for platform merchants",["Additional services for terminal fleet such as TIS and TRS"],"Innovation","\u2014","IPP Platform","Fleet / Operations Manager"],
+  ["Awareness of POS payment issues",["Be aware of any issues","Get immediate support when shoppers are blocked"],"Innovation + Frustration","XL","IPP Platform","Store Operations Manager"],
+  ["Awareness of anomalies",["Be aware of any anomalies (e.g. drop in transactions or volume)"],"Innovation + Frustration","XL","IPP Platform","Payments Analyst / Operations Manager"],
+  ["Test to Live migration",["Ensure what works on test can be smoothly transitioned to live"],"Innovation + Autonomy","\u2014","IPP Platform","Integration Developer / Technical Lead"],
+  ["Account structure creation",["Create account structure (in test)"],"Autonomy","\u2014","IPP Platform","Implementation / Finance Operations"],
+  ["Payment flow testing",["Test payment flow"],"Autonomy","\u2014","IPP Platform","QA Engineer / Integration Developer"],
+  ["Store creation",["Create live stores"],"Autonomy","M","IPP Platform","Operations Manager",true],
+  ["Terminal returns / order",["Download terminal list to perform analysis and react","Analyze device performance"],"Autonomy","M","IPP Platform","Procurement / Fleet Manager",true],
+  ["Terminal analysis",["Download terminal list to perform analysis and react","Analyze device performance"],"Frustration","\u2014","IPP Platform","Fleet Manager / Operations Analyst"],
+  ["API integration",["Implement basic integration for payment flow"],"Frustration","\u2014","IPP Platform","Integration Developer"],
+  ["Firmware update strategy",["Decide on firmware update strategy","Be in control of when updates happen"],"Frustration","\u2014","IPP Platform","IT / Technical Operations Manager"],
+  ["IPP user access control",["Set up user access to relevant colleagues"],"Frustration","\u2014","IPP Platform","IT Admin / Security Administrator"],
+  ["Emergency support",["Reach out to correct people when issues cannot be resolved locally","Get immediate support"],"Frustration + Autonomy","\u2014","IPP Platform","Store Manager / Support Agent"],
+  ["Terminal settings",["Configure necessary settings to process transactions","Configure additional settings (payment features)"],"Frustration + Autonomy","XL","IPP Platform","IT / Operations Manager",true]
+];
+
+const OPP_BY_STEP = {0:[],1:[9,10,14,16],2:[8,11,15,18],3:[2,3],4:[0,7],5:[1],6:[4],7:[12,13],8:[5,6,17]};
+
+// [phase, sub-step, primary user, other actors, theme, opportunity title, evidence, notes]
+const JTBD_EVIDENCE = [
+  ["1. Exploration","1.a Preparation","Merchant","Adyen Sales","","","","Pre-Adyen research, no setting interaction"],
+  ["1. Exploration","1.b Account Setup & Decision","Merchant","Adyen Sales, IM","T1. Scalable Configuration Foundation","O1. Flexible configuration scoping","Account structure forces manual overhead for franchises, regional groups, multi-brand setups.","Account structure rigidity baked in here"],
+  ["2. Test & Integration","2.a Initial Ordering","Merchant","Adyen Sales, Warehouse","","","","Hardware logistics"],
+  ["2. Test & Integration","2.b Test Terminal Delivery","Merchant","Warehouse, Courier","","","","Hardware arrives at merchant"],
+  ["2. Test & Integration","2.c Test Configuration","Merchant","IM, Support","T1. Scalable Configuration Foundation","O3. Settings transparency & override management","73% override at device level; inheritance logic is opaque; no overview of what's set where.","First encounter with 1,000+ settings"],
+  ["2. Test & Integration","2.c Test Configuration","Merchant","IM, Support","T3. Self-service and Clarity","O7. Setting taxonomy & shared language","No shared definitions; misleading names; unclear merchant-facing vs internal classification.","Misread names land here"],
+  ["2. Test & Integration","2.c Test Configuration","Merchant","IM, Support","T1. Scalable Configuration Foundation","O10. Configuration lifecycle controls","No scheduling, no TEST\u2194LIVE parity, no rollback for setting changes.","No TEST\u2192LIVE promotion"],
+  ["2. Test & Integration","2.d Testing","Merchant","IM, Support","T1. Scalable Configuration Foundation","O3. Settings transparency & override management","73% override at device level; inheritance logic is opaque; no overview of what's set where.","Override patterns emerge"],
+  ["2. Test & Integration","2.d Testing","Merchant","IM, Support","T1. Scalable Configuration Foundation","O10. Configuration lifecycle controls","No scheduling, no TEST\u2194LIVE parity, no rollback for setting changes.","No rollback capability"],
+  ["3. Migration to LIVE","3.a Ordering & Delivery","Merchant","Warehouse, Courier","","","","Logistics"],
+  ["3. Migration to LIVE","3.b Terminal Delivery","Merchant","Warehouse, Courier","","","","Bulk hardware arrives"],
+  ["3. Migration to LIVE","3.c Initial Configuration \u2b50","Merchant","IM, Support","T1. Scalable Configuration Foundation","O1. Flexible configuration scoping","Account structure forces manual overhead for franchises, regional groups, multi-brand setups.","HIGHEST LEVERAGE \u2014 5 opps converge"],
+  ["3. Migration to LIVE","3.c Initial Configuration \u2b50","Merchant","IM, Support","T1. Scalable Configuration Foundation","O2. Scalable deployment of settings & assets","No bulk apply across merchant accounts/stores; deploying configs and assets is manual at fleet scale.","HIGHEST LEVERAGE \u2014 5 opps converge"],
+  ["3. Migration to LIVE","3.c Initial Configuration \u2b50","Merchant","IM, Support","T1. Scalable Configuration Foundation","O3. Settings transparency & override management","73% override at device level; inheritance logic is opaque; no overview of what's set where.","HIGHEST LEVERAGE \u2014 5 opps converge"],
+  ["3. Migration to LIVE","3.c Initial Configuration \u2b50","Merchant","IM, Support","T3. Self-service and Clarity","O7. Setting taxonomy & shared language","No shared definitions; misleading names; unclear merchant-facing vs internal classification.","HIGHEST LEVERAGE \u2014 5 opps converge"],
+  ["3. Migration to LIVE","3.c Initial Configuration \u2b50","Merchant","IM, Support","T1. Scalable Configuration Foundation","O10. Configuration lifecycle controls","No scheduling, no TEST\u2194LIVE parity, no rollback for setting changes.","HIGHEST LEVERAGE \u2014 5 opps converge"],
+  ["4. BAU / Growth","4.a Routine Configuration","Merchant","Store staff","T1. Scalable Configuration Foundation","O2. Scalable deployment of settings & assets","No bulk apply across merchant accounts/stores; deploying configs and assets is manual at fleet scale.","Edits compound"],
+  ["4. BAU / Growth","4.a Routine Configuration","Merchant","Store staff","T1. Scalable Configuration Foundation","O3. Settings transparency & override management","73% override at device level; inheritance logic is opaque; no overview of what's set where.",""],
+  ["4. BAU / Growth","4.a Routine Configuration","Merchant","Store staff","T3. Self-service and Clarity","O6. Merchant self-service & role-based access","Many settings require Adyen support intervention; access controls within merchant org are missing.",""],
+  ["4. BAU / Growth","4.a Routine Configuration","Merchant","Store staff","T3. Self-service and Clarity","O7. Setting taxonomy & shared language","No shared definitions; misleading names; unclear merchant-facing vs internal classification.",""],
+  ["4. BAU / Growth","4.b First Troubleshooting \u2b50","Merchant","Store staff, Support","T1. Scalable Configuration Foundation","O3. Settings transparency & override management","73% override at device level; inheritance logic is opaque; no overview of what's set where.","Where 15% support target lives"],
+  ["4. BAU / Growth","4.b First Troubleshooting \u2b50","Merchant","Store staff, Support","T3. Self-service and Clarity","O6. Merchant self-service & role-based access","Many settings require Adyen support intervention; access controls within merchant org are missing.","Where 15% support target lives"],
+  ["4. BAU / Growth","4.b First Troubleshooting \u2b50","Merchant","Store staff, Support","T3. Self-service and Clarity","O7. Setting taxonomy & shared language","No shared definitions; misleading names; unclear merchant-facing vs internal classification.","Where 15% support target lives"],
+  ["4. BAU / Growth","4.b First Troubleshooting \u2b50","Merchant","Store staff, Support","T1. Scalable Configuration Foundation","O10. Configuration lifecycle controls","No scheduling, no TEST\u2194LIVE parity, no rollback for setting changes.","Where 15% support target lives"],
+  ["5. Fleet Operation","5.a Malfunction & Replacement Ordering","Merchant","Support, Warehouse","T1. Scalable Configuration Foundation","O10. Configuration lifecycle controls","No scheduling, no TEST\u2194LIVE parity, no rollback for setting changes.","Version history matters"],
+  ["5. Fleet Operation","5.b Setting Up Replacements in Store","Merchant","Store staff, Warehouse","T1. Scalable Configuration Foundation","O2. Scalable deployment of settings & assets","No bulk apply across merchant accounts/stores; deploying configs and assets is manual at fleet scale.","Replacement config inheritance"],
+  ["5. Fleet Operation","5.b Setting Up Replacements in Store","Merchant","Store staff, Warehouse","T2. End-to-end Device Experience","O4. Submerchant activation kit","Activation is the #1 pain for AfP platforms; manual workarounds at scale.","AfP submerchants only"],
+  ["5. Fleet Operation","5.c FM Configuration","Merchant","Support","T1. Scalable Configuration Foundation","O3. Settings transparency & override management","73% override at device level; inheritance logic is opaque; no overview of what's set where.","Same as 3.c, smaller scope"],
+  ["5. Fleet Operation","5.c FM Configuration","Merchant","Support","T3. Self-service and Clarity","O7. Setting taxonomy & shared language","No shared definitions; misleading names; unclear merchant-facing vs internal classification.",""],
+  ["5. Fleet Operation","5.c FM Configuration","Merchant","Support","T1. Scalable Configuration Foundation","O10. Configuration lifecycle controls","No scheduling, no TEST\u2194LIVE parity, no rollback for setting changes.",""],
+  ["5. Fleet Operation","5.d Return Faulty Terminals","Merchant","Warehouse, Courier","","","","Logistics"],
+  ["5. Fleet Operation","B1.a Platform orders bulk hardware","Platform (AfP)","Adyen Sales, Warehouse","","","","Bulk hardware order placed"],
+  ["5. Fleet Operation","B1.b Define packaging & branding","Platform (AfP)","Adyen Ops, Supply Chain","T2. End-to-end Device Experience","O8. Branded packaging & preboarding","Platforms carry shipping, branding, preboarding overhead outside core business.","Platforms want branded packaging, hand off logistics"],
+  ["5. Fleet Operation","B2.a Preboard at warehouse","Warehouse","Adyen Ops, Platform","T2. End-to-end Device Experience","O8. Branded packaging & preboarding","Platforms carry shipping, branding, preboarding overhead outside core business.","Preboarding service \u2014 Fresha 4h/day, Palisis 30% ops time"],
+  ["5. Fleet Operation","B2.b Insert activation guide & QR codes","Warehouse","Platform","T2. End-to-end Device Experience","O4. Submerchant activation kit","Activation is the #1 pain for AfP platforms; manual workarounds at scale.","Topper, stickers, QR codes in box"],
+  ["5. Fleet Operation","B3.a Dropship to submerchant","Courier","Warehouse, Platform","","","","Logistics"],
+  ["5. Fleet Operation","B3.b Submerchant receives package","Submerchant","Courier","T2. End-to-end Device Experience","O8. Branded packaging & preboarding","Platforms carry shipping, branding, preboarding overhead outside core business.","Branding affects delivery acceptance"],
+  ["5. Fleet Operation","B4.a Unbox terminal","Submerchant","Platform support","T2. End-to-end Device Experience","O4. Submerchant activation kit","Activation is the #1 pain for AfP platforms; manual workarounds at scale.","First impression, branding"],
+  ["5. Fleet Operation","B4.b Connect Wi-Fi & enter passcode","Submerchant","Platform support","T2. End-to-end Device Experience","O4. Submerchant activation kit","Activation is the #1 pain for AfP platforms; manual workarounds at scale.","Tide: 200 tickets/month from passcode alone"],
+  ["5. Fleet Operation","B4.c First boot & software updates","Submerchant","Platform support","T2. End-to-end Device Experience","O4. Submerchant activation kit","Activation is the #1 pain for AfP platforms; manual workarounds at scale.","Munu: confusing updates \u2192 failed onboardings"],
+  ["5. Fleet Operation","B4.d First test transaction","Submerchant","Platform support","T2. End-to-end Device Experience","O4. Submerchant activation kit","Activation is the #1 pain for AfP platforms; manual workarounds at scale.","Activation success moment"],
+  ["5. Fleet Operation","B5.a Day-to-day use","Submerchant","Platform support","","","","Normal operation"],
+  ["5. Fleet Operation","B5.b Replacement cycle","Submerchant","Platform, Warehouse, Adyen Ops","T2. End-to-end Device Experience","O4. Submerchant activation kit","Activation is the #1 pain for AfP platforms; manual workarounds at scale.","AfP submerchants face activation again"]
+];
+
+// Map phase label -> evidence phase name
+const EVIDENCE_PHASE_MAP = {
+  "1 \u00b7 Exploration": "1. Exploration",
+  "2 \u00b7 Test & Integration": "2. Test & Integration",
+  "3 \u00b7 Go Live & Rollout": "3. Migration to LIVE",
+  "4 \u00b7 BAU & Growth": "4. BAU / Growth",
+  "5 \u00b7 Fleet Operation": "5. Fleet Operation"
+};
+
+const PHASES = [
+  {id:"explore",label:"1 \u00b7 Exploration",bg:"#eef2ff",border:"#818cf8",text:"#4338ca",steps:[0]},
+  {id:"test",label:"2 \u00b7 Test & Integration",bg:"#f0f9ff",border:"#38bdf8",text:"#0c4a6e",steps:[1]},
+  {id:"live",label:"3 \u00b7 Go Live & Rollout",bg:"#fffbeb",border:"#fbbf24",text:"#92400e",steps:[2]},
+  {id:"bau",label:"4 \u00b7 BAU & Growth",bg:"#ecfdf5",border:"#34d399",text:"#065f46",steps:[3,4,5]},
+  {id:"fleet",label:"5 \u00b7 Fleet Operation",bg:"#fef2f2",border:"#fca5a5",text:"#991b1b",steps:[6,7,8]}
+];
+
+const ACTOR_PALETTE = [
+  {bg:'#eef2ff',dot:'#6366f1'},{bg:'#ecfdf5',dot:'#059669'},{bg:'#fff7ed',dot:'#ea580c'},
+  {bg:'#fdf2f8',dot:'#db2777'},{bg:'#f0f9ff',dot:'#0284c7'},{bg:'#fefce8',dot:'#ca8a04'},
+  {bg:'#f5f3ff',dot:'#7c3aed'},{bg:'#f0fdfa',dot:'#0d9488'},{bg:'#fef2f2',dot:'#dc2626'},
+  {bg:'#f8fafc',dot:'#475569'},{bg:'#fffbeb',dot:'#d97706'},{bg:'#f0fdf4',dot:'#16a34a'},
+  {bg:'#faf5ff',dot:'#9333ea'}
+];
+
+/* ---- Helpers ---- */
+const allActors = [];
+const actorSet = {};
+OPPS.forEach(o => { const a = o[5]; if (!actorSet[a]) { actorSet[a] = 1; allActors.push(a); } });
+allActors.sort();
+const actorColor = {};
+allActors.forEach((a, i) => { actorColor[a] = ACTOR_PALETTE[i % ACTOR_PALETTE.length]; });
+
+function natureCls(n) {
+  const lo = n.toLowerCase();
+  if (lo.includes('innovation') && (lo.includes('frustration') || lo.includes('autonomy'))) return 'mix';
+  if (lo.includes('frustration') && lo.includes('autonomy')) return 'mix';
+  if (lo.includes('innovation')) return 'inn';
+  if (lo.includes('frustration')) return 'fru';
+  if (lo.includes('autonomy')) return 'aut';
+  return '';
+}
+
+let selectedActors = new Set(); // empty = all
+let selectedOwners = new Set(); // empty = all
+let selectedSizes = new Set(); // empty = all
+
+function getFilters() {
+  return {
+    actors: selectedActors,
+    owners: selectedOwners,
+    sizes: selectedSizes
+  };
+}
+
+function oppMatches(oi, f) {
+  const o = OPPS[oi];
+  if (f.actors.size > 0 && !f.actors.has(o[5])) return false;
+  if (f.owners.size > 0 && !f.owners.has(o[4])) return false;
+  if (f.sizes.size > 0 && !f.sizes.has(o[3])) return false;
+  return true;
+}
+
+/* ---- Render ---- */
+function render() {
+  const f = getFilters();
+  const canvas = document.getElementById('bpCanvas');
+  let html = '';
+  let totalShown = 0;
+
+  PHASES.forEach((ph, pi) => {
+    if (pi > 0) html += `<div class="bp-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>`;
+
+    html += `<div class="bp-phase">`;
+    // Phase header
+    const phOppCount = ph.steps.reduce((sum, si) => sum + (OPP_BY_STEP[si] || []).filter(oi => oppMatches(oi, f)).length, 0);
+    const evPhaseName = EVIDENCE_PHASE_MAP[ph.label] || '';
+    const evCount = evPhaseName ? JTBD_EVIDENCE.filter(e => e[0] === evPhaseName).length : 0;
+    html += `<div class="bp-phhead" onclick="openPhaseDrawer(${pi})">
+      <div class="bp-phlabel">${ph.label}</div>
+      <div class="bp-phsub">${phOppCount} opportunit${phOppCount === 1 ? 'y' : 'ies'} in this phase</div>
+      ${evCount ? `<span class="bp-evidencetag" onclick="event.stopPropagation();openEvidenceDrawer(${pi})" style="display:inline-flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:10px;font-weight:600;color:var(--accent);padding:3px 8px;border-radius:5px;background:rgba(26,86,219,.06);cursor:pointer;margin-top:6px;transition:all .15s">📋 ${evCount} evidence entries</span>` : ''}
+    </div>`;
+
+    // Sub-steps row
+    const phSubs = [];
+    ph.steps.forEach(si => { STEPS[si].subs.forEach(s => { if (!phSubs.includes(s)) phSubs.push(s); }); });
+    if (phSubs.length) {
+      // Separate into regular and AfP (B-series) groups
+      const regular = phSubs.filter(s => !s.startsWith('B'));
+      const afp = phSubs.filter(s => s.startsWith('B'));
+      html += `<div class="bp-subs" onclick="this.classList.toggle('open')"><div class="bp-subs-toggle">Sub-steps <span class="bp-subs-count">(${phSubs.length})</span></div><div class="bp-sub-body">`;
+      if (regular.length) {
+        html += `<div class="bp-sub-flow">`;
+        regular.forEach(s => {
+          const star = s.includes('\u2b50');
+          html += `<span class="bp-sub-tag${star ? ' star' : ''}">${s}</span>`;
+        });
+        html += `</div>`;
+      }
+      if (afp.length) {
+        html += `<div class="bp-sub-grp">AfP (Adyen for Platforms)</div><div class="bp-sub-flow">`;
+        afp.forEach(s => {
+          html += `<span class="bp-sub-tag">${s}</span>`;
+        });
+        html += `</div>`;
+      }
+      html += `</div></div>`;
+    }
+
+    // Job cards for each step in this phase
+    ph.steps.forEach(si => {
+      const st = STEPS[si];
+      const oppIds = OPP_BY_STEP[si] || [];
+      const matchedIds = oppIds.filter(oi => oppMatches(oi, f));
+      const dimmed = matchedIds.length === 0 && (f.actors.size > 0 || f.owners.size > 0 || f.sizes.size > 0);
+      totalShown += matchedIds.length;
+
+      html += `<div class="bp-job${dimmed ? ' dimmed' : ''}">`;
+      html += `<div class="bp-step">${st.step}</div>`;
+      html += `<div class="bp-big">${st.big}</div>`;
+
+      // Meta row
+      const meta = [];
+      if (st.pains > 0) meta.push(`<span class="bp-paincount" style="cursor:pointer" onclick="event.stopPropagation();openPainDrawer(${si})">\u26a0 ${st.pains} pain points</span>`);
+      meta.push(`<span class="bp-littlecount" style="cursor:pointer" onclick="event.stopPropagation();openLittleJobsDrawer(${si})">${st.littles} little jobs</span>`);
+      html += `<div class="bp-meta">${meta.join('')}</div>`;
+
+      if (!matchedIds.length) {
+        html += `<div class="bp-noopp">${oppIds.length ? 'No opportunities match filters' : 'No opportunities mapped to this job'}</div>`;
+      } else {
+        // Group by actor
+        const byActor = {};
+        const actorOrder = [];
+        matchedIds.forEach(oi => {
+          const a = OPPS[oi][5];
+          if (!byActor[a]) { byActor[a] = []; actorOrder.push(a); }
+          byActor[a].push(oi);
+        });
+
+        html += `<div class="bp-actors">`;
+        actorOrder.forEach(a => {
+          const ac = actorColor[a];
+          html += `<div class="bp-agroup">`;
+          html += `<div class="bp-abadge" style="background:${ac.bg}"><span class="bp-adot" style="background:${ac.dot}"></span><span style="color:${ac.dot}">${a}</span></div>`;
+
+          byActor[a].forEach(oi => {
+            const o = OPPS[oi];
+            const ownerCls = o[4] === 'IPP Platform' ? 'owner-ipp' : 'owner-oc';
+            html += `<div class="bp-opp">`;
+            html += `<span class="bp-oname">${o[0]}${o[6] ? '<span class="bp-chk"> \u2713</span>' : ''}</span>`;
+            html += `<span class="bp-otags">`;
+            if (o[3] && o[3] !== '\u2014') html += `<span class="bp-sbadge">${o[3]}</span>`;
+            html += `<span class="bp-owner ${ownerCls}">${o[4]}</span>`;
+            html += `</span></div>`;
+          });
+
+          html += `</div>`;
+        });
+        html += `</div>`;
+      }
+      html += `</div>`;
+    });
+
+    html += `</div>`;
+  });
+
+  canvas.innerHTML = html;
+  document.getElementById('fHint').textContent = `Showing ${totalShown} of 19 opportunities`;
+}
+
+/* ---- Populate filters ---- */
+function populateFilters() {
+  // Actor categories
+  const ACTOR_GROUPS = [
+    {label:'Adyen Internal', actors:['Implementation / Finance Operations','Integration Developer','Integration Developer / Technical Lead','IT Admin / Security Administrator','QA Engineer / Integration Developer']},
+    {label:'Merchant Ops', actors:['Fleet / Operations Manager','Fleet Manager / Operations Analyst','Head of Payments / Expansion Lead','IT / Technical Operations Manager','Marketing / CRM Manager','Marketing / CX Manager','Operations Manager','Payments Analyst / Operations Manager','Procurement / Fleet Manager','Product / Payments Manager']},
+    {label:'Store Ops', actors:['IT / Field Operations Manager','IT / Operations Manager','Store Manager / Support Agent','Store Operations Manager']}
+  ];
+
+  // Multi-select actor dropdown
+  const drop = document.getElementById('msActorDrop');
+  let dhtml = `<label class="ms-all"><input type="checkbox" id="msAll" checked> All actors</label>`;
+  ACTOR_GROUPS.forEach((g, gi) => {
+    dhtml += `<div class="ms-group-hdr"><span>${g.label}</span><button type="button" class="ms-grp-btn" data-grp="${gi}">Select all</button></div>`;
+    g.actors.forEach(a => {
+      if (!actorColor[a]) return;
+      const ac = actorColor[a];
+      dhtml += `<label><input type="checkbox" value="${a}" class="ms-cb" data-grp="${gi}"> <span class="ms-dot" style="background:${ac.dot}"></span> ${a}</label>`;
+    });
+  });
+  drop.innerHTML = dhtml;
+
+  // Toggle dropdown
+  document.getElementById('msActorBtn').addEventListener('click', e => {
+    e.stopPropagation();
+    drop.classList.toggle('open');
+    document.getElementById('msActorBtn').classList.toggle('open');
+    // close other dropdowns
+    document.getElementById('msOwnerDrop').classList.remove('open');
+    document.getElementById('msOwnerBtn').classList.remove('open');
+    document.getElementById('msSizeDrop').classList.remove('open');
+    document.getElementById('msSizeBtn').classList.remove('open');
+  });
+
+  // "All" checkbox
+  document.getElementById('msAll').addEventListener('change', function() {
+    const cbs = drop.querySelectorAll('.ms-cb');
+    if (this.checked) {
+      cbs.forEach(cb => { cb.checked = false; });
+      selectedActors.clear();
+    }
+    updateActorLabel();
+    render();
+  });
+
+  // Individual checkboxes
+  drop.querySelectorAll('.ms-cb').forEach(cb => {
+    cb.addEventListener('change', function() {
+      if (this.checked) {
+        selectedActors.add(this.value);
+        document.getElementById('msAll').checked = false;
+      } else {
+        selectedActors.delete(this.value);
+      }
+      if (selectedActors.size === 0) document.getElementById('msAll').checked = true;
+      updateActorLabel();
+      render();
+    });
+  });
+
+  // Group select-all buttons
+  drop.querySelectorAll('.ms-grp-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const gi = this.dataset.grp;
+      const grpCbs = drop.querySelectorAll(`.ms-cb[data-grp="${gi}"]`);
+      const allChecked = [...grpCbs].every(cb => cb.checked);
+      grpCbs.forEach(cb => {
+        cb.checked = !allChecked;
+        if (cb.checked) selectedActors.add(cb.value);
+        else selectedActors.delete(cb.value);
+      });
+      if (selectedActors.size === 0) document.getElementById('msAll').checked = true;
+      else document.getElementById('msAll').checked = false;
+      this.textContent = allChecked ? 'Select all' : 'Deselect';
+      updateActorLabel();
+      render();
+    });
+  });
+
+  // Owner multi-select
+  const owners = {};
+  OPPS.forEach(o => { if (o[4]) owners[o[4]] = 1; });
+  const ownerDrop = document.getElementById('msOwnerDrop');
+  let ownerHtml = `<label class="ms-all"><input type="checkbox" id="msOwnerAll" checked> All owners</label>`;
+  Object.keys(owners).sort().forEach(ow => {
+    const cls = ow === 'IPP Platform' ? 'owner-ipp' : 'owner-oc';
+    ownerHtml += `<label><input type="checkbox" class="ms-owner-cb" value="${ow}"> <span class="ms-dot" style="background:${ow === 'IPP Platform' ? 'var(--accent-deep, #1a56db)' : 'var(--infra, #5a78c8)'}"></span> ${ow}</label>`;
+  });
+  ownerDrop.innerHTML = ownerHtml;
+
+  document.getElementById('msOwnerBtn').addEventListener('click', e => {
+    e.stopPropagation();
+    ownerDrop.classList.toggle('open');
+    document.getElementById('msOwnerBtn').classList.toggle('open');
+    drop.classList.remove('open');
+    document.getElementById('msActorBtn').classList.remove('open');
+    document.getElementById('msSizeDrop').classList.remove('open');
+    document.getElementById('msSizeBtn').classList.remove('open');
+  });
+  document.getElementById('msOwnerAll').addEventListener('change', function() {
+    if (this.checked) {
+      ownerDrop.querySelectorAll('.ms-owner-cb').forEach(cb => { cb.checked = false; });
+      selectedOwners.clear();
+    }
+    updateOwnerLabel();
+    render();
+  });
+  ownerDrop.querySelectorAll('.ms-owner-cb').forEach(cb => {
+    cb.addEventListener('change', function() {
+      if (this.checked) { selectedOwners.add(this.value); document.getElementById('msOwnerAll').checked = false; }
+      else { selectedOwners.delete(this.value); }
+      if (selectedOwners.size === 0) document.getElementById('msOwnerAll').checked = true;
+      updateOwnerLabel();
+      render();
+    });
+  });
+
+  // Size multi-select
+  const sizes = {};
+  OPPS.forEach(o => { if (o[3] && o[3] !== '\u2014') sizes[o[3]] = 1; });
+  const sizeDrop = document.getElementById('msSizeDrop');
+  let sizeHtml = `<label class="ms-all"><input type="checkbox" id="msSizeAll" checked> All sizes</label>`;
+  ['XL','L','M'].filter(s => sizes[s]).forEach(s => {
+    sizeHtml += `<label><input type="checkbox" class="ms-size-cb" value="${s}"> ${s}</label>`;
+  });
+  sizeDrop.innerHTML = sizeHtml;
+
+  // Size toggle
+  document.getElementById('msSizeBtn').addEventListener('click', e => {
+    e.stopPropagation();
+    sizeDrop.classList.toggle('open');
+    document.getElementById('msSizeBtn').classList.toggle('open');
+    // close other dropdowns
+    document.getElementById('msActorDrop').classList.remove('open');
+    document.getElementById('msActorBtn').classList.remove('open');
+    document.getElementById('msOwnerDrop').classList.remove('open');
+    document.getElementById('msOwnerBtn').classList.remove('open');
+  });
+  document.getElementById('msSizeAll').addEventListener('change', function() {
+    if (this.checked) {
+      sizeDrop.querySelectorAll('.ms-size-cb').forEach(cb => { cb.checked = false; });
+      selectedSizes.clear();
+    }
+    updateSizeLabel();
+    render();
+  });
+  sizeDrop.querySelectorAll('.ms-size-cb').forEach(cb => {
+    cb.addEventListener('change', function() {
+      if (this.checked) { selectedSizes.add(this.value); document.getElementById('msSizeAll').checked = false; }
+      else { selectedSizes.delete(this.value); }
+      if (selectedSizes.size === 0) document.getElementById('msSizeAll').checked = true;
+      updateSizeLabel();
+      render();
+    });
+  });
+
+  // Close dropdowns on outside click
+  document.addEventListener('click', e => {
+    if (!document.getElementById('msActor').contains(e.target)) {
+      drop.classList.remove('open');
+      document.getElementById('msActorBtn').classList.remove('open');
+    }
+    if (!document.getElementById('msOwner').contains(e.target)) {
+      ownerDrop.classList.remove('open');
+      document.getElementById('msOwnerBtn').classList.remove('open');
+    }
+    if (!document.getElementById('msSize').contains(e.target)) {
+      document.getElementById('msSizeDrop').classList.remove('open');
+      document.getElementById('msSizeBtn').classList.remove('open');
+    }
+  });
+}
+
+/* ---- Init ---- */
+populateFilters();
+render();
+
+function updateSizeLabel() {
+  const btn = document.getElementById('msSizeBtn');
+  if (selectedSizes.size === 0) btn.textContent = 'All sizes';
+  else if (selectedSizes.size === 1) btn.textContent = [...selectedSizes][0];
+  else btn.textContent = selectedSizes.size + ' sizes selected';
+}
+
+document.getElementById('fReset').addEventListener('click', () => {
+  selectedActors.clear();
+  document.getElementById('msAll').checked = true;
+  document.getElementById('msActorDrop').querySelectorAll('.ms-cb').forEach(cb => { cb.checked = false; });
+  updateActorLabel();
+  selectedOwners.clear();
+  document.getElementById('msOwnerAll').checked = true;
+  document.getElementById('msOwnerDrop').querySelectorAll('.ms-owner-cb').forEach(cb => { cb.checked = false; });
+  updateOwnerLabel();
+  selectedSizes.clear();
+  document.getElementById('msSizeAll').checked = true;
+  document.getElementById('msSizeDrop').querySelectorAll('.ms-size-cb').forEach(cb => { cb.checked = false; });
+  updateSizeLabel();
+  render();
+});
+
+function updateActorLabel() {
+  const btn = document.getElementById('msActorBtn');
+  if (selectedActors.size === 0) btn.textContent = 'All actors';
+  else if (selectedActors.size === 1) btn.textContent = [...selectedActors][0];
+  else btn.textContent = selectedActors.size + ' actors selected';
+}
+
+function updateOwnerLabel() {
+  const btn = document.getElementById('msOwnerBtn');
+  if (selectedOwners.size === 0) btn.textContent = 'All owners';
+  else if (selectedOwners.size === 1) btn.textContent = [...selectedOwners][0];
+  else btn.textContent = selectedOwners.size + ' owners selected';
+}
+
+/* ---- Drawer ---- */
+function openEvidenceDrawer(pi) {
+  const ph = PHASES[pi];
+  const evPhaseName = EVIDENCE_PHASE_MAP[ph.label] || '';
+  const entries = JTBD_EVIDENCE.filter(e => e[0] === evPhaseName);
+  const d = document.getElementById('drawer');
+
+  // Group by sub-step
+  const groups = [];
+  const gmap = {};
+  entries.forEach(e => {
+    const sub = e[1];
+    if (!gmap[sub]) { gmap[sub] = {sub: sub, user: e[2], actors: e[3], items: []}; groups.push(gmap[sub]); }
+    gmap[sub].items.push({theme: e[4], opp: e[5], evidence: e[6], note: e[7]});
+  });
+
+  let html = `<div class="dhead"><div class="dbar" style="background:${ph.border}"></div>`;
+  html += `<button class="close" onclick="closeDrawer()">&times;</button>`;
+  html += `<div class="bp-phlabel mono" style="color:${ph.text};font-size:11px;letter-spacing:.03em">${ph.label}</div>`;
+  html += `<h3>Evidence per sub-step</h3>`;
+  html += `<p class="dsub">${entries.length} evidence entries across ${groups.length} sub-steps</p>`;
+  html += `</div><div class="dbody">`;
+
+  groups.forEach((g, gi) => {
+    html += `<div style="background:${gi % 2 === 0 ? 'var(--panel, #fff)' : '#f8f9fb'};border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:10px">`;
+    html += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid var(--line)"><span style="font-size:13px;font-weight:700;color:var(--ink)">${g.sub}</span><span style="font-size:11px;color:var(--ink-faint)">${g.user}${g.actors ? ' · ' + g.actors : ''}</span></div>`;
+    if (g.items.some(it => it.evidence || it.opp)) {
+      g.items.forEach((it, ii) => {
+        if (!it.evidence && !it.opp && !it.theme) {
+          html += `<div style="padding:6px 0;font-size:12px;color:var(--ink-faint);font-style:italic">${it.note || 'No evidence mapped'}</div>`;
+          return;
+        }
+        html += `<div style="padding:8px 0${ii < g.items.length - 1 ? ';border-bottom:1px dashed var(--line-soft)' : ''}">`;
+        if (it.opp) html += `<div style="font-size:12.5px;font-weight:600;color:var(--ink)">${it.opp}</div>`;
+        if (it.evidence) html += `<div style="font-size:12px;color:var(--ink-soft);margin-top:4px;line-height:1.5">${it.evidence}</div>`;
+        html += `</div>`;
+      });
+    } else {
+      const note = g.items[0] ? g.items[0].note : '';
+      html += `<div style="padding:6px 0;font-size:12px;color:var(--ink-faint);font-style:italic">${note || 'No evidence mapped'}</div>`;
+    }
+    html += `</div>`;
+  });
+
+  html += `</div>`;
+  d.innerHTML = html;
+  d.classList.add('on');
+  document.getElementById('scrim').classList.add('on');
+}
+
+function openLittleJobsDrawer(si) {
+  const st = STEPS[si];
+  const d = document.getElementById('drawer');
+  let html = `<div class="dhead"><div class="dbar" style="background:var(--accent)"></div>`;
+  html += `<button class="close" onclick="closeDrawer()">&times;</button>`;
+  html += `<div class="bp-phlabel mono" style="font-size:11px;letter-spacing:.03em;color:var(--ink-faint)">${st.step}</div>`;
+  html += `<h3>${st.big}</h3>`;
+  html += `<p class="dsub">${st.littles} little job${st.littles !== 1 ? 's' : ''}</p>`;
+  html += `</div><div class="dbody">`;
+  html += `<div class="dsec"><div class="k">Little Jobs</div>`;
+  html += `<ul style="list-style:none;padding:0;margin:0">${(st.littleList||[]).map((j,i) => `<li style="padding:6px 0;border-bottom:1px solid var(--line-soft);color:var(--ink)"><span style="color:var(--ink-faint);font-size:10px;margin-right:6px">${i+1}.</span>${j}</li>`).join('')}</ul>`;
+  html += `</div></div>`;
+  d.innerHTML = html;
+  d.classList.add('on');
+  document.getElementById('scrim').classList.add('on');
+}
+
+function openPainDrawer(si) {
+  const st = STEPS[si];
+  const d = document.getElementById('drawer');
+  let html = `<div class="dhead"><div class="dbar" style="background:var(--gap)"></div>`;
+  html += `<button class="close" onclick="closeDrawer()">&times;</button>`;
+  html += `<div class="bp-phlabel mono" style="font-size:11px;letter-spacing:.03em;color:var(--ink-faint)">${st.step}</div>`;
+  html += `<h3>${st.big}</h3>`;
+  html += `<p class="dsub">\u26a0 ${st.pains} pain point${st.pains !== 1 ? 's' : ''}</p>`;
+  html += `</div><div class="dbody">`;
+  html += `<div class="dsec"><div class="k">Pain Points</div>`;
+  if (!st.painList.length) {
+    html += `<p class="empty-note">No pain points captured for this step</p>`;
+  } else {
+    html += `<ul style="list-style:none;padding:0;margin:0">${st.painList.map((p,i) => `<li style="padding:8px 0;border-bottom:1px solid var(--line-soft);color:var(--ink);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--gap);font-size:10px;font-weight:700;flex:none;margin-top:2px">${i+1}.</span><span>${p}</span></li>`).join('')}</ul>`;
+  }
+  html += `</div>`;
+  // Sub-steps context
+  if (st.subs && st.subs.length) {
+    html += `<div class="dsec"><div class="k">Sub-steps in this phase</div>`;
+    html += `<ul style="list-style:none;padding:0;margin:0">${st.subs.map(s => `<li style="padding:6px 0;border-bottom:1px solid var(--line-soft);color:var(--ink-soft);font-size:12.5px">${s}</li>`).join('')}</ul>`;
+    html += `</div>`;
+  }
+  html += `</div>`;
+  d.innerHTML = html;
+  d.classList.add('on');
+  document.getElementById('scrim').classList.add('on');
+}
+
+function openPhaseDrawer(pi) {
+  const ph = PHASES[pi];
+  const d = document.getElementById('drawer');
+  // Collect all pain points and opportunities for this phase
+  let allPains = [];
+  let allOpps = [];
+  ph.steps.forEach(si => {
+    const st = STEPS[si];
+    if (st.painList.length) {
+      allPains.push({step: st.step, big: st.big, pains: st.painList});
+    }
+    const ids = OPP_BY_STEP[si] || [];
+    ids.forEach(oi => {
+      const o = OPPS[oi];
+      allOpps.push({name: o[0], tasks: o[1], nature: o[2], size: o[3], actor: o[5], addressed: o[6], step: st.step});
+    });
+  });
+
+  let html = `<div class="dhead"><div class="dbar" style="background:${ph.border}"></div>`;
+  html += `<button class="close" onclick="closeDrawer()">&times;</button>`;
+  html += `<div class="bp-phlabel mono" style="color:${ph.text};font-size:11px;letter-spacing:.03em">${ph.label}</div>`;
+  html += `<h3>${ph.steps.map(si => STEPS[si].big).join(' /<br>')}</h3>`;
+  html += `<p class="dsub">${ph.steps.length} big job${ph.steps.length > 1 ? 's' : ''} · ${allOpps.length} opportunit${allOpps.length === 1 ? 'y' : 'ies'} · ${allPains.reduce((s,g) => s + g.pains.length, 0)} pain points</p>`;
+  html += `</div><div class="dbody">`;
+
+  // Pain points section
+  html += `<div class="dsec"><div class="k">Key Pain Points</div>`;
+  if (!allPains.length) {
+    html += `<p class="empty-note">No pain points captured for this phase</p>`;
+  } else {
+    allPains.forEach(g => {
+      if (ph.steps.length > 1) html += `<div style="font-size:11px;font-weight:600;color:var(--ink-faint);margin:12px 0 6px;font-family:var(--font-mono);letter-spacing:.02em">${g.step}</div>`;
+      html += `<ul class="pain-list">${g.pains.map(p => `<li>${p}</li>`).join('')}</ul>`;
+    });
+  }
+  html += `</div>`;
+
+  // Opportunities section
+  html += `<div class="dsec"><div class="k">Opportunities</div>`;
+  if (!allOpps.length) {
+    html += `<p class="empty-note">No opportunities mapped to this phase</p>`;
+  } else {
+    allOpps.forEach(op => {
+      const nc = natureCls(op.nature);
+      const ac = actorColor[op.actor];
+      html += `<div class="opp-item">`;
+      html += `<div class="opp-title">${op.name}${op.addressed ? '<span class="bp-chk">\u2713</span>' : ''}</div>`;
+      html += `<div class="opp-meta">`;
+      html += `<span class="bp-nbadge ${nc}">${op.nature}</span>`;
+      if (op.size && op.size !== '\u2014') html += `<span class="bp-sbadge">${op.size}</span>`;
+      const owc1 = op.owner === 'IPP Platform' ? 'owner-ipp' : 'owner-oc';
+      html += `<span class="bp-owner ${owc1}">${op.owner}</span>`;
+      html += `<span class="opp-actor" style="color:${ac.dot}">\u25CF ${op.actor}</span>`;
+      html += `</div>`;
+      if (op.tasks && op.tasks.length) {
+        html += `<ul class="opp-tasks">${op.tasks.map(t => `<li>${t}</li>`).join('')}</ul>`;
+      }
+      html += `</div>`;
+    });
+  }
+  html += `</div></div>`;
+
+  d.innerHTML = html;
+  d.classList.add('on');
+  document.getElementById('scrim').classList.add('on');
+}
+
+function openAllOppsDrawer() {
+  const d = document.getElementById('drawer');
+  // Group opportunities by phase
+  const phaseOpps = PHASES.map(ph => {
+    const opps = [];
+    ph.steps.forEach(si => {
+      const ids = OPP_BY_STEP[si] || [];
+      ids.forEach(oi => {
+        const o = OPPS[oi];
+        opps.push({name:o[0], tasks:o[1], nature:o[2], size:o[3], owner:o[4], actor:o[5], addressed:o[6], step:STEPS[si].step});
+      });
+    });
+    return {label:ph.label, opps};
+  });
+
+  let html = `<div class="dhead"><div class="dbar" style="background:var(--accent)"></div>`;
+  html += `<button class="close" onclick="closeDrawer()">&times;</button>`;
+  html += `<div class="mono" style="font-size:11px;letter-spacing:.03em;color:var(--accent);margin-bottom:2px">ALL OPPORTUNITIES</div>`;
+  html += `<h3>${OPPS.length} IPP Opportunities</h3>`;
+  html += `<p class="dsub">Complete list of opportunities mapped across the journey</p>`;
+  html += `</div><div class="dbody">`;
+
+  phaseOpps.forEach(pg => {
+    if (!pg.opps.length) return;
+    html += `<div class="dsec">`;
+    html += `<div class="k">${pg.label} <span style="opacity:.6;font-weight:400">(${pg.opps.length})</span></div>`;
+    pg.opps.forEach(op => {
+      const nc = natureCls(op.nature);
+      const ac = actorColor[op.actor];
+      html += `<div class="opp-item">`;
+      html += `<div class="opp-title">${op.name}${op.addressed ? '<span class="bp-chk">\u2713</span>' : ''}</div>`;
+      html += `<div class="opp-meta">`;
+      html += `<span class="bp-nbadge ${nc}">${op.nature}</span>`;
+      if (op.size && op.size !== '\u2014') html += `<span class="bp-sbadge">${op.size}</span>`;
+      const owc2 = op.owner === 'IPP Platform' ? 'owner-ipp' : 'owner-oc';
+      html += `<span class="bp-owner ${owc2}">${op.owner}</span>`;
+      html += `<span class="opp-actor" style="color:${ac.dot}">\u25CF ${op.actor}</span>`;
+      html += `</div>`;
+      if (op.tasks && op.tasks.length) {
+        html += `<ul class="opp-tasks">${op.tasks.map(t => `<li>${t}</li>`).join('')}</ul>`;
+      }
+      html += `</div>`;
+    });
+    html += `</div>`;
+  });
+
+  html += `</div>`;
+  d.innerHTML = html;
+  d.classList.add('on');
+  document.getElementById('scrim').classList.add('on');
+}
+
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('on');
+  document.getElementById('scrim').classList.remove('on');
+}
+</script>
+
+</body>
+</html>

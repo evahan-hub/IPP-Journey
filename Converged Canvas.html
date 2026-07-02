@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Converged Journey Canvas · IPP Journey Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="design-system.css">
+<style>
+:root{
+  --bg:var(--color-black-100); --panel:var(--color-white); --ink:var(--color-black-3200); --ink-soft:var(--color-black-1900); --ink-faint:var(--color-black-1300);
+  --line:var(--color-black-500); --line-soft:var(--color-black-200);
+  --accent:var(--color-green); --accent-deep:var(--ipp-accent-deep); --accent-tint:var(--ipp-accent-tint);
+  --gap:var(--color-red-1700); --infra:var(--color-blue-1700); --unmapped:var(--color-black-1300); --out:var(--color-black-1300);
+  --fw-bold:var(--font-weight-bold); --fw-semi:var(--font-weight-semibold); --fw-med:var(--font-weight-medium);
+  --shadow-lg:0 12px 32px rgba(0,17,44,.12);
+}
+body{background:var(--bg);color:var(--ink);
+  background-image:radial-gradient(circle at 1px 1px,rgba(0,17,44,.02) 1px,transparent 0);background-size:22px 22px;
+  display:flex;height:100vh}
+.main-content{flex:1;overflow-y:auto;min-width:0}
+.wrap{max-width:1320px;margin:0 auto;padding:36px 28px 80px}
+.viewhead{padding:0 0 18px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.viewhead .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:var(--fw-semi)}
+.viewhead h1{font-size:var(--text-2xl);line-height:1.15;margin:0 0 6px;font-weight:var(--fw-bold)}
+.viewhead .sub{color:var(--ink-soft);font-size:var(--text-sm);margin:0;max-width:820px}
+
+.toolbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.jtoggle{display:inline-flex;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px}
+.jtoggle button{border:0;background:transparent;cursor:pointer;font-family:var(--font-sans);font-weight:var(--fw-semi);font-size:var(--text-xs);
+  padding:7px 15px;border-radius:7px;color:var(--ink-faint);transition:.14s;white-space:nowrap}
+.jtoggle button:hover{color:var(--ink)}
+.jtoggle button.on{background:var(--ink);color:#fff}
+.cv-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-soft);align-items:center}
+.cv-legend .lg{display:inline-flex;align-items:center;gap:6px}
+.cv-legend .chip{font-family:var(--font-mono);font-size:10px;font-weight:var(--fw-semi);padding:2px 6px;border-radius:5px}
+.cv-legend .chip.opp{background:var(--accent-tint);color:var(--accent-deep)}
+.cv-legend .chip.theme{background:#eef1f6;color:var(--infra)}
+.cv-legend .chip.star{background:var(--accent-tint);color:var(--accent)}
+
+/* ---- canvas (modeled on Journey map) ---- */
+.journey-canvas{border:1px solid var(--line);border-radius:10px;overflow-x:auto;overflow-y:visible;
+  background:#f8f9fb;background-image:radial-gradient(circle,#dfe3e8 .8px,transparent .8px);background-size:18px 18px;
+  padding:28px 24px 32px}
+.phase-flow{display:flex;gap:0;min-width:min-content;align-items:flex-start}
+.phase-col{flex:none;display:flex;flex-direction:column;gap:10px;width:214px}
+.phase-connector{flex:none;width:34px;display:flex;align-items:center;justify-content:center;margin-top:64px;color:var(--ink-faint)}
+.phase-connector svg{width:18px;height:18px}
+.cv-jobhead{width:100%;background:linear-gradient(168deg,var(--accent-tint),#fff);border:1.5px solid var(--accent);border-radius:10px;padding:13px 15px;margin-bottom:2px}
+.cv-jobhead .cvj-step{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--accent-deep);letter-spacing:.02em}
+.cv-jobhead .cvj-big{font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.32;margin-top:5px}
+.cv-jobhead .cvj-meta{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.cv-jobhead .cvj-tag{font-family:var(--font-mono);font-size:9.5px;font-weight:600;padding:3px 7px;border-radius:5px;background:#fff;border:1px solid var(--line);color:var(--accent-deep)}
+.cv-jobhead .cvj-tag.pains{color:var(--gap);border-color:#f0d5d5}
+.step{flex:none;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;
+  position:relative;transition:.16s;cursor:default}
+.step.has{cursor:pointer}.step.has:hover{border-color:#b8c0c8;box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+.step.star{border-color:var(--accent);border-width:1.5px;background:linear-gradient(168deg,#f0faf4,#fff)}
+.step .sid{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-faint);font-weight:600}
+.step .slabel{font-size:12.5px;font-weight:600;line-height:1.25;margin:4px 0 8px}
+.step .snote{font-size:11px;color:var(--ink-faint);line-height:1.45;margin-bottom:10px}
+.step .sopps{display:flex;flex-wrap:wrap;gap:4px;min-height:18px}
+.opin{font-family:var(--font-mono);font-size:10px;font-weight:var(--fw-semi);padding:2px 6px;border-radius:5px;background:var(--accent-tint);color:var(--accent-deep)}
+.opin.theme{background:#eef1f6;color:var(--infra)}
+.step.star .star-i{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:var(--fw-semi);
+  color:var(--accent);background:var(--accent-tint);padding:3px 9px;border-radius:6px;margin-bottom:6px;
+  font-family:var(--font-mono);letter-spacing:.02em}
+.step .empty{font-size:11px;color:var(--unmapped);font-style:italic;line-height:1.45}
+
+/* ---- drawer ---- */
+.scrim{position:fixed;inset:0;background:rgba(0,17,44,.38);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:.22s;z-index:80}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(520px,94vw);background:var(--panel);z-index:90;
+  transform:translateX(102%);transition:transform .28s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-lg);
+  overflow-y:auto;border-left:1px solid var(--line)}
+.drawer.on{transform:none}
+.drawer .dhead{padding:26px 28px 20px;border-bottom:1px solid var(--line);position:relative}
+.drawer .dbar{position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--accent)}
+.drawer .close{position:absolute;top:18px;right:20px;border:1px solid var(--line);background:#fff;border-radius:8px;
+  width:32px;height:32px;cursor:pointer;font-size:17px;color:var(--ink-soft);line-height:1}
+.drawer .close:hover{background:var(--line-soft)}
+.drawer h3{font-size:var(--fs-h2,20px);margin:10px 0 12px;padding-right:30px;line-height:1.25}
+.drawer .dbody{padding:22px 28px 40px}
+.drawer .dsec{margin-bottom:18px}
+.drawer .dsec .k{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:7px}
+.drawer .dsec .vtxt{font-size:var(--text-sm);color:var(--ink-soft);line-height:1.55}
+.drawer .whybox{background:var(--accent-tint);border:1px solid #cfe4d9;border-radius:10px;padding:14px 16px;font-size:13.5px;color:var(--accent-deep);line-height:1.5}
+.mono{font-family:var(--font-mono)}
+@media(max-width:860px){.wrap{padding:36px 16px 60px}}
+</style>
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar">
+  <div class="sb-top">
+    <a class="sb-brand" href="Landing.html" style="text-decoration:none">
+      <svg width="68" height="22" viewBox="0 0 101.6 32.9" fill="#0ABF53"><path d="M14.3,7.5H0.3V12l9.2,0c0.6,0,1,0.5,1,1v7.9h-2c-0.6,0-1-0.5-1-1v-5.7H3.6c-2,0-3.6,1.6-3.6,3.6v4c0,2,1.6,3.6,3.6,3.6h14.3V11.1C17.9,9.1,16.3,7.5,14.3,7.5z"/><path d="M31.4,20.9h-2c-0.6,0-1-0.5-1-1V7.5h-3.9c-2,0-3.6,1.6-3.6,3.6v10.7c0,2,1.6,3.6,3.6,3.6h14.3V0h-7.5L31.4,20.9z"/><path d="M52.3,20.9h-2c-0.6,0-1-0.5-1-1V7.5h-7.5v14.3c0,2,1.6,3.6,3.6,3.6h6.9v2.2H42.1v5.2h14.1c2,0,3.6-1.6,3.6-3.6V7.5h-7.5V20.9z"/><path d="M77.1,7.5H62.7v14.3c0,2,1.6,3.6,3.6,3.6h14.1v-4.5h-9.2c-0.6,0-1-0.5-1-1V12h2c0.6,0,1,0.5,1,1v5.7h3.9c2,0,3.6-1.6,3.6-3.6v-4C80.7,9.1,79.1,7.5,77.1,7.5z"/><path d="M98,7.5H83.7v17.9h7.5V12h2c0.6,0,1,0.5,1,1v12.4h7.5V11.1C101.6,9.1,100,7.5,98,7.5z"/></svg>
+      <span>IPP Journey</span>
+    </a>
+  </div>
+
+  <nav class="sb-nav">
+    <a class="sb-link" href="IPP%20Journey.html#overview">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Context
+    </a>
+    <a class="sb-link" href="IPP%20Journey.html#serviceblueprint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3z"/><path d="M14 3h7v4h-7z"/><path d="M14 10h7v4h-7z"/><path d="M3 14h7v7H3z"/><path d="M14 17h7v4h-7z"/></svg>
+      Journey map
+    </a>
+    <a class="sb-link" href="IPP%20Journey.html#sysinfo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      System doc
+    </a>
+    <div class="sb-divider"></div>
+    <div class="sb-section-label">Source of truth</div>
+    <a class="sb-link" href="Data%20source.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      Data source
+    </a>
+  </nav>
+
+  <div class="sb-bottom">
+    <div class="sb-cta-box">
+      <span class="dot" style="width:7px;height:7px;border-radius:50%;background:var(--color-yellow-600);display:inline-block"></span> <b>Work in progress</b>
+      <p style="margin:8px 0 0;font-size:var(--text-xs);color:var(--color-black-1700);line-height:1.55">This is a living document shaped by research and the Figma journey map.</p>
+      <p style="margin:6px 0 0;font-size:var(--text-xs);color:var(--color-black-1700);line-height:1.55">Got ideas, corrections, or feedback? Would love to hear from you!</p>
+      <a href="slack://user?team=T025TN82G&id=U099UUXHZ62" class="sb-cta-btn" style="margin-top:12px">Chat with @eva_han</a>
+    </div>
+  </div>
+</aside>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="main-content">
+<main class="wrap">
+  <div class="viewhead">
+    <h1>Converged Journey Canvas</h1>
+    <p class="sub">The 9 strategic JTBD jobs as the spine, with the mapped research sub-steps laid out as a horizontal canvas. Each card is a journey sub-step from Journey A (Merchant Configuration) or Journey B (AfP submerchant onboarding) — click any card for its evidence, actors and opportunity.</p>
+  </div>
+
+  <div class="toolbar">
+    <div class="jtoggle" id="viewToggle">
+      <button class="on" data-v="all">All 9 jobs</button>
+      <button data-v="researched">Researched only</button>
+    </div>
+    <div class="cv-legend">
+      <span class="lg"><span class="chip theme">T#</span> Theme</span>
+      <span class="lg"><span class="chip opp">O#</span> Opportunity</span>
+      <span class="lg"><span class="chip star">★</span> Key moment</span>
+    </div>
+  </div>
+
+  <div id="canvasBody"></div>
+</main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer"></aside>
+
+<script>
+const JTBD_JOURNEY = [
+  {step:"1. Plan", big:"Plan the best approach to accept payments in-store in new markets according to my budget",
+   little:["Find the best payment provider","Sign the contract","Scope the pilot plan","Scope the rollout plan","Establish an optimal account structure","Decide on payment methods per country","Decide on payout","Evaluate shopper journey","Define payment device needs","Decide on device management","Decide on network setup","Decide on reconciliation & reporting","Ensure day-to-day operation is supported"],
+   micro:["Research provider offerings; benchmark competitors; evaluate pros/cons; schedule demo calls","Get internal buy-in; negotiate and agree contract terms","Decide pilot/rollout dates and stores","Define merchant account structure, account holders, store IDs, naming conventions","Check payment method availability and features per country","Understand payout process; decide scheduled/API-driven payout, express payouts, multi-currency, funds transfer","List shopper friction points; find features catering shopper needs","Define number of devices per store; select terminal models; decide features; API integration option","Understand device management on platform and via API","Decide local or cloud integration","Define terminal shipping locations; decide firmware update strategy; TIS/TRS services"],
+   pain:[]},
+  {step:"2. Validate / Test", big:"Validate the planned POS solution to see if it fulfills my business needs",
+   little:["Create account structure (test)","Order and set up test devices","Implement integration","Test payment flow","Test payout","Test reconciliation"],
+   micro:["Create test merchant account and stores; set up payment methods; set up user access","Order test devices; add to cart; add shipping address; track shipping; receive; hardware and security inspection; assign terminals; board terminals; configure settings; configure payment features; upload apps/certificates; schedule deployment","Implement basic integration (PaymentRequest, ReversalRequest, AbortRequest, PaymentResponse, TransactionStatusRequest); implement advanced integration by vertical; implement operational integration; generate API key; create API credential","Test transactions (pay, cancel, refund); test payment methods; test payment features; fix issues","Add payout account; set up payout schedule and model; set payout speed","Check payments list; download report"],
+   pain:["API credentials management not straightforward","Not all terminals available at all times / terminal shortage","Merchants don't know when terminals will be delivered","Hundreds of possible settings - high learning curve","Boarding not intuitive if terminals not pre-assigned in CA / Mgmt API","Merchants unsure how to configure and afraid of making mistakes","Impact of reboots and maintenance calls is unclear","No overview of all settings or overrides","Technical complexity means merchants need a lot of help from Adyen"]},
+  {step:"3. Scale / Go Live & Rollout", big:"Scale my validated POS solution to all stores in the shortest period of time so all stores can process transactions on opening day",
+   little:["Ensure smooth transition from test to live","Create account structure (live)","Order and set up live devices","Run network & connectivity test in pilot store","Test payment flow live","Test payout live","Test reconciliation live","Set up firmware update strategy","Roll out to all stores"],
+   micro:["Create live merchant account and stores; set up payment methods; set up user access","Order live devices; receive, inspect and assign; board and configure; configure payment features; upload apps/certificates; schedule deployment","Test connection with Adyen platform; test POS system connection; test cellular connection","Test transactions; test payment methods and features by vertical; fix issues","Add payout account; set up payout schedule and model; set payout speed","Check payments list; set up/download reconciliation reports"],
+   pain:[]},
+  {step:"4. Secure every possible in-store sale", big:"Secure every possible in-store sale",
+   little:["Set up payment features to allow more transactions (tipping, offline payments)","Ensure payment devices are well distributed across stores","Prevent fraud and security flaws via POS (e.g. unreferenced refunds)"],
+   micro:["Define which countries and stores have the need; configure settings for selected terminals","Analyze device performance; download terminal list to react; order more devices if needed; return unnecessary devices; redistribute devices to stores with lower transaction volumes","Set up passcodes; define access to menus on the terminal"],
+   pain:["Lack of visibility into terminal failure rates makes forecasting harder","Lack of visibility in available terminal stock (e.g. P400) complicates ordering","No direct Adyen point of contact with IPP expertise slows ordering","Lack of visibility in logistics creates manual overhead","No incentive to recollect inactive terminals from churned sub-merchants","Redistributing terminals not actively supported by Adyen","Resetting terminals to factory settings is not intuitive","Refurbishment not part of Adyen offering"]},
+  {step:"5. Ramp up", big:"Ramp up",
+   little:["Open new stores (existing legal entity)","Scale in a new market (requires a different legal entity)"],
+   micro:["Not detailed on board"], pain:[]},
+  {step:"6. Increase shopper retention", big:"Increase shopper retention with the best payment experience",
+   little:["Increase customer loyalty","Support shoppers with their queries about payments"],
+   micro:["Ensure devices support seasonal/local campaign promotions; ensure devices can run shopper loyalty programs; support localization; provide personalized experience","Ensure shoppers get their refund if requested; fulfill shopper needs on missing payment services (e.g. Apple value-added services)"],
+   pain:["Customization term has no single meaning, causing confusion across teams","Displaying various brands confuses sub-merchants about who to contact","Platforms see lack of customization as a missed branding and marketing opportunity"]},
+  {step:"7. Streamline operations", big:"Streamline operational work in stores to reduce costs",
+   little:["Install Android apps/certificates on terminals","Migrate to managing devices through API","Be aware of any anomalies (e.g. drop in transactions or volume)"],
+   micro:["Get access to the specific role; upload apps and certificates; schedule deployment; train staff how to use it"], pain:[]},
+  {step:"8. Stay competitive", big:"Stay competitive in payment experience with the most innovative solutions",
+   little:["Be aware of the newest features","Implement new features quickly and safely","Support shoppers with the latest payment technology","Request Adyen new features, payment methods, technologies","Ensure devices get new firmware when needed"],
+   micro:["Access information about latest technologies and features","Benefit from Adyen's newest features (tipping, digital receipts, tax-free refund)","Implement latest technology to payment stack; implement new relevant features","Communicate internally about new implementation; train relevant employees","Choose between manual/automatic firmware updates; be in control of when updates happen and on which terminals"],
+   pain:["Merchants not aware of all new features Adyen offers","Hard to communicate a growing feature set","Merchants afraid firmware updates will cause malfunctions"]},
+  {step:"9. Ensure fleet is always operational", big:"Ensure my fleet is always operational",
+   little:["Be aware of any issues","Evaluate the severity of the issue","Investigate the issue","Resolve all issues that compromise shoppers' payment experience","Have broken devices replaced","Ensure the same issues won't happen again"],
+   micro:["Check last activity and assignment status; see notifications","Get immediate support when shoppers are blocked; figure out whether issue is hardware or software; access device details; determine if terminals should be replaced","Troubleshoot functionalities that don't work; troubleshoot misconfiguration; troubleshoot hardware issues (connection, card reader, keypad, NFC)","Contact Adyen Support / AM / Integrators / own company support; reach out to correct people","Document cause and resolution of issues"],
+   pain:["Merchants not autonomous - rely on support and commercial teams","No proactive way to discover what is going wrong","No immediate support channel for emergencies when shoppers are blocked","Troubleshooting manually done by platforms and time-consuming","Lack of quick support and Adyen expertise when terminal is defective","No access to terminal logs, leading to unnecessary replacements","Insufficient communication from Adyen about recurring problems","Warranty policy insufficient; warranty process cumbersome; Adyen SLA does not match immediate replacement needs","Platforms rely on costly third parties; TRS too expensive; no EDI/API connection; manual handling time-consuming","Accessory replacement not included in TRS - extra costs for platforms"]},
+];
+const JTBD_EVIDENCE = [
+  ["1. Exploration","1.a Preparation","Merchant","Adyen Sales","","","","Pre-Adyen research, no setting interaction"],
+  ["1. Exploration","1.b Account Setup & Decision","Merchant","Adyen Sales, IM","T1. Scalable Configuration Foundation","O1. Flexible configuration scoping","Account structure forces manual overhead for franchises, regional groups, multi-brand setups.","Account structure rigidity baked in here"],
+  ["2. Test & Integration","2.a Initial Ordering","Merchant","Adyen Sales, Warehouse","","","","Hardware logistics"],
+  ["2. Test & Integration","2.b Test Terminal Delivery","Merchant","Warehouse, Courier","","","","Hardware arrives at merchant"],
+  ["2. Test & Integration","2.c Test Configuration","Merchant","IM, Support","T1. Scalable Configuration Foundation","O3. Settings transparency & override management","73% override at device level; inheritance logic is opaque; no overview of what's set where.","First encounter with 1,000+ settings"],
+  ["2. Test & Integration","2.c Test Configuration","Merchant","IM, Support","T3. Self-service and Clarity","O7. Setting taxonomy & shared language","No shared definitions; misleading names; unclear merchant-facing vs internal classification.","Misread names land here"],
+  ["2. Test & Integration","2.c Test Configuration","Merchant","IM, Support","T1. Scalable Configuration Foundation","O10. Configuration lifecycle controls","No scheduling, no TEST↔LIVE parity, no rollback for setting changes.","No TEST→LIVE promotion"],
+  ["2. Test & Integration","2.d Testing","Merchant","IM, Support","T1. Scalable Configuration Foundation","O3. Settings transparency & override management","73% override at device level; inheritance logic is opaque; no overview of what's set where.","Override patterns emerge"],
+  ["2. Test & Integration","2.d Testing","Merchant","IM, Support","T1. Scalable Configuration Foundation","O10. Configuration lifecycle controls","No scheduling, no TEST↔LIVE parity, no rollback for setting changes.","No rollback capability"],
+  ["3. Migration to LIVE","3.a Ordering & Delivery","Merchant","Warehouse, Courier","","","","Logistics"],
+  ["3. Migration to LIVE","3.b Terminal Delivery","Merchant","Warehouse, Courier","","","","Bulk hardware arrives"],
+  ["3. Migration to LIVE","3.c Initial Configuration ⭐","Merchant","IM, Support","T1. Scalable Configuration Foundation","O1. Flexible configuration scoping","Account structure forces manual overhead for franchises, regional groups, multi-brand setups.","HIGHEST LEVERAGE — 5 opps converge"],
+  ["3. Migration to LIVE","3.c Initial Configuration ⭐","Merchant","IM, Support","T1. Scalable Configuration Foundation","O2. Scalable deployment of settings & assets","No bulk apply across merchant accounts/stores; deploying configs and assets is manual at fleet scale.","HIGHEST LEVERAGE — 5 opps converge"],
+  ["3. Migration to LIVE","3.c Initial Configuration ⭐","Merchant","IM, Support","T1. Scalable Configuration Foundation","O3. Settings transparency & override management","73% override at device level; inheritance logic is opaque; no overview of what's set where.","HIGHEST LEVERAGE — 5 opps converge"],
+  ["3. Migration to LIVE","3.c Initial Configuration ⭐","Merchant","IM, Support","T3. Self-service and Clarity","O7. Setting taxonomy & shared language","No shared definitions; misleading names; unclear merchant-facing vs internal classification.","HIGHEST LEVERAGE — 5 opps converge"],
+  ["3. Migration to LIVE","3.c Initial Configuration ⭐","Merchant","IM, Support","T1. Scalable Configuration Foundation","O10. Configuration lifecycle controls","No scheduling, no TEST↔LIVE parity, no rollback for setting changes.","HIGHEST LEVERAGE — 5 opps converge"],
+  ["4. BAU / Troubleshooting","4.a Routine Configuration","Merchant","Store staff","T1. Scalable Configuration Foundation","O2. Scalable deployment of settings & assets","No bulk apply across merchant accounts/stores; deploying configs and assets is manual at fleet scale.","Edits compound"],
+  ["4. BAU / Troubleshooting","4.a Routine Configuration","Merchant","Store staff","T1. Scalable Configuration Foundation","O3. Settings transparency & override management","73% override at device level; inheritance logic is opaque; no overview of what's set where.",""],
+  ["4. BAU / Troubleshooting","4.a Routine Configuration","Merchant","Store staff","T3. Self-service and Clarity","O6. Merchant self-service & role-based access","Many settings require Adyen support intervention; access controls within merchant org are missing.",""],
+  ["4. BAU / Troubleshooting","4.a Routine Configuration","Merchant","Store staff","T3. Self-service and Clarity","O7. Setting taxonomy & shared language","No shared definitions; misleading names; unclear merchant-facing vs internal classification.",""],
+  ["4. BAU / Troubleshooting","4.b First Troubleshooting ⭐","Merchant","Store staff, Support","T1. Scalable Configuration Foundation","O3. Settings transparency & override management","73% override at device level; inheritance logic is opaque; no overview of what's set where.","Where 15% support target lives"],
+  ["4. BAU / Troubleshooting","4.b First Troubleshooting ⭐","Merchant","Store staff, Support","T3. Self-service and Clarity","O6. Merchant self-service & role-based access","Many settings require Adyen support intervention; access controls within merchant org are missing.","Where 15% support target lives"],
+  ["4. BAU / Troubleshooting","4.b First Troubleshooting ⭐","Merchant","Store staff, Support","T3. Self-service and Clarity","O7. Setting taxonomy & shared language","No shared definitions; misleading names; unclear merchant-facing vs internal classification.","Where 15% support target lives"],
+  ["4. BAU / Troubleshooting","4.b First Troubleshooting ⭐","Merchant","Store staff, Support","T1. Scalable Configuration Foundation","O10. Configuration lifecycle controls","No scheduling, no TEST↔LIVE parity, no rollback for setting changes.","Where 15% support target lives"],
+  ["5. Terminal Replacements","5.a Malfunction & Replacement Ordering","Merchant","Support, Warehouse","T1. Scalable Configuration Foundation","O10. Configuration lifecycle controls","No scheduling, no TEST↔LIVE parity, no rollback for setting changes.","Version history matters"],
+  ["5. Terminal Replacements","5.b Setting Up Replacements in Store","Merchant","Store staff, Warehouse","T1. Scalable Configuration Foundation","O2. Scalable deployment of settings & assets","No bulk apply across merchant accounts/stores; deploying configs and assets is manual at fleet scale.","Replacement config inheritance"],
+  ["5. Terminal Replacements","5.b Setting Up Replacements in Store","Merchant","Store staff, Warehouse","T2. End-to-end Device Experience","O4. Submerchant activation kit","Activation is the #1 pain for AfP platforms; manual workarounds at scale.","AfP submerchants only"],
+  ["5. Terminal Replacements","5.c FM Configuration","Merchant","Support","T1. Scalable Configuration Foundation","O3. Settings transparency & override management","73% override at device level; inheritance logic is opaque; no overview of what's set where.","Same as 3.c, smaller scope"],
+  ["5. Terminal Replacements","5.c FM Configuration","Merchant","Support","T3. Self-service and Clarity","O7. Setting taxonomy & shared language","No shared definitions; misleading names; unclear merchant-facing vs internal classification.",""],
+  ["5. Terminal Replacements","5.c FM Configuration","Merchant","Support","T1. Scalable Configuration Foundation","O10. Configuration lifecycle controls","No scheduling, no TEST↔LIVE parity, no rollback for setting changes.",""],
+  ["5. Terminal Replacements","5.d Return Faulty Terminals","Merchant","Warehouse, Courier","","","","Logistics"],
+  ["B1. Platform setup","B1.a Platform orders bulk hardware","Platform (AfP)","Adyen Sales, Warehouse","","","","Bulk hardware order placed"],
+  ["B1. Platform setup","B1.b Define packaging & branding","Platform (AfP)","Adyen Ops, Supply Chain","T2. End-to-end Device Experience","O8. Branded packaging & preboarding","Platforms carry shipping, branding, preboarding overhead outside core business.","Platforms want branded packaging, hand off logistics"],
+  ["B2. Preboarding","B2.a Preboard at warehouse","Warehouse","Adyen Ops, Platform","T2. End-to-end Device Experience","O8. Branded packaging & preboarding","Platforms carry shipping, branding, preboarding overhead outside core business.","Preboarding service — Fresha 4h/day, Palisis 30% ops time"],
+  ["B2. Preboarding","B2.b Insert activation guide & QR codes","Warehouse","Platform","T2. End-to-end Device Experience","O4. Submerchant activation kit","Activation is the #1 pain for AfP platforms; manual workarounds at scale.","Topper, stickers, QR codes in box"],
+  ["B3. Delivery","B3.a Dropship to submerchant","Courier","Warehouse, Platform","","","","Logistics"],
+  ["B3. Delivery","B3.b Submerchant receives package","Submerchant","Courier","T2. End-to-end Device Experience","O8. Branded packaging & preboarding","Platforms carry shipping, branding, preboarding overhead outside core business.","Branding affects delivery acceptance"],
+  ["B4. Activation ⭐","B4.a Unbox terminal","Submerchant","Platform support","T2. End-to-end Device Experience","O4. Submerchant activation kit","Activation is the #1 pain for AfP platforms; manual workarounds at scale.","First impression, branding"],
+  ["B4. Activation ⭐","B4.b Connect Wi-Fi & enter passcode","Submerchant","Platform support","T2. End-to-end Device Experience","O4. Submerchant activation kit","Activation is the #1 pain for AfP platforms; manual workarounds at scale.","Tide: 200 tickets/month from passcode alone"],
+  ["B4. Activation ⭐","B4.c First boot & software updates","Submerchant","Platform support","T2. End-to-end Device Experience","O4. Submerchant activation kit","Activation is the #1 pain for AfP platforms; manual workarounds at scale.","Munu: confusing updates → failed onboardings"],
+  ["B4. Activation ⭐","B4.d First test transaction","Submerchant","Platform support","T2. End-to-end Device Experience","O4. Submerchant activation kit","Activation is the #1 pain for AfP platforms; manual workarounds at scale.","Activation success moment"],
+  ["B5. BAU","B5.a Day-to-day use","Submerchant","Platform support","","","","Normal operation"],
+  ["B5. BAU","B5.b Replacement cycle","Submerchant","Platform, Warehouse, Adyen Ops","T2. End-to-end Device Experience","O4. Submerchant activation kit","Activation is the #1 pain for AfP platforms; manual workarounds at scale.","AfP submerchants face activation again"],
+];
+const CONVERGED_GROUPS = [
+  {ji:0, ev:[0,1], note:"Direct mapping — Journey A phase 1 (Exploration)."},
+  {ji:1, ev:[2,3,4,5,6,7,8], note:"Direct mapping — Journey A phase 2 (Test & Integration)."},
+  {ji:2, ev:[9,10,11,12,13,14,15], note:"Direct mapping — Journey A phase 3 (Migration to LIVE)."},
+  {ji:3, ev:[31,32,33,34,35,36,37,38,39,40,41,42], note:"Mapped from Journey B — AfP submerchant onboarding (activation focus)."},
+  {ji:4, ev:[], note:"No research sub-steps mapped to this job yet."},
+  {ji:5, ev:[], note:"No research sub-steps mapped to this job yet."},
+  {ji:6, ev:[16,17,18,19], note:"Mapped from Journey A phase 4.a (BAU routine configuration)."},
+  {ji:7, ev:[], note:"No research sub-steps mapped to this job yet."},
+  {ji:8, ev:[20,21,22,23,24,25,26,27,28,29,30], note:"Mapped from Journey A phases 4.b (troubleshooting) & 5 (terminal replacements)."},
+];
+
+function clip(s,n){return s&&s.length>n?s.slice(0,n-1)+'\u2026':(s||'');}
+function code(s){return s?String(s).split('.')[0].trim():'';}
+function cleanLabel(s){return s?s.replace('\u2b50','').trim():'';}
+
+let curView='all';
+function renderCanvas(){
+  const showEmpty=curView==='all';
+  const body=document.getElementById('canvasBody');body.innerHTML='';
+  const canvas=document.createElement('div');canvas.className='journey-canvas';
+  const flow=document.createElement('div');flow.className='phase-flow';
+  let first=true;
+  CONVERGED_GROUPS.forEach(g=>{
+    if(!g.ev.length&&!showEmpty)return;
+    if(!first){
+      const conn=document.createElement('div');conn.className='phase-connector';
+      conn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>';
+      flow.appendChild(conn);
+    }
+    first=false;
+    const j=JTBD_JOURNEY[g.ji];
+    const col=document.createElement('div');col.className='phase-col';
+    const painN=(j.pain||[]).length;
+    const head=document.createElement('div');head.className='cv-jobhead';
+    head.innerHTML=`<div class="cvj-step">${j.step}</div>
+      <div class="cvj-big">${j.big}</div>
+      <div class="cvj-meta"><span class="cvj-tag">${g.ev.length} sub-step${g.ev.length===1?'':'s'}</span>${painN?`<span class="cvj-tag pains">${painN} pain${painN===1?'':'s'}</span>`:''}</div>`;
+    col.appendChild(head);
+    if(!g.ev.length){
+      const e=document.createElement('div');e.className='step';
+      e.innerHTML='<div class="empty">No research sub-steps mapped to this job yet.</div>';
+      col.appendChild(e);
+    }else{
+      g.ev.forEach(i=>{
+        const r=JTBD_EVIDENCE[i];
+        const star=/\u2b50/.test(r[1]);
+        const theme=code(r[4]),opp=code(r[5]);
+        const st=document.createElement('div');
+        st.className='step has'+(star?' star':'');
+        st.innerHTML=`${star?'<span class="star-i">\u2605 Key moment</span>':''}
+          <div class="sid">${r[0]}</div>
+          <div class="slabel">${cleanLabel(r[1])}</div>
+          <div class="snote">${r[6]?clip(r[6],94):'\u2014'}</div>
+          <div class="sopps">${theme?`<span class="opin theme">${theme}</span>`:''}${opp?`<span class="opin">${opp}</span>`:(theme?'':'<span class="empty">No opportunity</span>')}</div>`;
+        st.onclick=()=>openCard(r,j);
+        col.appendChild(st);
+      });
+    }
+    flow.appendChild(col);
+  });
+  canvas.appendChild(flow);body.appendChild(canvas);
+}
+function kv(k,v){return `<div class="dsec"><div class="k">${k}</div><div class="vtxt">${v?v:'<span style="color:var(--unmapped)">\u2014</span>'}</div></div>`;}
+function openCard(r,j){
+  const d=document.getElementById('drawer');
+  d.innerHTML=`<div class="dhead"><span class="dbar"></span>
+    <button class="close" onclick="closeDrawer()">\u00d7</button>
+    <span class="mono" style="color:var(--ink-faint);font-size:12px;font-weight:600">${r[0]}</span>
+    <h3>${cleanLabel(r[1])}</h3></div>
+    <div class="dbody">
+      <div class="dsec"><div class="k">Mapped JTBD job</div><div class="whybox">${j.step} \u00b7 ${j.big}</div></div>
+      ${kv('Primary user',r[2])}
+      ${kv('Other actors',r[3])}
+      ${kv('Theme',r[4])}
+      ${kv('Opportunity',r[5])}
+      ${kv('Evidence',r[6])}
+      ${kv('Notes',r[7])}
+    </div>`;
+  d.classList.add('on');document.getElementById('scrim').classList.add('on');
+}
+function closeDrawer(){document.getElementById('drawer').classList.remove('on');document.getElementById('scrim').classList.remove('on');}
+document.getElementById('scrim').onclick=closeDrawer;
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+document.getElementById('viewToggle').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;curView=b.dataset.v;
+  document.querySelectorAll('#viewToggle button').forEach(x=>x.classList.toggle('on',x===b));renderCanvas();
+});
+renderCanvas();
+</script>
+
+</body>
+</html>

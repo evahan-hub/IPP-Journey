@@ -1,0 +1,28 @@
+Who (job title),Opportunity,Job nature,Related Jobs / Tasks,Size,Owner,Status
+IT / Field Operations Manager,Android app flow,Innovation,Install Android apps/certificates on terminals; Upload apps and certificates; Schedule deployment; Train staff how to use it,XL,IPP Platform,
+Product / Payments Manager,"Get latest, relevant features/updates",Innovation,"Stay competitive in in-store payment experience; Implement new features quickly and safely; Benefit from Adyen's newest features (tipping, digital receipts, tax-free refund); Implement new relevant features; Ensure payment devices get new firmware when needed",L,IPP Platform,
+Marketing / CRM Manager,Increase customer loyalty,Innovation,Increase customer loyalty,L,IPP Platform,
+Marketing / CX Manager,Increase shopper personalized experience,Innovation,Provide personalized experience,L,IPP Platform,
+Head of Payments / Expansion Lead,POS solution scaling,Innovation,Scale in a new market (that requires a different legal entity),,IPP Platform,
+Fleet / Operations Manager,"TIS, TRS for platform merchants",Innovation,Additional services for terminal fleet such as TIS and TRS,,IPP Platform,
+Store Operations Manager,Awareness of POS payment issues,Innovation + Frustration,Be aware of any issues; Get immediate support when shoppers are blocked from paying,XL,IPP Platform,
+Payments Analyst / Operations Manager,Awareness of anomalies,Innovation + Frustration,Be aware of any anomalies (e.g. drop in transactions or volume),XL,IPP Platform,
+Integration Developer / Technical Lead,Test to Live migration,Innovation + Autonomy,Ensure what works on test can be smoothly transitioned to live,,IPP Platform,
+Implementation / Finance Operations,Account structure creation,Autonomy,Create account structure (in test),,IPP Platform,
+QA Engineer / Integration Developer,Payment flow testing,Autonomy,Test payment flow,,IPP Platform,
+Operations Manager,Store creation,Autonomy,Create live stores,M,IPP Platform,Already addressed
+Procurement / Fleet Manager,Terminal returns / order,Autonomy,Download terminal list to perform analysis and react; Analyze device performance,M,IPP Platform,Already addressed
+Fleet Manager / Operations Analyst,Terminal analysis,Frustration,Download terminal list to perform analysis and react; Analyze device performance,,IPP Platform,
+Integration Developer,API integration,Frustration,"Implement basic integration for payment flow (PaymentRequest, ReversalRequest, AbortRequest, PaymentResponse, TransactionStatusRequest)",,IPP Platform,
+IT / Technical Operations Manager,Firmware update strategy,Frustration,Decide on firmware update strategy; Be in control of when updates happen and on which terminals,,IPP Platform,
+IT Admin / Security Administrator,IPP user access control,Frustration,Set up user access to relevant colleagues,,IPP Platform,
+Store Manager / Support Agent,Emergency support,Frustration + Autonomy,Reach out to the correct people when issues cannot be resolved locally; Get immediate support when shoppers are blocked from paying,,IPP Platform,
+IT / Operations Manager,Terminal settings,Frustration + Autonomy,"Configure necessary settings to process transactions (wifi, payment methods); Configure additional settings (payment features - tipping, offline payment)",XL,IPP Platform,Already addressed
+eCommerce / Conversion Manager,Payment method ordering,Innovation,Optimize payment method ordering and presentation,,Online Checkout,
+eCommerce Developer,Optimize integration,Innovation,"Instant payment methods, express, recurring, tokenisation, funding source, installments",,Online Checkout,
+eCommerce / UX Manager,Best practice checkout experience,Innovation,Optimal number of payment methods shown,,Online Checkout,
+Developer / Engineering Lead,Updating to newer version of Checkout,Innovation,Version upgrade flow,,Online Checkout,
+QA Engineer / Developer,Testing,Innovation,Checkout testing flows,,Online Checkout,
+Developer / Engineering Support,Error log handling,Innovation + Frustration,Error log visibility and handling,,Online Checkout,
+Developer,Crashlog investigation,Frustration,Crash log visibility,,Online Checkout,
+Operations / Engineering,System notifications,Frustration + Autonomy,Notification flows and alerts,,Online Checkout,
