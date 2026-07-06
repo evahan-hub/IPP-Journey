@@ -37,7 +37,7 @@ h3{font-size:var(--fs-h3);line-height:var(--lh-snug)}
 a{color:inherit}
 
 /* ---- shell ---- */
-.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.wrap{max-width:1180px;padding:0 28px}
 header.top{padding:42px 0 22px;border-bottom:1px solid var(--line)}
 .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:var(--fw-semi)}
 header.top h1{font-size:var(--fs-display);line-height:var(--lh-tight);margin:var(--spacing-2xs) 0 var(--spacing-3xs);font-weight:var(--fw-bold)}
@@ -278,7 +278,7 @@ footer b{color:var(--ink-soft)}
 .chart-legend{display:flex;flex-direction:column;gap:8px;flex:1}
 .chart-legend .cl{display:flex;align-items:center;gap:9px;font-size:var(--fs-caption)}
 .chart-legend .cl .clc{width:10px;height:10px;border-radius:3px;flex:none}
-.chart-legend .cl .clv{margin-left:auto;font-family:var(--font-mono);font-weight:var(--fw-semi);color:var(--ink)}
+.chart-legend .cl .clv{font-family:var(--font-mono);font-weight:var(--fw-semi);color:var(--ink)}
 .chart-legend .cl .cln{color:var(--ink-soft)}
 .mobile-callout{margin-top:16px;background:var(--accent-tint);border:1px solid #c8e0c2;border-radius:8px;padding:12px 14px;
   font-size:var(--fs-caption);color:var(--ink-soft);display:flex;gap:8px;align-items:flex-start}
@@ -435,7 +435,7 @@ table.jtbd ul.sub-list>li.rs-item:last-child{border-bottom:none;padding-bottom:0
   </div>
 
   <nav class="sb-nav">
-    <a class="sb-link active-link" href="#overview" onclick="switchTab('overview')">
+    <a class="sb-link active-link" href="javascript:void(0)" data-tab="overview" onclick="switchTab('overview')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       Context
     </a>
@@ -443,7 +443,7 @@ table.jtbd ul.sub-list>li.rs-item:last-child{border-bottom:none;padding-bottom:0
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3z"/><path d="M14 3h7v4h-7z"/><path d="M14 10h7v4h-7z"/><path d="M3 14h7v7H3z"/><path d="M14 17h7v4h-7z"/></svg>
       Journey map
     </a>
-    <a class="sb-link" href="#sysinfo" onclick="switchTab('sysinfo')">
+    <a class="sb-link" href="javascript:void(0)" data-tab="sysinfo" onclick="switchTab('sysinfo')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
       System doc
     </a>
@@ -482,6 +482,35 @@ table.jtbd ul.sub-list>li.rs-item:last-child{border-bottom:none;padding-bottom:0
   <div class="viewhead"><h2>IPP Journey Analysis</h2>
     <p class="sub">A single source of truth for where merchants and submerchants meet friction across the terminal lifecycle — and where the opportunities to fix it converge.</p>
   </div>
+  <div class="chart-card" style="margin-bottom:14px">
+    <h3>IPP integration landscape</h3>
+    <div class="chart-sub">Total authorised transactions by integration type</div>
+    <div style="display:flex;align-items:flex-start;gap:24px">
+      <div style="display:flex;align-items:center;gap:24px;flex:1">
+        <div class="donut" style="position:relative">
+          <div class="donut-center"><span class="dc-v">3.8B</span><span class="dc-l">total txns</span></div>
+        </div>
+        <div class="chart-legend">
+          <div class="cl"><span class="clc" style="background:#00112c"></span><span class="clv">76.3%</span><span class="cln">Terminal API</span></div>
+          <div class="cl"><span class="clc" style="background:#2c6fba"></span><span class="clv">15.2%</span><span class="cln">H2H</span></div>
+          <div class="cl"><span class="clc" style="background:#546070"></span><span class="clv">6.2%</span><span class="cln">OPI</span></div>
+          <div class="cl"><span class="clc" style="background:#0abf53"></span><span class="clv">2.2%</span><span class="cln">Mobile SDK</span></div>
+          <div class="cl"><span class="clc" style="background:#dfe3e8"></span><span class="clv">&lt;0.1%</span><span class="cln">Other</span></div>
+        </div>
+      </div>
+      <div class="mobile-callout" style="margin-top:0;flex:0 0 280px;align-self:stretch">
+        <span>📱</span>
+        <span><b>Mobile is 2.3% of volume</b> but growing — POS_MOBILE_SDK (85M txns) + Mobile Payments App (2.3M). These journeys need dedicated mapping alongside the terminal paths.</span>
+      </div>
+    </div>
+  </div>
+  <div class="stat-strip" style="margin-bottom:20px">
+    <div class="s"><div class="num">73%</div><div class="cap">of settings overridden at device level</div></div>
+    <div class="s"><div class="num">200/mo</div><div class="cap">Tide tickets from passcode alone</div></div>
+    <div class="s"><div class="num">4h/day</div><div class="cap">Fresha preboarding ops load</div></div>
+    <div class="s"><div class="num">15%</div><div class="cap">2026 support-reduction target</div></div>
+  </div>
+
   <div class="grid2">
     <div>
       <div class="card prose" style="margin-bottom:14px">
@@ -494,6 +523,8 @@ table.jtbd ul.sub-list>li.rs-item:last-child{border-bottom:none;padding-bottom:0
         <p><b>No core experience metrics.</b> Data is a one-off, often large lift. It frequently doesn't exist yet — devs must instrument new events and wait for a firmware release to populate it. Nothing is measured over time, so trends are invisible.</p>
         <p><b>No single source of truth.</b> Teams test flows just to learn how they behave, producing conflicting expectations of how the product should work. New feature journeys aren't assessed for impact, risking divergence from existing flows and missed parity or wow-moments — a real differentiator in-person.</p>
       </div>
+    </div>
+    <div>
       <div class="card prose">
         <h3>Why this matters at our scale</h3>
         <ul class="why-list">
@@ -502,35 +533,6 @@ table.jtbd ul.sub-list>li.rs-item:last-child{border-bottom:none;padding-bottom:0
           <li><span class="ix">03</span><span>Strengthen <b>reliability and payment-flow tracking</b>. Today no one fully knows the steps each payment goes through, or where shoppers and merchants hit pain.</span></li>
         </ul>
         <p style="margin-top:14px;margin-bottom:0;font-size:var(--fs-caption)"><b>Concrete example.</b> P630 faults — a blank screen instead of the PresentCard screen — would be far easier to catch if the journeys were mapped and instrumented.</p>
-      </div>
-    </div>
-
-    <div>
-      <div class="chart-card" style="margin-bottom:14px">
-        <h3>IPP integration landscape</h3>
-        <div class="chart-sub">Total authorised transactions by integration type</div>
-        <div class="donut-wrap">
-          <div class="donut" style="position:relative">
-            <div class="donut-center"><span class="dc-v">3.8B</span><span class="dc-l">total txns</span></div>
-          </div>
-          <div class="chart-legend">
-            <div class="cl"><span class="clc" style="background:#00112c"></span><span class="cln">Terminal API</span><span class="clv">76.3%</span></div>
-            <div class="cl"><span class="clc" style="background:#2c6fba"></span><span class="cln">H2H</span><span class="clv">15.2%</span></div>
-            <div class="cl"><span class="clc" style="background:#546070"></span><span class="cln">OPI</span><span class="clv">6.2%</span></div>
-            <div class="cl"><span class="clc" style="background:#0abf53"></span><span class="cln">Mobile SDK</span><span class="clv">2.2%</span></div>
-            <div class="cl"><span class="clc" style="background:#dfe3e8"></span><span class="cln">Other</span><span class="clv">&lt;0.1%</span></div>
-          </div>
-        </div>
-        <div class="mobile-callout">
-          <span>📱</span>
-          <span><b>Mobile is 2.3% of volume</b> but growing — POS_MOBILE_SDK (85M txns) + Mobile Payments App (2.3M). These journeys need dedicated mapping alongside the terminal paths.</span>
-        </div>
-      </div>
-      <div class="stat-strip">
-        <div class="s"><div class="num">73%</div><div class="cap">of settings overridden at device level</div></div>
-        <div class="s"><div class="num">200/mo</div><div class="cap">Tide tickets from passcode alone</div></div>
-        <div class="s"><div class="num">4h/day</div><div class="cap">Fresha preboarding ops load</div></div>
-        <div class="s"><div class="num">15%</div><div class="cap">2026 support-reduction target</div></div>
       </div>
     </div>
   </div>
@@ -1482,9 +1484,12 @@ function switchTab(v){
     s.classList.toggle('active',s.id===v);
   });
   document.querySelectorAll('.sidebar .sb-nav .sb-link').forEach(a=>{
-    const href=a.getAttribute('href');
-    a.classList.toggle('active-link',href==='#'+v||(v==='opps'&&href==='#coverage'));
+    const t=a.dataset.tab;
+    if(t) a.classList.toggle('active-link',t===v);
   });
+  if(location.hash!=='#'+v)history.replaceState(null,'','#'+v);
+  const mc=document.querySelector('.main-content');
+  if(mc)mc.scrollTo(0,0);
 }
 </script>
 </div><!-- /main-content -->

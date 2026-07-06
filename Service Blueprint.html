@@ -78,7 +78,7 @@ body{background:var(--bg);color:var(--ink);
 .bp-phhead .bp-phsub{font-size:11px;margin-top:4px;color:var(--ink-soft)}
 
 /* Job card */
-.bp-job{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+.bp-job{width:100%;background:var(--panel);border:none;border-radius:10px;padding:14px 16px;
   position:relative;transition:opacity .2s}
 .bp-job.dimmed{opacity:.18;pointer-events:none}
 .bp-job .bp-step{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-faint);font-weight:600}
@@ -100,8 +100,8 @@ body{background:var(--bg);color:var(--ink);
 .bp-abadge .bp-adot{width:6px;height:6px;border-radius:50%;flex:none}
 
 /* Sub-steps row */
-.bp-subs{background:var(--panel);border:1px solid var(--line-soft);border-radius:8px;padding:10px 14px;margin-bottom:2px;overflow:hidden}
-.bp-subs .bp-subs-toggle{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);font-weight:var(--fw-semi);margin-bottom:0;cursor:pointer;display:flex;align-items:center;gap:5px;user-select:none}
+.bp-subs{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:2px;overflow:hidden}
+.bp-subs .bp-subs-toggle{font-family:'Inter',var(--font-body);font-size:11px;letter-spacing:.02em;text-transform:none;color:var(--ink);font-weight:600;margin-bottom:0;cursor:pointer;display:flex;align-items:center;gap:5px;user-select:none}
 .bp-subs .bp-subs-toggle::before{content:"";display:inline-block;width:0;height:0;border-left:4px solid var(--ink-faint);border-top:3px solid transparent;border-bottom:3px solid transparent;transition:transform .2s}
 .bp-subs.open .bp-subs-toggle::before{transform:rotate(90deg)}
 .bp-subs .bp-subs-toggle .bp-subs-count{color:var(--ink-faint);font-weight:var(--fw-med);opacity:.7}
@@ -110,7 +110,7 @@ body{background:var(--bg);color:var(--ink);
 .bp-sub-flow{display:flex;flex-wrap:wrap;gap:4px}
 .bp-sub-grp{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);font-weight:var(--fw-semi);margin:8px 0 4px;width:100%}
 .bp-sub-grp:first-child{margin-top:0}
-.bp-sub-tag{font-size:10px;font-weight:var(--fw-med);color:var(--ink-soft);background:var(--bg);border:1px solid var(--line-soft);border-radius:5px;padding:3px 7px;white-space:nowrap}
+.bp-sub-tag{font-family:'Inter',var(--font-body);font-size:10.5px;font-weight:500;color:var(--ink);background:var(--bg);border:1px solid var(--line-soft);border-radius:5px;padding:3px 7px;white-space:nowrap}
 .bp-sub-tag.star{border-color:var(--accent);color:var(--accent-deep);background:var(--accent-tint)}
 
 /* Opportunity item */
@@ -406,7 +406,6 @@ function render() {
     html += `<div class="bp-phhead" onclick="openPhaseDrawer(${pi})">
       <div class="bp-phlabel">${ph.label}</div>
       <div class="bp-phsub">${phOppCount} opportunit${phOppCount === 1 ? 'y' : 'ies'} in this phase</div>
-      ${evCount ? `<span class="bp-evidencetag" onclick="event.stopPropagation();openEvidenceDrawer(${pi})" style="display:inline-flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:10px;font-weight:600;color:var(--accent);padding:3px 8px;border-radius:5px;background:rgba(26,86,219,.06);cursor:pointer;margin-top:6px;transition:all .15s">📋 ${evCount} evidence entries</span>` : ''}
     </div>`;
 
     // Sub-steps row
@@ -416,7 +415,7 @@ function render() {
       // Separate into regular and AfP (B-series) groups
       const regular = phSubs.filter(s => !s.startsWith('B'));
       const afp = phSubs.filter(s => s.startsWith('B'));
-      html += `<div class="bp-subs" onclick="this.classList.toggle('open')"><div class="bp-subs-toggle">Sub-steps <span class="bp-subs-count">(${phSubs.length})</span></div><div class="bp-sub-body">`;
+      html += `<div class="bp-subs open" onclick="this.classList.toggle('open')"><div class="bp-subs-toggle">Sub-steps <span class="bp-subs-count">(${phSubs.length})</span></div><div class="bp-sub-body">`;
       if (regular.length) {
         html += `<div class="bp-sub-flow">`;
         regular.forEach(s => {
@@ -431,6 +430,9 @@ function render() {
           html += `<span class="bp-sub-tag">${s}</span>`;
         });
         html += `</div>`;
+      }
+      if (evCount) {
+        html += `<a onclick="event.stopPropagation();openEvidenceDrawer(${pi})" style="display:inline-flex;align-items:center;gap:5px;font-family:'Inter',var(--font-body);font-size:11px;font-weight:500;color:var(--ink);text-decoration:underline;cursor:pointer;margin-top:8px">📋 ${evCount} evidence entries</a>`;
       }
       html += `</div></div>`;
     }
@@ -737,17 +739,13 @@ function openEvidenceDrawer(pi) {
   groups.forEach((g, gi) => {
     html += `<div style="background:${gi % 2 === 0 ? 'var(--panel, #fff)' : '#f8f9fb'};border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:10px">`;
     html += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid var(--line)"><span style="font-size:13px;font-weight:700;color:var(--ink)">${g.sub}</span><span style="font-size:11px;color:var(--ink-faint)">${g.user}${g.actors ? ' · ' + g.actors : ''}</span></div>`;
-    if (g.items.some(it => it.evidence || it.opp)) {
-      g.items.forEach((it, ii) => {
-        if (!it.evidence && !it.opp && !it.theme) {
-          html += `<div style="padding:6px 0;font-size:12px;color:var(--ink-faint);font-style:italic">${it.note || 'No evidence mapped'}</div>`;
-          return;
-        }
-        html += `<div style="padding:8px 0${ii < g.items.length - 1 ? ';border-bottom:1px dashed var(--line-soft)' : ''}">`;
-        if (it.opp) html += `<div style="font-size:12.5px;font-weight:600;color:var(--ink)">${it.opp}</div>`;
-        if (it.evidence) html += `<div style="font-size:12px;color:var(--ink-soft);margin-top:4px;line-height:1.5">${it.evidence}</div>`;
-        html += `</div>`;
+    const evItems = g.items.filter(it => it.evidence);
+    if (evItems.length) {
+      html += `<ul style="list-style:none;padding:0;margin:0">`;
+      evItems.forEach(it => {
+        html += `<li style="padding:5px 0;font-size:12.5px;color:var(--ink);line-height:1.5;display:flex;gap:6px;align-items:flex-start"><span style="color:var(--ink-faint);flex:none">•</span><span>${it.evidence}</span></li>`;
       });
+      html += `</ul>`;
     } else {
       const note = g.items[0] ? g.items[0].note : '';
       html += `<div style="padding:6px 0;font-size:12px;color:var(--ink-faint);font-style:italic">${note || 'No evidence mapped'}</div>`;
