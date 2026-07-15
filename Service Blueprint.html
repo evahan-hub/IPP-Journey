@@ -27,7 +27,7 @@ body{background:var(--bg);color:var(--ink);
 .viewhead .sub{color:var(--ink-soft);font-size:var(--text-sm);margin:0;max-width:860px}
 
 /* ---- KPIs ---- */
-.bp-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.bp-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
 .kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px 14px}
 .kpi .v{font-weight:var(--fw-bold);font-size:28px;line-height:1.15;letter-spacing:-.02em}
 .kpi .l{font-size:12px;color:var(--ink-soft);margin-top:6px}
@@ -164,6 +164,7 @@ body{background:var(--bg);color:var(--ink);
 
 .mono{font-family:var(--font-mono)}
 @media(max-width:860px){.wrap{padding:36px 16px 60px}.bp-kpis{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.bp-kpis{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -217,9 +218,8 @@ body{background:var(--bg);color:var(--ink);
 
   <div class="bp-kpis">
     <div class="kpi accent" style="cursor:pointer" onclick="openAllOppsDrawer()"><div class="v" id="kpiOpps">19</div><div class="l"><b>IPP Opportunities</b> mapped across the journey</div></div>
-    <div class="kpi"><div class="v" id="kpiActors">13</div><div class="l"><b>Distinct actors</b> across all opportunities</div></div>
-    <div class="kpi"><div class="v">5</div><div class="l"><b>Phases</b> from exploration to fleet ops</div></div>
-    <div class="kpi"><div class="v" id="kpiXL">4</div><div class="l"><b>XL-sized</b> opportunities — highest impact</div></div>
+    <div class="kpi" style="cursor:pointer" onclick="openAllJobsDrawer()"><div class="v" id="kpiJobs">9</div><div class="l"><b>Jobs-to-be-Done</b> — main goals across the lifecycle</div></div>
+    <div class="kpi"><div class="v" id="kpiLittle">49</div><div class="l"><b>Little jobs</b> — granular tasks under each JTBD</div></div>
   </div>
 
   <div class="toolbar" id="toolbar">
@@ -676,6 +676,16 @@ function populateFilters() {
 populateFilters();
 render();
 
+/* ---- Job count KPIs (computed from STEPS) ---- */
+(function(){
+  const jobs = STEPS.length;
+  const little = STEPS.reduce((n,s)=>n+(s.littles||0),0);
+  const jEl = document.getElementById('kpiJobs');
+  const lEl = document.getElementById('kpiLittle');
+  if(jEl) jEl.textContent = jobs;
+  if(lEl) lEl.textContent = little;
+})();
+
 function updateSizeLabel() {
   const btn = document.getElementById('msSizeBtn');
   if (selectedSizes.size === 0) btn.textContent = 'All sizes';
@@ -914,6 +924,33 @@ function openAllOppsDrawer() {
       }
       html += `</div>`;
     });
+    html += `</div>`;
+  });
+
+  html += `</div>`;
+  d.innerHTML = html;
+  d.classList.add('on');
+  document.getElementById('scrim').classList.add('on');
+}
+
+function openAllJobsDrawer() {
+  const d = document.getElementById('drawer');
+  const totalLittle = STEPS.reduce((n,s) => n + (s.littles || 0), 0);
+  let html = `<div class="dhead"><div class="dbar" style="background:var(--accent)"></div>`;
+  html += `<button class="close" onclick="closeDrawer()">&times;</button>`;
+  html += `<div class="mono" style="font-size:11px;letter-spacing:.03em;color:var(--accent);margin-bottom:2px">ALL JOBS-TO-BE-DONE</div>`;
+  html += `<h3>${STEPS.length} Jobs-to-be-Done</h3>`;
+  html += `<p class="dsub">${totalLittle} little jobs across the full lifecycle</p>`;
+  html += `</div><div class="dbody">`;
+
+  STEPS.forEach(st => {
+    html += `<div class="dsec">`;
+    html += `<div class="bp-phlabel mono" style="font-size:11px;letter-spacing:.03em;color:var(--ink-faint);margin-bottom:4px">${st.step}</div>`;
+    html += `<div class="k" style="text-transform:none;font-size:13.5px;color:var(--ink);margin-bottom:8px">${st.big}</div>`;
+    html += `<div style="font-family:var(--font-mono);font-size:10.5px;color:var(--ink-faint);margin-bottom:6px">${st.littles} little job${st.littles !== 1 ? 's' : ''}</div>`;
+    if (st.littleList && st.littleList.length) {
+      html += `<ul style="list-style:none;padding:0;margin:0">${st.littleList.map((j,i) => `<li style="padding:6px 0;border-bottom:1px solid var(--line-soft);color:var(--ink-soft);font-size:12.5px"><span style="color:var(--ink-faint);font-size:10px;margin-right:6px">${i+1}.</span>${j}</li>`).join('')}</ul>`;
+    }
     html += `</div>`;
   });
 
