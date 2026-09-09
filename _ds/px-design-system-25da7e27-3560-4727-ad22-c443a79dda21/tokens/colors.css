@@ -1,0 +1,107 @@
+/* Bento Semantic Colour Aliases (light theme).
+   Source: Adyen/bento .../base/aliases/color.yaml
+   These are the tokens product UI should consume — never the raw palette. */
+:root {
+  /* ---- Background ---- */
+  --b-color-background-primary: var(--b-color-white);
+  --b-color-background-primary-hover: var(--b-color-grey-100);
+  --b-color-background-primary-active: var(--b-color-grey-200);
+  --b-color-background-secondary: var(--b-color-grey-100);
+  --b-color-background-secondary-hover: var(--b-color-grey-200);
+  --b-color-background-secondary-active: var(--b-color-grey-300);
+  --b-color-background-tertiary: var(--b-color-grey-200);
+  --b-color-background-tertiary-hover: var(--b-color-grey-300);
+  --b-color-background-tertiary-active: var(--b-color-grey-400);
+  --b-color-background-quaternary: var(--b-color-grey-700);
+  --b-color-background-quaternary-hover: var(--b-color-grey-800);
+  --b-color-background-quaternary-active: var(--b-color-grey-900);
+  --b-color-background-modal: var(--b-color-white);
+  --b-color-background-disabled: var(--b-color-grey-200);
+  --b-color-background-selected: var(--b-color-blue-200);
+  --b-color-background-selected-hover: var(--b-color-blue-300);
+  --b-color-background-selected-active: var(--b-color-blue-400);
+  --b-color-background-spotlight: var(--b-color-yellow-300);
+  --b-color-background-critical-weak: var(--b-color-red-100);
+  --b-color-background-critical-strong: var(--b-color-red-1700);
+  --b-color-background-critical-strong-hover: var(--b-color-red-1900);
+  --b-color-background-critical-strong-active: var(--b-color-red-2500);
+  --b-color-background-warning-weak: var(--b-color-orange-100);
+  --b-color-background-warning-weak-hover: var(--b-color-orange-200);
+  --b-color-background-warning-weak-active: var(--b-color-orange-300);
+  --b-color-background-warning-strong: var(--b-color-orange-1300);
+  --b-color-background-success-weak: var(--b-color-green-100);
+  --b-color-background-success-strong: var(--b-color-green-1700);
+  --b-color-background-highlight-weak: var(--b-color-blue-100);
+  --b-color-background-highlight-strong: var(--b-color-blue-1700);
+  --b-color-background-navigation: var(--b-color-green-200);
+  --b-color-background-navigation-hover: var(--b-color-green-300);
+  --b-color-background-navigation-active: var(--b-color-green-400);
+  --b-color-background-inverse-primary: var(--b-color-grey-3200);
+  --b-color-background-inverse-primary-hover: var(--b-color-grey-1900);
+  --b-color-background-inverse-primary-active: var(--b-color-grey-1700);
+  --b-color-background-inverse-secondary: var(--b-color-grey-2800);
+  --b-color-background-inverse-disabled: var(--b-color-grey-2600);
+
+  /* ---- Label (text/icon) ---- */
+  --b-color-label-primary: var(--b-color-grey-3200);
+  --b-color-label-primary-hover: var(--b-color-grey-1900);
+  --b-color-label-primary-active: var(--b-color-grey-1700);
+  --b-color-label-secondary: var(--b-color-grey-1900);
+  --b-color-label-tertiary: var(--b-color-grey-1300);
+  --b-color-label-disabled: var(--b-color-grey-1300);
+  --b-color-label-critical: var(--b-color-red-1700);
+  --b-color-label-critical-hover: var(--b-color-red-1900);
+  --b-color-label-critical-active: var(--b-color-red-2500);
+  --b-color-label-warning: var(--b-color-orange-1700);
+  --b-color-label-highlight: var(--b-color-blue-1700);
+  --b-color-label-success: var(--b-color-green-1700);
+  --b-color-label-on-color: var(--b-color-white);
+  --b-color-label-inverse-primary: var(--b-color-white);
+  --b-color-label-inverse-secondary: var(--b-color-grey-1100);
+  --b-color-label-inverse-disabled: var(--b-color-grey-1600);
+  --b-color-label-on-background-critical-weak: var(--b-color-red-1900);
+  --b-color-label-on-background-warning-weak: var(--b-color-orange-1900);
+  --b-color-label-on-background-success-weak: var(--b-color-green-1900);
+  --b-color-label-on-background-highlight-weak: var(--b-color-blue-1900);
+
+  /* ---- Link ---- */
+  --b-color-link-primary: var(--b-color-blue-1900);
+  --b-color-link-primary-hover: var(--b-color-blue-1700);
+  --b-color-link-primary-active: var(--b-color-blue-1700);
+  --b-color-link-primary-visited: var(--b-color-purple-2600);
+  --b-color-link-quiet: var(--b-color-grey-3200);
+  --b-color-link-quiet-hover: var(--b-color-grey-1900);
+
+  /* ---- Outline / border ---- */
+  --b-color-outline-primary: var(--b-color-grey-400);
+  --b-color-outline-primary-hover: var(--b-color-grey-600);
+  --b-color-outline-primary-active: var(--b-color-grey-3200);
+  --b-color-outline-secondary: var(--b-color-grey-600);
+  --b-color-outline-secondary-hover: var(--b-color-grey-800);
+  --b-color-outline-secondary-active: var(--b-color-grey-3200);
+  --b-color-outline-tertiary: var(--b-color-grey-1300);
+  --b-color-outline-tertiary-hover: var(--b-color-grey-1700);
+  --b-color-outline-tertiary-active: var(--b-color-grey-3200);
+  --b-color-outline-disabled: var(--b-color-grey-400);
+  --b-color-outline-selected: var(--b-color-grey-3200);
+  --b-color-outline-critical: var(--b-color-red-1700);
+  --b-color-outline-critical-hover: var(--b-color-red-1900);
+  --b-color-outline-critical-active: var(--b-color-red-2500);
+  --b-color-outline-success: var(--b-color-green-1700);
+
+  /* ---- Separator ---- */
+  --b-color-separator-primary: var(--b-color-grey-400);
+  --b-color-separator-secondary: var(--b-color-grey-600);
+
+  /* ---- Decorative (status dots, charts) ---- */
+  --b-color-decorative-green: var(--b-color-green-900);
+  --b-color-decorative-blue: var(--b-color-blue-1800);
+  --b-color-decorative-yellow: var(--b-color-yellow-600);
+  --b-color-decorative-orange: var(--b-color-orange-1000);
+  --b-color-decorative-red: var(--b-color-red-1500);
+  --b-color-decorative-grey: var(--b-color-grey-1400);
+
+  /* ---- Support ---- */
+  --b-color-support-overlay: var(--b-color-grey-3200);
+  --b-color-support-shadow: var(--b-color-grey-3200);
+}

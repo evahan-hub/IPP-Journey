@@ -1,0 +1,46 @@
+/* Bento webfonts.
+   Adyen Variable (display / primary), Adyen UI (body & caption ≤14px), Adyen Mono (secondary).
+   Binaries: assets/fonts/*.woff2 — copied from Adyen/bento packages/core/fonts.
+   NOTE: Only the Latin (U+000–5FF) variable masters are shipped here. The upstream
+   system also ships Simplified/Traditional Chinese masters (Adyen-SC/TC) — omitted
+   to keep the bundle light. Add them back if you need CJK coverage. */
+
+/* Adyen Variable — primary display family (weights 100–800 via variable axis) */
+@font-face {
+  font-family: 'Adyen Variable';
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('../assets/fonts/Adyen-Variable.woff2') format('woff2-variations');
+  unicode-range: U+000-5FF;
+}
+
+/* Adyen Mono — secondary / code family */
+@font-face {
+  font-family: 'Adyen Mono';
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../assets/fonts/Adyen-Mono-Variable.woff2') format('woff2-variations');
+}
+
+/* Adyen UI — optimised for body & caption text at 14px and below */
+@font-face {
+  font-display: swap;
+  font-family: 'Adyen UI';
+  font-style: normal;
+  font-weight: 100 400;
+  src: url('../assets/fonts/Adyen-UI-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-display: swap;
+  font-family: 'Adyen UI';
+  font-style: normal;
+  font-weight: 400 500;
+  src: url('../assets/fonts/Adyen-UI-Medium.woff2') format('woff2');
+}
+@font-face {
+  font-display: swap;
+  font-family: 'Adyen UI';
+  font-style: normal;
+  font-weight: 500 900;
+  src: url('../assets/fonts/Adyen-UI-Bold.woff2') format('woff2');
+}

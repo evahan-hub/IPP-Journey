@@ -1,0 +1,72 @@
+/* Bento Spacing, Border, Shadow, Motion & Layer tokens.
+   Source: Adyen/bento .../definitions/{spacing,border,shadows,animation,break-points}.yaml */
+:root {
+  /* ---- Spacing (spacer.*) — 2px base progression ---- */
+  --b-spacer-000: 0px;
+  --b-spacer-010: 2px;
+  --b-spacer-020: 4px;
+  --b-spacer-030: 6px;
+  --b-spacer-040: 8px;
+  --b-spacer-050: 10px;
+  --b-spacer-060: 12px;
+  --b-spacer-070: 16px;
+  --b-spacer-080: 20px;
+  --b-spacer-090: 24px;
+  --b-spacer-100: 32px;
+  --b-spacer-110: 40px;
+  --b-spacer-120: 48px;
+  --b-spacer-130: 56px;
+  --b-spacer-140: 64px;
+
+  /* ---- Border radius ---- */
+  --b-border-radius-xs: 2px;
+  --b-border-radius-s: 4px;
+  --b-border-radius-m: 8px;
+  --b-border-radius-l: 12px;
+  --b-border-radius-xl: 24px;
+
+  /* ---- Border width ---- */
+  --b-border-width-s: 1px;
+  --b-border-width-m: 2px;
+  --b-border-width-l: 3px;
+  --b-border-width-attention: 1.5px;
+
+  /* ---- Shadows ---- (tinted with ink #001222) */
+  --b-shadow-low: 0px 2px 4px rgba(0, 18, 34, 0.04), 0px 1px 2px rgba(0, 18, 34, 0.02);
+  --b-shadow-medium: 0px 6px 12px rgba(0, 18, 34, 0.08), 0px 2px 4px rgba(0, 18, 34, 0.04);
+  --b-shadow-high: 0px 18px 36px rgba(0, 18, 34, 0.12), 0px 4px 8px rgba(0, 18, 34, 0.06);
+  --b-shadow-low-border: 0px 2px 4px rgba(0, 18, 34, 0.04), 0px 1px 2px rgba(0, 18, 34, 0.02), 0px 0px 0px 1px rgba(218, 221, 223, 1);
+  --b-shadow-medium-border: 0px 6px 12px rgba(0, 18, 34, 0.08), 0px 2px 4px rgba(0, 18, 34, 0.04), 0px 0px 0px 1px rgba(218, 221, 223, 1);
+  --b-shadow-high-border: 0px 18px 36px rgba(0, 18, 34, 0.12), 0px 4px 8px rgba(0, 18, 34, 0.06), 0px 0px 0px 1px rgba(218, 221, 223, 1);
+
+  /* ---- Motion ---- */
+  --b-animation-easing-standard: cubic-bezier(0.2, 0, 0.4, 0.9); /* @kind other */
+  --b-animation-easing-enter: cubic-bezier(0.12, 0.6, 0.4, 0.95); /* @kind other */
+  --b-animation-easing-exit: cubic-bezier(0.4, 0, 1, 1); /* @kind other */
+  --b-animation-easing-linear: linear; /* @kind other */
+  --b-animation-duration-fast: 100ms; /* @kind other */
+  --b-animation-duration-moderate: 150ms; /* @kind other */
+  --b-animation-duration-slow: 250ms; /* @kind other */
+
+  /* ---- Focus ring ---- */
+  --b-focus-ring-color: var(--b-color-focus);
+  --b-focus-ring-spacer: 1px;
+  --b-focus-ring-outline: 3px;
+
+  /* ---- Breakpoints (min widths) ---- */
+  --b-breakpoint-xs: 0px;
+  --b-breakpoint-s: 376px;
+  --b-breakpoint-m: 500px;
+  --b-breakpoint-l: 768px;
+  --b-breakpoint-xl: 1280px;
+  --b-breakpoint-xxl: 1536px;
+
+  /* ---- Z-index scale ---- */
+  --b-z-index-sticky: 100; /* @kind other */
+  --b-z-index-dropdown: 200; /* @kind other */
+  --b-z-index-drawer: 300; /* @kind other */
+  --b-z-index-modal: 400; /* @kind other */
+  --b-z-index-popover: 500; /* @kind other */
+  --b-z-index-toast: 600; /* @kind other */
+  --b-z-index-tooltip: 700; /* @kind other */
+}

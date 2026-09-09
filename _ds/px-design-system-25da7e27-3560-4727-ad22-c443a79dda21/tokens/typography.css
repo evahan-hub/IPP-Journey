@@ -1,0 +1,82 @@
+/* Bento Typography tokens.
+   Source: Adyen/bento .../definitions/_font.yaml + aliases/text.yaml */
+:root {
+  /* Families */
+  --b-font-family-primary: 'Adyen Variable', 'Adyen UI', Roboto, Oxygen, 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  --b-font-family-secondary: 'Adyen Mono', 'Roboto Mono', 'Oxygen Mono', 'IBM Plex Mono', 'Courier New', monospace;
+
+  /* Sizes (font.size.*) */
+  --b-font-size-100: 12px;
+  --b-font-size-200: 14px;
+  --b-font-size-300: 16px;
+  --b-font-size-400: 18px;
+  --b-font-size-500: 20px;
+  --b-font-size-600: 24px;
+  --b-font-size-700: 32px;
+
+  /* Weights */
+  --b-font-weight-100: 100;
+  --b-font-weight-200: 200;
+  --b-font-weight-300: 300;
+  --b-font-weight-400: 400;
+  --b-font-weight-500: 500;
+  --b-font-weight-600: 600;
+  --b-font-weight-700: 700;
+  --b-font-weight-800: 800;
+  --b-font-weight-900: 900;
+
+  /* Line heights */
+  --b-line-height-100: 18px;
+  --b-line-height-200: 20px;
+  --b-line-height-300: 24px;
+  --b-line-height-400: 26px;
+  --b-line-height-500: 28px;
+  --b-line-height-600: 30px;
+  --b-line-height-700: 34px;
+  --b-line-height-800: 44px;
+
+  /* Letter spacing */
+  --b-letter-spacing-000: 0;
+  --b-letter-spacing-100: 0.02em;
+  --b-letter-spacing-200: 0.015em;
+  --b-letter-spacing-300: 0.01em;
+  --b-letter-spacing-400: 0.005em;
+  --b-letter-spacing-600: -0.005em;
+  --b-letter-spacing-700: -0.01em;
+  --b-letter-spacing-800: -0.015em;
+  --b-letter-spacing-900: -0.02em;
+
+  /* ---- Text style aliases (family / size / weight / line-height) ----
+     Note: caption & body (<=14px) use the 'Adyen UI' family for legibility. */
+  --b-text-caption-font-family: 'Adyen UI', var(--b-font-family-primary);
+  --b-text-caption-font-size: var(--b-font-size-100);
+  --b-text-caption-font-weight: var(--b-font-weight-400);
+  --b-text-caption-line-height: var(--b-line-height-100);
+  --b-text-caption-stronger-font-weight: var(--b-font-weight-500);
+
+  --b-text-body-font-family: 'Adyen UI', var(--b-font-family-primary);
+  --b-text-body-font-size: var(--b-font-size-200);
+  --b-text-body-font-weight: var(--b-font-weight-400);
+  --b-text-body-line-height: var(--b-line-height-200);
+  --b-text-body-wide-line-height: var(--b-line-height-300);
+  --b-text-body-stronger-font-weight: var(--b-font-weight-500);
+  --b-text-body-strongest-font-weight: var(--b-font-weight-600);
+
+  --b-text-subtitle-font-family: var(--b-font-family-primary);
+  --b-text-subtitle-font-size: var(--b-font-size-300);
+  --b-text-subtitle-font-weight: var(--b-font-weight-500);
+  --b-text-subtitle-line-height: var(--b-line-height-400);
+
+  --b-text-title-font-family: var(--b-font-family-primary);
+  --b-text-title-font-size: var(--b-font-size-300);
+  --b-text-title-font-weight: var(--b-font-weight-600);
+  --b-text-title-line-height: var(--b-line-height-400);
+
+  --b-text-title-m-font-size: var(--b-font-size-500);
+  --b-text-title-m-font-weight: var(--b-font-weight-600);
+  --b-text-title-m-line-height: var(--b-line-height-600);
+
+  --b-text-title-l-font-size: var(--b-font-size-600);
+  --b-text-title-l-font-weight: var(--b-font-weight-600);
+  --b-text-title-l-line-height: var(--b-line-height-700);
+}

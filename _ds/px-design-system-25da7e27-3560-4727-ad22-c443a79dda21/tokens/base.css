@@ -1,0 +1,32 @@
+/* Bento base layer — sensible document defaults + typography utility classes.
+   Consumers get readable defaults just by linking styles.css. */
+body {
+  font-family: var(--b-text-body-font-family);
+  font-size: var(--b-text-body-font-size);
+  font-weight: var(--b-text-body-font-weight);
+  line-height: var(--b-text-body-line-height);
+  color: var(--b-color-label-primary);
+  background-color: var(--b-color-background-primary);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: var(--b-color-link-primary);
+  text-decoration: none;
+}
+a:hover { color: var(--b-color-link-primary-hover); text-decoration: underline; }
+a:active { color: var(--b-color-link-primary-active); }
+a:visited { color: var(--b-color-link-primary-visited); }
+
+/* ---- Typography utility classes ---- */
+.b-text-caption { font-family: var(--b-text-caption-font-family); font-size: var(--b-text-caption-font-size); font-weight: var(--b-text-caption-font-weight); line-height: var(--b-text-caption-line-height); }
+.b-text-caption-stronger { font-family: var(--b-text-caption-font-family); font-size: var(--b-text-caption-font-size); font-weight: var(--b-text-caption-stronger-font-weight); line-height: var(--b-text-caption-line-height); }
+.b-text-body { font-family: var(--b-text-body-font-family); font-size: var(--b-text-body-font-size); font-weight: var(--b-text-body-font-weight); line-height: var(--b-text-body-line-height); }
+.b-text-body-stronger { font-family: var(--b-text-body-font-family); font-size: var(--b-text-body-font-size); font-weight: var(--b-text-body-stronger-font-weight); line-height: var(--b-text-body-line-height); }
+.b-text-body-strongest { font-family: var(--b-text-body-font-family); font-size: var(--b-text-body-font-size); font-weight: var(--b-text-body-strongest-font-weight); line-height: var(--b-text-body-line-height); }
+.b-text-subtitle { font-family: var(--b-text-subtitle-font-family); font-size: var(--b-text-subtitle-font-size); font-weight: var(--b-text-subtitle-font-weight); line-height: var(--b-text-subtitle-line-height); }
+.b-text-title { font-family: var(--b-text-title-font-family); font-size: var(--b-text-title-font-size); font-weight: var(--b-text-title-font-weight); line-height: var(--b-text-title-line-height); }
+.b-text-title-m { font-family: var(--b-text-title-font-family); font-size: var(--b-text-title-m-font-size); font-weight: var(--b-text-title-m-font-weight); line-height: var(--b-text-title-m-line-height); }
+.b-text-title-l { font-family: var(--b-text-title-font-family); font-size: var(--b-text-title-l-font-size); font-weight: var(--b-text-title-l-font-weight); line-height: var(--b-text-title-l-line-height); }
+.b-text-mono { font-family: var(--b-font-family-secondary); }

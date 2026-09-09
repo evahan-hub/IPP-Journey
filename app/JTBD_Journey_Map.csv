@@ -1,0 +1,109 @@
+Journey Step,Big Job (JTBD),Little Jobs,Micro Jobs,Key Pain Points
+1. Plan,Plan the best approach to accept payments in-store in new markets according to my budget,"Find the best payment provider
+Sign the contract
+Scope the pilot plan
+Scope the rollout plan
+Establish an optimal account structure
+Decide on payment methods per country
+Decide on payout
+Evaluate shopper journey
+Define payment device needs
+Decide on device management
+Decide on network setup
+Decide on reconciliation & reporting
+Ensure day-to-day operation is supported","Research provider offerings; benchmark competitors; evaluate pros/cons; schedule demo calls
+Get internal buy-in; negotiate and agree contract terms
+Decide pilot/rollout dates and stores
+Define merchant account structure, account holders, store IDs, naming conventions
+Check payment method availability and features per country
+Understand payout process; decide scheduled/API-driven payout, express payouts, multi-currency, funds transfer
+List shopper friction points; find features catering shopper needs
+Define number of devices per store; select terminal models; decide features; API integration option
+Understand device management on platform and via API
+Decide local or cloud integration
+Define terminal shipping locations; decide firmware update strategy; TIS/TRS services",None captured on board
+2. Validate / Test,Validate the planned POS solution to see if it fulfills my business needs,"Create account structure (test)
+Order and set up test devices
+Implement integration
+Test payment flow
+Test payout
+Test reconciliation","Create test merchant account and stores; set up payment methods; set up user access
+Order test devices; add to cart; add shipping address; track shipping; receive; hardware and security inspection; assign terminals; board terminals; configure settings; configure payment features; upload apps/certificates; schedule deployment
+Implement basic integration (PaymentRequest, ReversalRequest, AbortRequest, PaymentResponse, TransactionStatusRequest); implement advanced integration by vertical; implement operational integration; generate API key; create API credential
+Test transactions (pay, cancel, refund); test payment methods; test payment features; fix issues
+Add payout account; set up payout schedule and model; set payout speed
+Check payments list; download report","API credentials management not straightforward
+Not all terminals available at all times / terminal shortage
+Merchants don't know when terminals will be delivered
+Hundreds of possible settings - high learning curve
+Boarding not intuitive if terminals not pre-assigned in CA / Mgmt API
+Merchants unsure how to configure and afraid of making mistakes
+Impact of reboots and maintenance calls is unclear
+No overview of all settings or overrides
+Technical complexity means merchants need a lot of help from Adyen"
+3. Scale / Go Live & Rollout,Scale my validated POS solution to all stores in the shortest period of time so all stores can process transactions on opening day,"Ensure smooth transition from test to live
+Create account structure (live)
+Order and set up live devices
+Run network & connectivity test in pilot store
+Test payment flow live
+Test payout live
+Test reconciliation live
+Set up firmware update strategy
+Roll out to all stores","Create live merchant account and stores; set up payment methods; set up user access
+Order live devices; receive, inspect and assign; board and configure; configure payment features; upload apps/certificates; schedule deployment
+Test connection with Adyen platform; test POS system connection; test cellular connection
+Test transactions; test payment methods and features by vertical; fix issues
+Add payout account; set up payout schedule and model; set payout speed
+Check payments list; set up/download reconciliation reports",None captured on board
+4. Secure every possible in-store sale,Secure every possible in-store sale,"Set up payment features to allow more transactions (tipping, offline payments)
+Ensure payment devices are well distributed across stores
+Prevent fraud and security flaws via POS (e.g. unreferenced refunds)","Define which countries and stores have the need; configure settings for selected terminals
+Analyze device performance; download terminal list to react; order more devices if needed; return unnecessary devices; redistribute devices to stores with lower transaction volumes
+Set up passcodes; define access to menus on the terminal","Lack of visibility into terminal failure rates makes forecasting harder
+Lack of visibility in available terminal stock (e.g. P400) complicates ordering
+No direct Adyen point of contact with IPP expertise slows ordering
+Lack of visibility in logistics creates manual overhead
+No incentive to recollect inactive terminals from churned sub-merchants
+Redistributing terminals not actively supported by Adyen
+Resetting terminals to factory settings is not intuitive
+Refurbishment not part of Adyen offering"
+5. Ramp up,Ramp up,"Open new stores (existing legal entity)
+Scale in a new market (requires a different legal entity)",Not detailed on board,None captured on board
+6. Increase shopper retention,Increase shopper retention with the best payment experience,"Increase customer loyalty
+Support shoppers with their queries about payments","Ensure devices support seasonal/local campaign promotions; ensure devices can run shopper loyalty programs; support localization; provide personalized experience
+Ensure shoppers get their refund if requested; fulfill shopper needs on missing payment services (e.g. Apple value-added services)","Customization term has no single meaning, causing confusion across teams
+Displaying various brands confuses sub-merchants about who to contact
+Platforms see lack of customization as a missed branding and marketing opportunity"
+7. Streamline operations,Streamline operational work in stores to reduce costs,"Install Android apps/certificates on terminals
+Migrate to managing devices through API
+Be aware of any anomalies (e.g. drop in transactions or volume)",Get access to the specific role; upload apps and certificates; schedule deployment; train staff how to use it,None captured on board
+8. Stay competitive,Stay competitive in payment experience with the most innovative solutions,"Be aware of the newest features
+Implement new features quickly and safely
+Support shoppers with the latest payment technology
+Request Adyen new features, payment methods, technologies
+Ensure devices get new firmware when needed","Access information about latest technologies and features
+Benefit from Adyen's newest features (tipping, digital receipts, tax-free refund)
+Implement latest technology to payment stack; implement new relevant features
+Communicate internally about new implementation; train relevant employees
+Choose between manual/automatic firmware updates; be in control of when updates happen and on which terminals","Merchants not aware of all new features Adyen offers
+Hard to communicate a growing feature set
+Merchants afraid firmware updates will cause malfunctions"
+9. Ensure fleet is always operational,Ensure my fleet is always operational,"Be aware of any issues
+Evaluate the severity of the issue
+Investigate the issue
+Resolve all issues that compromise shoppers' payment experience
+Have broken devices replaced
+Ensure the same issues won't happen again","Check last activity and assignment status; see notifications
+Get immediate support when shoppers are blocked; figure out whether issue is hardware or software; access device details; determine if terminals should be replaced
+Troubleshoot functionalities that don't work; troubleshoot misconfiguration; troubleshoot hardware issues (connection, card reader, keypad, NFC)
+Contact Adyen Support / AM / Integrators / own company support; reach out to correct people
+Document cause and resolution of issues","Merchants not autonomous - rely on support and commercial teams
+No proactive way to discover what is going wrong
+No immediate support channel for emergencies when shoppers are blocked
+Troubleshooting manually done by platforms and time-consuming
+Lack of quick support and Adyen expertise when terminal is defective
+No access to terminal logs, leading to unnecessary replacements
+Insufficient communication from Adyen about recurring problems
+Warranty policy insufficient; warranty process cumbersome; Adyen SLA does not match immediate replacement needs
+Platforms rely on costly third parties; TRS too expensive; no EDI/API connection; manual handling time-consuming
+Accessory replacement not included in TRS - extra costs for platforms"
