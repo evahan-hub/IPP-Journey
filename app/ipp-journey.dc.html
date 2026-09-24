@@ -771,6 +771,14 @@ body{background:var(--bg);color:var(--ink);
 .bp-fade-r{right:0;background:linear-gradient(to left,#ffffff 15%,rgba(255,255,255,0))}
 .bp-canvas-frame.sc-left .bp-fade-l{opacity:1}
 .bp-canvas-frame.sc-right .bp-fade-r{opacity:1}
+/* Data source: smaller table radius + edge fade scroll hint */
+.jtbdwrap{border-radius:6px}
+.tbl-frame{position:relative}
+.tbl-fade{position:absolute;top:0;bottom:14px;width:52px;pointer-events:none;z-index:5;opacity:0;transition:opacity .18s ease}
+.tbl-fade-l{left:0;background:linear-gradient(to right,#ffffff 15%,rgba(255,255,255,0))}
+.tbl-fade-r{right:0;background:linear-gradient(to left,#ffffff 15%,rgba(255,255,255,0))}
+.tbl-frame.sc-left .tbl-fade-l{opacity:1}
+.tbl-frame.sc-right .tbl-fade-r{opacity:1}
 /* transparent canvas, no outline box, left-aligned with the View control */
 .bp-canvas,.journey-canvas{background:transparent;border:none;border-radius:0;padding-left:0;padding-right:0}
 /* Journey map summary — Bento summary-block style: one container, divided cells */
@@ -3504,6 +3512,28 @@ document.querySelectorAll('#srcTabs button').forEach(btn=>{
   });
 });
 
+})();
+</script>
+
+<script>
+(function(){
+  function fades(f){var w=f.querySelector('.jtbdwrap');if(!w)return;var can=w.scrollWidth>w.clientWidth+2;
+    f.classList.toggle('sc-left',can&&w.scrollLeft>2);f.classList.toggle('sc-right',can&&(w.scrollLeft+w.clientWidth<w.scrollWidth-2));}
+  function all(){document.querySelectorAll('.tbl-frame').forEach(fades);}
+  function setup(){
+    document.querySelectorAll('.jtbdwrap').forEach(function(w){
+      if(w.parentNode&&w.parentNode.classList.contains('tbl-frame'))return;
+      var f=document.createElement('div');f.className='tbl-frame';
+      w.parentNode.insertBefore(f,w);f.appendChild(w);
+      f.insertAdjacentHTML('afterbegin','<span class="tbl-fade tbl-fade-l"></span><span class="tbl-fade tbl-fade-r"></span>');
+      w.addEventListener('scroll',function(){fades(f);},{passive:true});
+      if(window.ResizeObserver){var ro=new ResizeObserver(function(){fades(f);});ro.observe(w);var tb=w.querySelector('table');if(tb)ro.observe(tb);}
+      fades(f);
+    });
+    window.addEventListener('resize',all);
+    var tabs=document.getElementById('srcTabs');if(tabs)tabs.addEventListener('click',function(){setTimeout(all,80);});
+  }
+  if(document.readyState!=='loading')setup();else document.addEventListener('DOMContentLoaded',setup);
 })();
 </script>
 
