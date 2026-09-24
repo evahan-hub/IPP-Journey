@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IPP Journey · Customer Area</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="../_ds/px-design-system-25da7e27-3560-4727-ad22-c443a79dda21/tokens/fonts.css">
 <link rel="stylesheet" href="../_ds/px-design-system-25da7e27-3560-4727-ad22-c443a79dda21/tokens/palette.css">
 <link rel="stylesheet" href="../_ds/px-design-system-25da7e27-3560-4727-ad22-c443a79dda21/tokens/colors.css">
@@ -49,7 +52,7 @@
   --p0:var(--b-color-red-1700); --p1:var(--b-color-orange-1000); --p2:var(--b-color-grey-1900); --explore:var(--b-color-blue-1700);
   --shadow:var(--b-shadow-low);
   --fs-display:var(--b-font-size-600); --fs-h1:var(--b-font-size-500); --fs-h2:var(--b-font-size-500); --fs-h3:var(--b-font-size-300);
-  --fs-body:var(--b-font-size-200); --fs-caption:var(--b-font-size-100); --fs-micro:10.5px;
+  --fs-body:var(--b-font-size-100); --fs-caption:var(--b-font-size-100); --fs-micro:10.5px;
   --fw-bold:700; --fw-semi:600; --fw-med:500; --fw-reg:400;
   --lh-tight:1.15; --lh-snug:1.3; --lh-normal:1.55;
   --shadow-lg:var(--b-shadow-high);
@@ -853,34 +856,156 @@ body.bp-expanded-lock .bp-expand{position:fixed;top:38px;right:42px;z-index:401}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:stretch}
 .grid3 .card{height:100%}
 @media(max-width:960px){.grid3{grid-template-columns:1fr}}
+/* executive summary + blind spots */
+.exec-list{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
+.exec-list li{font-size:14px;line-height:1.55;color:var(--ink-soft)}
+.exec-list li b{color:var(--ink);font-weight:600}
+.exec-blind{margin-top:16px;padding:14px 16px;background:var(--b-color-grey-100);border-radius:8px}
+.exec-blind-h{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:8px}
+.exec-blind p{font-size:13px;line-height:1.55;color:var(--ink-soft)}
+.exec-blind p b{color:var(--ink);font-weight:600}
+/* sources list */
+.srclist{display:flex;flex-direction:column}
+.srcrow{display:grid;grid-template-columns:120px 1fr 1fr;gap:16px;padding:10px 0;border-top:1px solid var(--line);font-size:13px;line-height:1.5}
+.srcrow:first-child{border-top:none;padding-top:2px}
+.srcname{font-weight:600;color:var(--ink)}
+.srcwhat{color:var(--ink-soft)}
+.srchow{color:var(--ink-faint)}
+@media(max-width:720px){.srcrow{grid-template-columns:1fr;gap:4px}}
+/* roadmap table */
+.roadtbl{width:100%;border-collapse:collapse;font-size:13px}
+.roadtbl th{text-align:left;font-weight:600;color:var(--ink-faint);font-size:11px;padding:12px 16px;background:var(--b-color-grey-100);border-bottom:1px solid var(--line)}
+.roadtbl td{padding:11px 16px;border-top:1px solid var(--line);color:var(--ink-soft);line-height:1.45;vertical-align:top}
+.roadtbl tbody tr:first-child td{border-top:none}
+.roadtbl td:nth-child(2){color:var(--ink)}
+.pri{display:inline-flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:6px}
+.pri-p0{background:#fbe7e4;color:var(--gap)}
+.pri-p1{background:#fef1e2;color:#b45309}
+.pri-p2{background:#e6eef4;color:var(--infra)}
+.pri-p3{background:var(--b-color-grey-200);color:var(--ink-faint)}
 
-/* ===== UI polish: Bento surfaces, font & spacing ===== */
+/* ===== Design system aligned to the Quick-Tip reference: Inter, warm greys, green ===== */
 :root{
-  /* everything on Adyen UI */
-  --font-sans:'Adyen UI', var(--b-font-family-primary);
-  --font-mono:'Adyen UI', var(--b-font-family-primary);
-  /* re-point the ported spacing scale onto Bento spacers */
-  --spacing-3xs:var(--b-spacer-020); /* 4 */
-  --spacing-2xs:var(--b-spacer-050); /* 10 */
-  --spacing-xs:var(--b-spacer-060);  /* 12 */
-  --spacing-s:var(--b-spacer-080);   /* 20 */
+  /* typography — Inter everywhere */
+  --font-sans:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  /* warm neutral palette + green accent */
+  --ink:#37352f; --ink-soft:#6b6459; --ink-faint:#8b847a;
+  --line:#e9e8e4; --line-soft:#f0efec;
+  --panel:#ffffff; --bg:#faf9f7;
+  --accent:#0abf53; --accent-deep:#14832b; --accent-tint:#f0faf2;
+  /* retint the Bento tokens the page + _ds components read directly */
+  --b-color-label-primary:#37352f; --b-color-label-secondary:#6b6459; --b-color-label-tertiary:#8b847a;
+  --b-color-outline-primary:#e9e8e4; --b-color-outline-secondary:#e9e8e4; --b-color-outline-tertiary:#e9e8e4;
+  --b-color-separator-primary:#e9e8e4;
+  --b-color-background-primary:#ffffff; --b-color-background-secondary:#faf9f7;
+  --b-color-grey-100:#f7f6f4; --b-color-grey-200:#eeece8;
+  /* spacing scale onto Bento spacers */
+  --spacing-3xs:var(--b-spacer-020); --spacing-2xs:var(--b-spacer-050); --spacing-xs:var(--b-spacer-060); --spacing-s:var(--b-spacer-080);
 }
-/* sidebar stays grey; main content one step lighter */
-body{background:var(--b-color-background-secondary);background-image:none;
-  font-family:'Adyen UI', var(--b-font-family-primary)}
-.sidebar{background:var(--b-color-background-secondary)}
-.main-content{background:#FBFBFC}
-/* single font family across the pages */
-h1,h2,h3,.mono,.eyebrow,.src-meta,.sev,.badge,.opin,.bar-val,.nps-num,.ins-rank,.sb-section-label{font-family:'Adyen UI', var(--b-font-family-primary)}
-/* regular spacing, no uppercase, anywhere */
-*{letter-spacing:normal !important;text-transform:none !important;font-family:'Adyen UI', var(--b-font-family-primary)}
-/* Bento spacing rhythm for the shell */
-.wrap{padding:0 var(--b-spacer-100)}                 /* 32 */
-section.view{padding:var(--b-spacer-100) 0 var(--b-spacer-140)} /* 32 / 64 */
+/* Inter everywhere, regular spacing, no uppercase */
+*{letter-spacing:normal !important;text-transform:none !important;font-family:var(--font-sans)}
+body{background:var(--bg);background-image:none;color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased}
+.sidebar{background:#f4f3f0}
+.main-content{background:#ffffff}
+h1,h2,h3,.mono,.eyebrow,.src-meta,.sev,.badge,.opin,.bar-val,.nps-num,.ins-rank,.sb-section-label{font-family:var(--font-sans)}
+/* heavier display headings (reference h1 = 800) */
+header.top h1,.viewhead h2,h1,h2{font-weight:800;letter-spacing:-.021em}
+/* muted, regular-weight section labels / eyebrows (reference .section-label) */
+.eyebrow,.viewhead .eyebrow,.sb-section-label,.ins-jlabel,.bp-fs-h{color:var(--ink-faint);font-weight:400}
+/* tabular numerals for figures */
+.kpi .v,.stat-strip .s .num,.bar-val,.nps-num,.donut-center .dc-v,.ns-num{font-variant-numeric:tabular-nums}
+/* spacing rhythm for the shell */
+.wrap{padding:0 var(--b-spacer-100)}
+section.view{padding:var(--b-spacer-100) 0 var(--b-spacer-140)}
 .sidebar{padding:var(--b-spacer-040) var(--b-spacer-040) var(--b-spacer-060)}
 .sb-link{padding:var(--b-spacer-050) var(--b-spacer-050);border-radius:var(--b-border-radius-m)}
+/* collapsible sidebar */
+.sb-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sb-collapse{flex:none;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink-faint);cursor:pointer;padding:0}
+.sb-collapse:hover{color:var(--ink);border-color:var(--ink-faint)}
+body.nav-collapsed .sidebar{width:62px}
+body.nav-collapsed .sb-brand{display:none}
+body.nav-collapsed .sb-top{justify-content:center}
+body.nav-collapsed .sb-txt{display:none}
+body.nav-collapsed .sb-link{justify-content:center;gap:0;padding-left:0;padding-right:0}
+body.nav-collapsed .sb-section-label,body.nav-collapsed .sb-bottom{display:none}
+body.nav-collapsed .sb-divider{margin:10px 12px}
 .viewhead{padding-bottom:var(--b-spacer-070);margin-bottom:var(--b-spacer-090)}
-.card,.chart-card,.opp,.ins-card,.kpi,.sol-card,.heatwrap,.journey-canvas,.bp-canvas,.jtbdwrap{border-radius:var(--b-border-radius-l)}
+/* one consistent outline box: warm 1px line, 10px radius, no shadow */
+.card,.chart-card,.opp,.ins-card,.kpi,.bp-kpis,.sol-card,.heatwrap,.journey-canvas,.bp-canvas,.jtbdwrap,.bp-subs,.bp-fs-box{border-radius:10px}
+.card,.chart-card,.ins-card,.kpi,.sol-card,.heatwrap,.jtbdwrap,.bp-subs,.bp-fs-box,.bp-kpis{border:1px solid var(--line);box-shadow:none}
+/* super-clean, unified box components across Customer context & System context */
+.card,.card.prose,.chart-card,.sol-card,.ins-card{padding:18px 20px}
+/* drop the insight cards' coloured left-bar — severity is shown by the chip */
+.ins-card{border-left-width:1px}
+.ins-card.ins-crit,.ins-card.ins-high,.ins-card.ins-med{border-left-color:var(--line)}
+/* calmer, consistent inset boxes + no hover lift/shadow on portfolio cards */
+.ins-q,.whybox{border-radius:8px}
+.whybox{border-color:var(--line)}
+.sol-card:hover{transform:none;box-shadow:none;border-color:var(--line)}
+.sol-card::before{display:none}
+/* unified description size: 12px across all pages */
+.ins-desc,.exec-list li,.exec-blind p,.srcrow,.roadtbl,.roadtbl td,.whybox,.unmapped-note p,.lev .lwhy{font-size:12px}
+
+/* ===== comments feature ===== */
+.cx-fab{position:fixed;right:20px;bottom:20px;z-index:200;width:48px;height:48px;border-radius:50%;border:none;
+  background:var(--accent);color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(10,191,83,.35)}
+.cx-fab:hover{background:var(--accent-deep)}
+.cx-fab-count{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--gap);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.cx-panel{position:fixed;top:0;right:0;width:340px;max-width:90vw;height:100vh;z-index:210;background:var(--panel);
+  border-left:1px solid var(--line);box-shadow:-8px 0 24px rgba(0,18,34,.10);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .22s ease}
+.cx-panel.on{transform:translateX(0)}
+.cx-head{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 10px;border-bottom:1px solid var(--line)}
+.cx-title{font-size:16px;font-weight:700;color:var(--ink)}
+.cx-head-actions{display:flex;align-items:center;gap:8px}
+.cx-who{padding:8px 16px;font-size:12px;color:var(--ink-faint);border-bottom:1px solid var(--line-soft)}
+.cx-who b{color:var(--ink)} .cx-who a{color:var(--accent-deep);text-decoration:underline;cursor:pointer}
+.cx-tabs{display:flex;align-items:center;gap:4px;padding:10px 12px;border-bottom:1px solid var(--line-soft)}
+.cx-tab{border:none;background:none;font:inherit;font-size:13px;font-weight:600;color:var(--ink-faint);cursor:pointer;padding:6px 10px;border-radius:7px}
+.cx-tab.on{background:var(--b-color-grey-100);color:var(--ink)}
+.cx-tabmenu{margin-left:auto;font-size:11px;color:var(--ink-faint)} .cx-tabmenu a{color:var(--ink-soft);text-decoration:underline;cursor:pointer}
+.cx-list{flex:1;overflow-y:auto;padding:12px}
+.cx-empty{font-size:12.5px;color:var(--ink-faint);line-height:1.6;padding:12px 6px}
+.cx-empty b{color:var(--ink-soft)}
+.cx-item{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;background:var(--panel);transition:box-shadow .2s}
+.cx-item.cx-flash{box-shadow:0 0 0 2px var(--accent)}
+.cx-item-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.cx-vbadge{font-size:10px;font-weight:600;color:var(--ink-soft);background:var(--b-color-grey-100);border:1px solid var(--line-soft);border-radius:5px;padding:2px 7px;cursor:pointer}
+.cx-item-time{font-size:11px;color:var(--ink-faint)}
+.cx-msg{margin-bottom:8px} .cx-msg:last-of-type{margin-bottom:0}
+.cx-msg-h{display:flex;align-items:baseline;gap:8px;font-size:12px} .cx-msg-h b{color:var(--ink);font-weight:600} .cx-msg-h span{color:var(--ink-faint);font-size:10.5px}
+.cx-msg-t{font-size:13px;color:var(--ink-soft);line-height:1.5;margin-top:2px;white-space:pre-wrap}
+.cx-actions{display:flex;gap:8px;margin-top:10px;padding-top:8px;border-top:1px solid var(--line-soft)}
+.cx-mini{border:1px solid var(--line);background:var(--panel);font:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);border-radius:7px;padding:4px 10px;cursor:pointer}
+.cx-mini:hover{border-color:var(--ink-faint);color:var(--ink)}
+.cx-resolve{color:var(--accent-deep);border-color:#bfe4cf} .cx-resolve:hover{background:var(--accent-tint)}
+.cx-reply{margin-top:8px}
+.cx-ta{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font:inherit;font-size:13px;color:var(--ink);resize:vertical;background:var(--panel)}
+.cx-crow{display:flex;gap:8px;margin-top:8px}
+.cx-btn{border:1px solid var(--line);background:var(--panel);font:inherit;font-size:12.5px;font-weight:600;color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer}
+.cx-btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.cx-btn-primary:hover{background:var(--accent-deep);border-color:var(--accent-deep)}
+.cx-iconbtn{border:none;background:none;font-size:15px;color:var(--ink-faint);cursor:pointer;line-height:1;padding:2px 6px}
+.cx-iconbtn:hover{color:var(--ink)}
+.cx-pin{position:absolute;z-index:60;transform:translate(-50%,-100%);width:26px;height:26px;border-radius:50% 50% 50% 2px;
+  border:2px solid #fff;background:var(--accent);color:#fff;font-size:11px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,18,34,.25)}
+.cx-pin:hover{background:var(--accent-deep)}
+.cx-composer{position:absolute;z-index:70;width:262px;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(0,18,34,.18);padding:10px;transform:translate(-50%,8px)}
+body.cx-adding .main-content, body.cx-adding .main-content *{cursor:crosshair !important}
+/* how-to help */
+.cx-help-btn{position:fixed;right:20px;bottom:80px;z-index:200;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,18,34,.12)}
+.cx-help-btn:hover{color:var(--ink);border-color:var(--ink-faint)}
+.cx-help-modal{position:fixed;inset:0;z-index:300;background:rgba(0,18,34,.45);display:none;align-items:center;justify-content:center;padding:24px}
+.cx-help-modal.on{display:flex}
+.cx-help-card{background:var(--panel);border-radius:14px;box-shadow:0 24px 60px rgba(0,18,34,.28);width:min(560px,94vw);max-height:86vh;overflow:auto}
+.cx-help-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line);font-size:16px;font-weight:700;color:var(--ink);position:sticky;top:0;background:var(--panel)}
+.cx-help-body{padding:16px 20px 22px}
+.cx-help-body h4{font-size:12.5px;font-weight:700;color:var(--ink);margin:16px 0 6px}
+.cx-help-body h4:first-child{margin-top:0}
+.cx-help-body p,.cx-help-body li{font-size:12px;color:var(--ink-soft);line-height:1.6}
+.cx-help-body ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px}
+.cx-help-body b{color:var(--ink);font-weight:600}
 
 </style>
 </head>
@@ -888,7 +1013,7 @@ section.view{padding:var(--b-spacer-100) 0 var(--b-spacer-140)} /* 32 / 64 */
 
 <!-- Access gate (client-side, prototype only). -->
 <div id="ipp-gate" style="position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;background:#fff;">
-  <form id="ipp-gate-form" style="width:320px;max-width:88vw;display:flex;flex-direction:column;gap:12px;font-family:'Adyen UI',system-ui,sans-serif;">
+  <form id="ipp-gate-form" style="width:320px;max-width:88vw;display:flex;flex-direction:column;gap:12px;font-family:'Inter',system-ui,sans-serif;">
     <div style="font-size:18px;font-weight:600;color:#001222;">IPP Journey</div>
     <div style="font-size:13px;color:#5C6874;">Enter the access passcode to continue.</div>
     <input id="ipp-gate-input" type="password" placeholder="Passcode" autocomplete="current-password"
@@ -918,14 +1043,16 @@ section.view{padding:var(--b-spacer-100) 0 var(--b-spacer-140)} /* 32 / 64 */
     <a class="sb-brand" href="javascript:void(0)">
       <svg width="60" height="20" viewBox="0 0 101.6 32.9" fill="#0ABF53"><path d="M14.3,7.5H0.3V12l9.2,0c0.6,0,1,0.5,1,1v7.9h-2c-0.6,0-1-0.5-1-1v-5.7H3.6c-2,0-3.6,1.6-3.6,3.6v4c0,2,1.6,3.6,3.6,3.6h14.3V11.1C17.9,9.1,16.3,7.5,14.3,7.5z"/><path d="M31.4,20.9h-2c-0.6,0-1-0.5-1-1V7.5h-3.9c-2,0-3.6,1.6-3.6,3.6v10.7c0,2,1.6,3.6,3.6,3.6h14.3V0h-7.5L31.4,20.9z"/><path d="M52.3,20.9h-2c-0.6,0-1-0.5-1-1V7.5h-7.5v14.3c0,2,1.6,3.6,3.6,3.6h6.9v2.2H42.1v5.2h14.1c2,0,3.6-1.6,3.6-3.6V7.5h-7.5V20.9z"/><path d="M77.1,7.5H62.7v14.3c0,2,1.6,3.6,3.6,3.6h14.1v-4.5h-9.2c-0.6,0-1-0.5-1-1V12h2c0.6,0,1,0.5,1,1v5.7h3.9c2,0,3.6-1.6,3.6-3.6v-4C80.7,9.1,79.1,7.5,77.1,7.5z"/><path d="M98,7.5H83.7v17.9h7.5V12h2c0.6,0,1,0.5,1,1v12.4h7.5V11.1C101.6,9.1,100,7.5,98,7.5z"/></svg>
     </a>
+    <button class="sb-collapse" onclick="toggleNav()" aria-label="Toggle menu" title="Collapse menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg></button>
   </div>
   <nav class="sb-nav">
-    <a class="sb-link active-link" data-tab="journey" onclick="switchTab('journey')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3z"/><path d="M14 3h7v4h-7z"/><path d="M14 10h7v4h-7z"/><path d="M3 14h7v7H3z"/><path d="M14 17h7v4h-7z"/></svg>Journey map</a>
-    <a class="sb-link" data-tab="sysinfo" onclick="switchTab('sysinfo')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>System context</a>
-    <a class="sb-link" data-tab="overview" onclick="switchTab('overview')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Customer context</a>
+    <a class="sb-link active-link" data-tab="journey" title="Journey map" onclick="switchTab('journey')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3z"/><path d="M14 3h7v4h-7z"/><path d="M14 10h7v4h-7z"/><path d="M3 14h7v7H3z"/><path d="M14 17h7v4h-7z"/></svg><span class="sb-txt">Journey map</span></a>
+    <a class="sb-link" data-tab="business" title="Business context" onclick="switchTab('business')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="14" width="3" height="4"/></svg><span class="sb-txt">Business context</span></a>
+    <a class="sb-link" data-tab="overview" title="Customer context" onclick="switchTab('overview')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg><span class="sb-txt">Customer context</span></a>
+    <a class="sb-link" data-tab="sysinfo" title="System context" onclick="switchTab('sysinfo')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span class="sb-txt">System context</span></a>
     <div class="sb-divider"></div>
     <div class="sb-section-label">Source of truth</div>
-    <a class="sb-link" data-tab="datasource" onclick="switchTab('datasource')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>Data source</a>
+    <a class="sb-link" data-tab="datasource" title="Data source" onclick="switchTab('datasource')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg><span class="sb-txt">Data source</span></a>
   </nav>
   <div class="sb-bottom">
     <div class="sb-cta-box">
@@ -936,45 +1063,188 @@ section.view{padding:var(--b-spacer-100) 0 var(--b-spacer-140)} /* 32 / 64 */
     </div>
   </div>
 </aside>
+<script>
+function toggleNav(){var c=document.body.classList.toggle('nav-collapsed');try{localStorage.setItem('ipp_nav_collapsed',c?'1':'0');}catch(e){}}
+(function(){try{if(localStorage.getItem('ipp_nav_collapsed')==='1')document.body.classList.add('nav-collapsed');}catch(e){}})();
+</script>
 <div class="main-content"><main class="wrap">
 
 <section class="view" id="overview">
-  <div class="viewhead"><h2>IPP customer sentiment</h2>
-    <p class="sub">What in-person merchants &mdash; and the teams serving them &mdash; keep telling us, synthesised across Unwrap, Salesforce support, NPS, Slack and partner feedback to steer the <b>H1 2027 roadmap</b>.</p>
+  <div class="viewhead"><h2>Customer context</h2>
+    <p class="sub">Customer sentiment analysis for the <b>H1 2027</b> roadmap, synthesised from six sources: 61,842 Unwrap feedback entries, ~797 Payments Q&amp;A workflows, 323 IPP Slack questions, NPS (152 IPP responses of 3,529), Lightspeed's developer report, and internal product docs + YouTrack tickets. Updated 4&nbsp;Sept&nbsp;2026.</p>
   </div>
 
-  <div class="kpis" style="margin-bottom:20px">
-    <div class="kpi"><div class="v">61,842</div><div class="l"><b>feedback entries</b> analysed &mdash; ~797 support workflows, 323 Slack questions, 3,529 survey responses</div></div>
-    <div class="kpi accent"><div class="v">53.3</div><div class="l"><b>IPP NPS</b> &mdash; 12.9 pts below the overall base (66.2); Support &amp; Reporting rate lowest</div></div>
-    <div class="kpi"><div class="v">25.5%</div><div class="l"><b>Warehousing &amp; logistics</b> &mdash; 2nd-largest pain, never on the roadmap, no product owner</div></div>
+  <div class="kpis" style="margin-bottom:22px">
+    <div class="kpi"><div class="v">61,842</div><div class="l"><b>feedback entries</b> (Unwrap, Sep 2025&ndash;Sep 2026) &mdash; 79% neutral, 21% negative, 0.2% positive</div></div>
+    <div class="kpi accent"><div class="v">53.3</div><div class="l"><b>IPP NPS</b> &mdash; ~13 pts below the overall base (66.2); lowest: Support 5.71, Reporting 5.74</div></div>
+    <div class="kpi"><div class="v">25.5%</div><div class="l"><b>Warehousing &amp; logistics</b> &mdash; 2nd-largest theme, never on the roadmap, no owner</div></div>
     <div class="kpi"><div class="v">12</div><div class="l"><b>insights</b> ranked by severity &times; frequency, each tied to its sources</div></div>
+  </div>
+
+  <!-- Executive summary -->
+  <div class="card prose" style="margin-bottom:22px">
+    <h3>Executive summary</h3>
+    <p style="margin-bottom:12px">Four things in-person merchants keep telling us:</p>
+    <ol class="exec-list">
+      <li><b>Hardware fails at the counter</b> &mdash; terminals freeze, won't charge, or lose connection.</li>
+      <li><b>Getting terminals live is painful</b> &mdash; shipping, boarding, and provisioning friction.</li>
+      <li><b>Settings are confusing and recently got worse</b> &mdash; hard to see or safely change, and a UI redesign broke controls that used to work.</li>
+      <li><b>Docs are thin and support is slow.</b></li>
+    </ol>
+    <div class="exec-blind">
+      <div class="exec-blind-h">Two blind spots</div>
+      <p style="margin:0 0 8px"><b>Terminal logistics</b> (late shipments, lost devices, wrong items) is the second-biggest complaint at <b>25.5%</b> of all IPP feedback, yet it was never on the roadmap.</p>
+      <p style="margin:0"><b>Platform partners</b> like Lightspeed carry so much API and tooling overhead that they rate Adyen worse than Stripe.</p>
+    </div>
   </div>
 
   <div class="grid2" style="margin-bottom:22px">
     <div class="chart-card">
       <h3>Top feedback themes</h3>
-      <div class="chart-sub">Salesforce support tickets by theme &mdash; Unwrap, Sep 2025&ndash;Sep 2026. Themes overlap, so counts are not additive.</div>
-      <div class="barlist"><div class="bar-row"><div class="bar-name" title="EFTPOS terminals (card machines)">EFTPOS terminals (card machines)</div><div class="bar-track"><div class="bar-fill" style="width:100.0%"></div></div><div class="bar-val">27,453</div></div><div class="bar-row"><div class="bar-name" title="Warehousing &amp; logistics">Warehousing &amp; logistics</div><div class="bar-track"><div class="bar-fill" style="width:57.6%"></div></div><div class="bar-val">15,808</div></div><div class="bar-row"><div class="bar-name" title="Terminal UX">Terminal UX</div><div class="bar-track"><div class="bar-fill" style="width:55.8%"></div></div><div class="bar-val">15,312</div></div><div class="bar-row"><div class="bar-name" title="IPP payments">IPP payments</div><div class="bar-track"><div class="bar-fill" style="width:39.0%"></div></div><div class="bar-val">10,712</div></div><div class="bar-row"><div class="bar-name" title="IPP integrations">IPP integrations</div><div class="bar-track"><div class="bar-fill" style="width:21.5%"></div></div><div class="bar-val">5,908</div></div><div class="bar-row"><div class="bar-name" title="Part-mapping issues">Part-mapping issues</div><div class="bar-track"><div class="bar-fill" style="width:20.9%"></div></div><div class="bar-val">5,725</div></div><div class="bar-row"><div class="bar-name" title="S1 terminals">S1 terminals</div><div class="bar-track"><div class="bar-fill" style="width:17.6%"></div></div><div class="bar-val">4,836</div></div><div class="bar-row"><div class="bar-name" title="Terminal orders &amp; returns">Terminal orders &amp; returns</div><div class="bar-track"><div class="bar-fill" style="width:15.1%"></div></div><div class="bar-val">4,137</div></div><div class="bar-row"><div class="bar-name" title="Card machine not working">Card machine not working</div><div class="bar-track"><div class="bar-fill" style="width:13.2%"></div></div><div class="bar-val">3,616</div></div><div class="bar-row"><div class="bar-name" title="IPP hardware">IPP hardware</div><div class="bar-track"><div class="bar-fill" style="width:11.2%"></div></div><div class="bar-val">3,066</div></div><div class="bar-row"><div class="bar-name" title="Terminal not processing">Terminal not processing</div><div class="bar-track"><div class="bar-fill" style="width:10.4%"></div></div><div class="bar-val">2,865</div></div><div class="bar-row"><div class="bar-name" title="Boarding &amp; reassignments">Boarding &amp; reassignments</div><div class="bar-track"><div class="bar-fill" style="width:10.0%"></div></div><div class="bar-val">2,735</div></div></div>
+      <div class="chart-sub">Unwrap IPP entries by theme, Sep 2025&ndash;Sep 2026. Themes overlap, so counts are not additive.</div>
+      <div class="barlist"><div class="bar-row"><div class="bar-name" title="EFTPOS terminals (card machines)">EFTPOS terminals (card machines)</div><div class="bar-track"><div class="bar-fill" style="width:100.0%"></div></div><div class="bar-val">26,369</div></div><div class="bar-row"><div class="bar-name" title="Terminal UX">Terminal UX</div><div class="bar-track"><div class="bar-fill" style="width:62.2%"></div></div><div class="bar-val">16,402</div></div><div class="bar-row"><div class="bar-name" title="Warehousing &amp; logistics">Warehousing &amp; logistics</div><div class="bar-track"><div class="bar-fill" style="width:59.8%"></div></div><div class="bar-val">15,778</div></div><div class="bar-row"><div class="bar-name" title="IPP payments (rising)">IPP payments (rising)</div><div class="bar-track"><div class="bar-fill" style="width:40.5%"></div></div><div class="bar-val">10,673</div></div><div class="bar-row"><div class="bar-name" title="IPP integrations">IPP integrations</div><div class="bar-track"><div class="bar-fill" style="width:22.3%"></div></div><div class="bar-val">5,887</div></div><div class="bar-row"><div class="bar-name" title="Part mapping">Part mapping</div><div class="bar-track"><div class="bar-fill" style="width:20.4%"></div></div><div class="bar-val">5,384</div></div><div class="bar-row"><div class="bar-name" title="S1 terminals">S1 terminals</div><div class="bar-track"><div class="bar-fill" style="width:19.0%"></div></div><div class="bar-val">5,019</div></div><div class="bar-row"><div class="bar-name" title="Terminal orders &amp; returns">Terminal orders &amp; returns</div><div class="bar-track"><div class="bar-fill" style="width:15.7%"></div></div><div class="bar-val">4,128</div></div><div class="bar-row"><div class="bar-name" title="SDK payment failures">SDK payment failures</div><div class="bar-track"><div class="bar-fill" style="width:10.1%"></div></div><div class="bar-val">2,652</div></div><div class="bar-row"><div class="bar-name" title="Reliability">Reliability</div><div class="bar-track"><div class="bar-fill" style="width:9.6%"></div></div><div class="bar-val">2,520</div></div><div class="bar-row"><div class="bar-name" title="Menu &amp; settings">Menu &amp; settings</div><div class="bar-track"><div class="bar-fill" style="width:8.4%"></div></div><div class="bar-val">2,215</div></div></div>
     </div>
     <div>
       <div class="chart-card" style="margin-bottom:14px">
-        <h3>Satisfaction agrees with volume</h3>
-        <div class="chart-sub">Net Promoter Score (0&ndash;10 &ldquo;would you recommend&rdquo;)</div>
+        <h3>Satisfaction matches the complaints</h3>
+        <div class="chart-sub">Net Promoter Score (H1 2026 survey; IPP extraction of 152)</div>
         <div class="nps-row"><span class="nps-lab">IPP merchants</span><div class="nps-track"><div class="nps-fill ipp" style="width:53.3%"></div></div><span class="nps-num">53.3</span></div>
         <div class="nps-row"><span class="nps-lab">Overall base</span><div class="nps-track"><div class="nps-fill base" style="width:66.2%"></div></div><span class="nps-num">66.2</span></div>
-        <div class="nps-gap">&minus;12.9 pts &mdash; lowest dimensions: <b>Support</b> &amp; <b>Reporting</b></div>
+        <div class="nps-gap">&minus;12.9 pts &mdash; lowest IPP dimensions: <b>Support</b> 5.71 &amp; <b>Reporting</b> 5.74</div>
       </div>
       <div class="card prose" style="padding:18px 20px">
         <h3 style="font-size:14px">Root cause</h3>
-        <p style="font-size:13px;margin-bottom:8px">The product assumes <b>(1)</b> a self-service merchant with a payments team &mdash; many need more done <i>for</i> them, more reliably, with less to configure &mdash; and <b>(2)</b> a partner willing to hand-build around API, webhook and tooling gaps.</p>
-        <p style="font-size:13px;margin:0;color:var(--ink-soft)">Both assumptions break at scale.</p>
+        <p style="font-size:12px;margin-bottom:8px">Adyen's product rests on two assumptions that break at scale: <b>(1)</b> the merchant is self-service with its own payments team &mdash; many aren't, they need more done <i>for</i> them, more reliably, with less to configure; and <b>(2)</b> the partner will hand-build around gaps in the API, webhooks, and tooling &mdash; increasingly they won't, they'll compare Adyen to easier rivals and leave.</p>
       </div>
     </div>
   </div>
 
+  <!-- Sources -->
+  <div class="card prose" style="margin-bottom:24px">
+    <h3>Which data, and how it was used</h3>
+    <div class="srclist">
+      <div class="srcrow"><span class="srcname">Unwrap</span><span class="srcwhat">Feedback mining across Salesforce/Gong/surveys &mdash; 61,842 IPP entries</span><span class="srchow">Primary volume + sentiment signal; theme ranking and two missed gaps (logistics, provisioning)</span></div>
+      <div class="srcrow"><span class="srcname">IPP Q&amp;A</span><span class="srcwhat">Slack IPP support channel (323 questions) + dashboard</span><span class="srchow">Frequency signal &mdash; topic shares, resolution/open rates, field examples</span></div>
+      <div class="srcrow"><span class="srcname">Payments Q&amp;A</span><span class="srcwhat">Slack Payments L2 channel + L2/L3 workflow summary (~797)</span><span class="srchow">Cross-check on payment behaviour; escalation/bug rates by queue</span></div>
+      <div class="srcrow"><span class="srcname">NPS</span><span class="srcwhat">H1 2026 survey (3,529) + IPP extraction (152), parsed locally</span><span class="srchow">Satisfaction signal &mdash; overall vs IPP NPS, lowest value dimensions, verbatims</span></div>
+      <div class="srcrow"><span class="srcname">Lightspeed</span><span class="srcwhat">Developer-feedback report (v5, Aug 2026)</span><span class="srchow">Strategic ISV/platform signal &mdash; API, webhook, fleet, support overhead vs Stripe</span></div>
+      <div class="srcrow"><span class="srcname">Docs + YouTrack</span><span class="srcwhat">Product docs (settings PRD, Japan, onboarding, fleet value) + live tickets</span><span class="srchow">Qualitative depth + engineering corroboration</span></div>
+    </div>
+  </div>
+
   <h3 style="font-size:16px;margin:0 0 4px">Insights, ranked (severity &times; frequency)</h3>
-  <p class="sub" style="margin:0 0 14px;color:var(--ink-soft);font-size:var(--fs-caption)">Every insight is tied to its evidence &mdash; volumes from Unwrap/Salesforce, plus a representative verbatim.</p>
-  <div class="ins-grid"><div class="ins-card ins-crit"><div class="ins-top"><span class="ins-rank">1</span><span class="sev sev-crit">Critical</span></div><div class="ins-title">Hardware &amp; connectivity failures at the counter</div><div class="ins-desc">Terminals that freeze, won't charge, or drop connectivity cost sales on the spot &mdash; the biggest pain by volume, including a physical battery-safety risk. The one bright spot: this theme is trending down.</div><div class="ins-meta">Unwrap #1 (EFTPOS 26,369 = 42.6%) &middot; ~9,100 reliability &middot; leading NPS detractor</div><div class="ins-q">&ldquo;An urgent safety issue with our three terminals&hellip; severe battery swelling, one unusable, another unable to charge.&rdquo; &mdash; Salesforce ticket, Sep 2026</div><div class="ins-rec"><span class="arr">&rarr;</span> Stand up a named reliability + battery-safety workstream with merchant-visible device health.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">BAU & Growth</span><span class="ins-jchip">Fleet Operation</span></div></div><div class="ins-card ins-high"><div class="ins-top"><span class="ins-rank">2</span><span class="sev sev-high">High</span></div><div class="ins-title">Terminal fulfilment: warehousing, logistics &amp; orders (new)</div><div class="ins-desc">Shipping delays, lost terminals and wrong items are a quarter of all IPP feedback with no improvement trend &mdash; but they hide in support tickets, so they barely show in NPS or Slack. A large operational drag with no clear product owner.</div><div class="ins-meta">Unwrap #2 &middot; W&amp;L 15,778 (25.5%), flat &middot; Orders &amp; Returns 4,128</div><div class="ins-q">&ldquo;Drop shipping is not working for Monzo&hellip; still an error saying drop shipping not configured.&rdquo; &mdash; IPP support Slack</div><div class="ins-rec"><span class="arr">&rarr;</span> Treat fulfilment as a product surface: order/shipment tracking, lost-terminal self-service, fulfilment SLAs.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">Test & Integration</span><span class="ins-jchip">Go Live</span><span class="ins-jchip">Fleet Operation</span></div></div><div class="ins-card ins-high"><div class="ins-top"><span class="ins-rank">3</span><span class="sev sev-high">High</span></div><div class="ins-title">Boarding, reassignment &amp; provisioning</div><div class="ins-desc">Terminals get stuck in &lsquo;Deployed,&rsquo; reassignment isn't self-serve, and boarding silently fails when no payment method is set &mdash; some go live without encryption keys, and apps/memory can persist after reassignment (data-leak risk).</div><div class="ins-meta">Boarding cluster ~7,500+ &middot; keys-missing 1,825 &middot; part-mapping 5,384 &middot; methods not provisioned 4,288</div><div class="ins-q">&ldquo;I am unable to access terminal S1F2&hellip; it is requesting a boarding password I cannot find how to change.&rdquo; &mdash; Salesforce ticket, Sep 2026</div><div class="ins-rec"><span class="arr">&rarr;</span> Show boarding blockers in-product, enable self-serve reassignment with enforced data-wipe, auto-provision approved methods.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">Go Live</span><span class="ins-jchip">Fleet Operation</span></div></div><div class="ins-card ins-high"><div class="ins-top"><span class="ins-rank">4</span><span class="sev sev-high">High</span></div><div class="ins-title">Tap to Pay / SoftPOS is second-class and unreliable</div><div class="ins-desc">Boarding and attestation fail too often (false &lsquo;SecurityBlock,&rsquo; setup-token errors) and the tooling lags fixed terminals &mdash; device-level config is blocked, there's no phone-model targeting, and reboarding needs a reinstall.</div><div class="ins-meta">~4,800+ entries, worst sentiment of any IPP theme &middot; SDK failures 2,652 &middot; Slack Integrations 26.3%</div><div class="ins-q">&ldquo;Persistent HTTP 400 (1029_617) &lsquo;Invalid combination of merchant account and setup token&rsquo; integrating Tap to Pay on Android.&rdquo; &mdash; Salesforce ticket, Sep 2026</div><div class="ins-rec"><span class="arr">&rarr;</span> Bring SoftPOS to parity with terminals: reliable attestation/boarding, device-level config, phone-model targeting.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">Test & Integration</span><span class="ins-jchip">BAU & Growth</span></div></div><div class="ins-card ins-high"><div class="ins-top"><span class="ins-rank">5</span><span class="sev sev-high">High</span></div><div class="ins-title">Fleet &amp; firmware updates are risky and uncontrollable</div><div class="ins-desc">Saving a profile can push a fleet-wide install mid-trading, upgrades sometimes uninstall apps, and recovery is undocumented. Partners want the missing controls to validate before going wide.</div><div class="ins-meta">Lightspeed &middot; IPPMOB-7350 &middot; IPPPL-15999</div><div class="ins-q">&ldquo;My terminal is stuck at 71% during a software update, showing the wrong timezone and &lsquo;terminal not boarded.&rsquo;&rdquo; &mdash; Salesforce ticket, Sep 2026</div><div class="ins-rec"><span class="arr">&rarr;</span> API-driven deployment, staged rollout, and stable LTS tracks.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">BAU & Growth</span><span class="ins-jchip">Fleet Operation</span></div></div><div class="ins-card ins-high"><div class="ins-top"><span class="ins-rank">6</span><span class="sev sev-high">High</span></div><div class="ins-title">Developer &amp; platform / API integration overhead</div><div class="ins-desc">Partners who embed Adyen hit heavy integration overhead: API specs that don't match production, 7&ndash;9 onboarding calls where Stripe needs 0, no bulk payment-method endpoints, missing fields (MCC, midNumber), missing offline webhooks, and no real-time payout API.</div><div class="ins-meta">Lightspeed developer feedback</div><div class="ins-q">&ldquo;Integrating with Adyen creates disproportionate engineering overhead&hellip; critical API gaps, inaccurate specs, unusable log-tracing, poor device deployment controls.&rdquo; &mdash; Lightspeed</div><div class="ins-rec"><span class="arr">&rarr;</span> Close the API/tooling gaps before strategic partners benchmark toward competitors.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">Test & Integration</span></div></div><div class="ins-card ins-high"><div class="ins-top"><span class="ins-rank">7</span><span class="sev sev-high">High</span></div><div class="ins-title">Settings &amp; Customer Area are opaque &mdash; and the UI regressed</div><div class="ins-desc">~955 terminal settings, each settable at six cascading levels (PSP &rarr; Company &rarr; Merchant &rarr; Store &rarr; Profile &rarr; Terminal), yet nothing is labeled device-only &mdash; so merchants can't tell what a setting is, where it came from, or what else changes. The new &lsquo;Ekiben&rsquo; UI also broke working controls.</div><div class="ins-meta">IPPPL-17966 &middot; PF-4562 &middot; Settings PRD, Unwrap, Lightspeed</div><div class="ins-q">&ldquo;Too many settings are invisible to the customer and can only be viewed by Adyen support&hellip; you don't know what you don't know.&rdquo; &mdash; NPS, Dick's Sporting Goods (2/10)</div><div class="ins-rec"><span class="arr">&rarr;</span> Make settings legible: show current value + provenance + blast radius, and label device-only settings.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">Test & Integration</span><span class="ins-jchip">Go Live</span><span class="ins-jchip">BAU & Growth</span></div></div><div class="ins-card ins-med"><div class="ins-top"><span class="ins-rank">8</span><span class="sev sev-med">Medium</span></div><div class="ins-title">Thin docs, slow support, low self-serve</div><div class="ins-desc">Merchants can't self-serve: docs lack detail and functionality often only works after a conversation with support. Support and Reporting are IPP's lowest-rated NPS dimensions.</div><div class="ins-meta">NPS H1 2026 &middot; lowest-rated dimensions</div><div class="ins-q">&ldquo;Documentation often lacks and often when we try to implement functionality it does not work unless we have a conversation with support.&rdquo; &mdash; NPS, Quilt Software (8/10)</div><div class="ins-rec"><span class="arr">&rarr;</span> Invest in docs + self-serve so common tasks don't require support.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">Test & Integration</span><span class="ins-jchip">BAU & Growth</span></div></div><div class="ins-card ins-med"><div class="ins-top"><span class="ins-rank">9</span><span class="sev sev-med">Medium-High</span></div><div class="ins-title">Payments configuration &amp; behavior (US debit/PIN, limits, schemes)</div><div class="ins-desc">Config behaviour surprises merchants &mdash; e.g. debit cards running as credit, or PIN not prompting &mdash; smaller by ticket volume but high-severity at the counter.</div><div class="ins-meta">~1,600 Salesforce tickets &middot; recurring in Slack</div><div class="ins-q">&ldquo;The POS is running debit cards as credit, and I need the setting enabled so debit requires a PIN.&rdquo; &mdash; Salesforce ticket, Jan 2026</div><div class="ins-rec"><span class="arr">&rarr;</span> Make payment-config outcomes predictable and self-serviceable.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">Go Live</span><span class="ins-jchip">BAU & Growth</span></div></div><div class="ins-card ins-med"><div class="ins-top"><span class="ins-rank">10</span><span class="sev sev-med">Medium</span></div><div class="ins-title">Localization / regional fit blocks markets</div><div class="ins-desc">Regional gaps (Japan, France/Conecs, receipts, language) can gate whole markets for local teams and merchants.</div><div class="ins-meta">NPS H1 2026 &middot; regional detractors/passives</div><div class="ins-q">&ldquo;The Adyen Japan team is struggling to serve their Japanese customers.&rdquo; &mdash; NPS, Dinii Inc. (Japan, 8/10)</div><div class="ins-rec"><span class="arr">&rarr;</span> Prioritise regional fit where it unblocks whole markets.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">Exploration</span><span class="ins-jchip">Go Live</span></div></div><div class="ins-card ins-med"><div class="ins-top"><span class="ins-rank">11</span><span class="sev sev-med">Medium</span></div><div class="ins-title">Store &amp; Forward / offline is inconsistent</div><div class="ins-desc">Offline / Store &amp; Forward behaves unexpectedly on unstable networks &mdash; including double payments &mdash; eroding trust exactly when reliability matters most.</div><div class="ins-meta">NPS H1 2026 &middot; EMEA</div><div class="ins-q">&ldquo;Offline payments&hellip; we often experience double payments in these situations.&rdquo; &mdash; NPS, Georg Jensen A/S (10/10)</div><div class="ins-rec"><span class="arr">&rarr;</span> Make offline payments deterministic (no double charges/declines).</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">BAU & Growth</span></div></div><div class="ins-card ins-med"><div class="ins-top"><span class="ins-rank">12</span><span class="sev sev-med">Medium</span></div><div class="ins-title">No business-value / reporting layer on fleet data</div><div class="ins-desc">Merchants want actionable reporting from device/fleet data (e.g. per-device feature status) and today have to ask support for it.</div><div class="ins-meta">Salesforce tickets &middot; fleet reporting requests</div><div class="ins-q">&ldquo;I need a report showing the Standalone status for every V400m device in our stores.&rdquo; &mdash; Salesforce ticket, Sep 2026</div><div class="ins-rec"><span class="arr">&rarr;</span> Add a reporting layer that turns fleet data into merchant-visible insight.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">BAU & Growth</span><span class="ins-jchip">Fleet Operation</span></div></div></div>
+  <p class="sub" style="margin:0 0 14px;color:var(--ink-soft);font-size:var(--fs-caption)">Every insight is tied to its evidence &mdash; volumes from Unwrap/Salesforce/NPS, plus a representative verbatim. By pure volume the order shifts (Boarding ~19,900 &gt; Logistics ~16,300 &gt; Hardware ~8,500); severity weighting keeps hardware #1 for safety + lost sales.</p>
+  <div class="ins-grid"><div class="ins-card ins-crit"><div class="ins-top"><span class="ins-rank">1</span><span class="sev sev-crit">Critical</span></div><div class="ins-title">Hardware &amp; connectivity failures at the counter</div><div class="ins-desc">Terminals that freeze, won't charge, or drop connectivity cost sales on the spot. It's the biggest pain by volume and includes a physical battery-safety risk (echoing the Burberry V400m near-miss). The one bright spot: Unwrap shows these themes trending down, so recent fixes are landing.</div><div class="ins-meta">Unwrap #1 (EFTPOS 26,369 = 42.6%) &middot; ~9,100 hardware-reliability &middot; Hardware+Reliability ~24% of Slack Q&amp;A &middot; leading NPS detractor</div><div class="ins-q">&ldquo;I am reporting an urgent safety issue with our three credit card terminals, all experiencing severe battery swelling, with one terminal logged out and unusable.&rdquo; &mdash; Salesforce ticket (via Unwrap)</div><div class="ins-rec"><span class="arr">&rarr;</span> Stand up a named reliability + battery-safety workstream with merchant-visible device health.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">BAU & Growth</span><span class="ins-jchip">Fleet Operation</span></div></div><div class="ins-card ins-high"><div class="ins-top"><span class="ins-rank">2</span><span class="sev sev-high">High</span></div><div class="ins-title">Terminal fulfilment: warehousing, logistics &amp; orders</div><div class="ins-desc">Getting physical terminals to merchants is a mess: shipments arrive late, devices go missing, and the wrong items turn up. It's about a quarter of all IPP feedback and isn't getting better &mdash; and it hides in support tickets, so it barely shows in surveys or Slack.</div><div class="ins-meta">Unwrap #2 &middot; W&amp;L 15,778 (25.5%), flat &middot; Orders &amp; Returns 4,128 &middot; lost 438 &middot; under-reported in NPS/Slack</div><div class="ins-q">&ldquo;Drop shipping is not working for Monzo&hellip; during the order flow there is still an error saying drop shipping is not configured.&rdquo; &mdash; IPP support Slack</div><div class="ins-rec"><span class="arr">&rarr;</span> Treat fulfilment as a product surface: order/shipment tracking, lost-terminal self-service, fulfilment SLAs, and a clear owner.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">Test & Integration</span><span class="ins-jchip">Go Live</span><span class="ins-jchip">Fleet Operation</span></div></div><div class="ins-card ins-high"><div class="ins-top"><span class="ins-rank">3</span><span class="sev sev-high">High</span></div><div class="ins-title">Boarding, reassignment &amp; provisioning</div><div class="ins-desc">Terminals get stuck in &lsquo;Deployed,&rsquo; reassignment isn't self-serve, and boarding silently fails when no payment method is set. Two gaps stand out: terminals going live without encryption keys, and approved methods not auto-configured after underwriting. Lightspeed adds a data-leak risk &mdash; apps/memory persist after reassignment.</div><div class="ins-meta">Highest-volume cluster (~19,900) &middot; keys-missing 1,825 &middot; part mapping 5,384 &middot; methods not provisioned 4,288 &middot; Slack Boarding 4.3%</div><div class="ins-q">&ldquo;I am unable to access terminal S1F2-000158213602755 because it is requesting a boarding password that I cannot find how to change.&rdquo; &mdash; Salesforce ticket, Sep 2026 (via Unwrap)</div><div class="ins-rec"><span class="arr">&rarr;</span> Show boarding blockers in-product, enable self-serve reassignment with enforced data-wipe, auto-provision approved methods.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">Go Live</span><span class="ins-jchip">Fleet Operation</span></div></div><div class="ins-card ins-high"><div class="ins-top"><span class="ins-rank">4</span><span class="sev sev-high">High</span></div><div class="ins-title">Tap to Pay / SoftPOS is second-class and unreliable</div><div class="ins-desc">Boarding and attestation fail too often (false &lsquo;SecurityBlock,&rsquo; setup-token errors) and the tooling lags fixed terminals &mdash; device-level config is blocked, there's no phone-model targeting, and reboarding needs a reinstall. So merchants don't trust it.</div><div class="ins-meta">~4,800+ entries, worst sentiment of any theme &middot; SDK payment failures 2,652 &middot; Slack Integrations 26.3% (largest topic)</div><div class="ins-q">&ldquo;Persistent HTTP 400 error (1029_617): &lsquo;Invalid combination of merchant account and setup token&rsquo; integrating Tap to Pay on Android using the POS Mobile SDK.&rdquo; &mdash; Salesforce ticket, Sep 2026 (via Unwrap)</div><div class="ins-rec"><span class="arr">&rarr;</span> Bring SoftPOS to parity with terminals: reliable attestation/boarding, device-level config, phone-model targeting, in-place reboard.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">Test & Integration</span><span class="ins-jchip">BAU & Growth</span></div></div><div class="ins-card ins-high"><div class="ins-top"><span class="ins-rank">5</span><span class="sev sev-high">High</span></div><div class="ins-title">Fleet &amp; firmware updates are risky and uncontrollable</div><div class="ins-desc">Terminal software updates are risky and out of the merchant's hands: saving a settings change can force an update onto every terminal at once, mid-trading &mdash; sometimes knocking out apps. Merchants want to stage rollouts, schedule quiet hours, and stay on a proven version.</div><div class="ins-meta">Firmware/reliability 2,520 + 561 manual-update entries (&lsquo;Chain Validation failed,&rsquo; bricked, stuck at 71%) &middot; Lightspeed: auto-enrolment is the only option</div><div class="ins-q">&ldquo;My terminal is stuck at 71% during a software update, showing the wrong timezone and &lsquo;terminal not boarded,&rsquo; causing issues with transactions and refunds.&rdquo; &mdash; Salesforce ticket, Sep 2026 (via Unwrap)</div><div class="ins-rec"><span class="arr">&rarr;</span> Safe, staged, API-driven fleet/firmware updates with scheduling and stable LTS tracks.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">BAU & Growth</span><span class="ins-jchip">Fleet Operation</span></div></div><div class="ins-card ins-high"><div class="ins-top"><span class="ins-rank">6</span><span class="sev sev-high">High</span></div><div class="ins-title">Developer &amp; platform / API integration overhead</div><div class="ins-desc">Partners like Lightspeed embed Adyen and sign up thousands of shops, but connecting takes far too much engineering: developer manuals are wrong, signing up one shop takes 7&ndash;9 steps where a rival needs none, there's no bulk settings API, and key data and payment alerts are missing. If unaddressed, big partners move to easier rivals like Stripe.</div><div class="ins-meta">Strategic (ISV/platform) &middot; Lightspeed developer report &middot; Slack Integrations 26.3% + Platform 8.0% &middot; no Unwrap volume</div><div class="ins-q">&ldquo;Integrating with Adyen creates disproportionate engineering overhead compared to alternatives like Stripe &mdash; critical API gaps, inaccurate OpenAPI specs, unusable log-tracing, poor device deployment controls.&rdquo; &mdash; Lightspeed developer feedback, v5</div><div class="ins-rec"><span class="arr">&rarr;</span> A platform-grade API/tooling contract: accurate specs + changelog, bulk/real-time endpoints, complete webhooks, usable logs, engineering escalation.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">Test & Integration</span></div></div><div class="ins-card ins-high"><div class="ins-top"><span class="ins-rank">7</span><span class="sev sev-high">High</span></div><div class="ins-title">Settings are confusing &mdash; and the Customer Area got worse</div><div class="ins-desc">Each terminal has ~955 settings, any settable at six levels (company, store, device&hellip;) where the most specific wins &mdash; but nothing marks which setting belongs where. Merchants can't tell what a setting is, where it was set, or what else breaks, so they ask support instead of self-serving. A UI redesign (&lsquo;Terminal Settings V2&rsquo;) also broke working controls.</div><div class="ins-meta">Menu &amp; Settings 2,215 Unwrap &middot; Slack 8.7% &middot; CA times out on large fleets (Lightspeed)</div><div class="ins-q">&ldquo;Too many settings are invisible to the customer and can only be viewed by Adyen support. Makes it difficult when you don't know what you don't know.&rdquo; &mdash; NPS, Dick's Sporting Goods (NA, detractor, 2/10)</div><div class="ins-rec"><span class="arr">&rarr;</span> Make settings legible: show current value + provenance + blast radius, label device-only settings, and fix the V2 UI regressions.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">Test & Integration</span><span class="ins-jchip">Go Live</span><span class="ins-jchip">BAU & Growth</span></div></div><div class="ins-card ins-high"><div class="ins-top"><span class="ins-rank">8</span><span class="sev sev-high">High</span></div><div class="ins-title">Thin docs, slow support, low self-serve</div><div class="ins-desc">Self-serve fails and support is slow. Slack shows only 62 of 323 questions resolved, 197 open, avg resolution ~32h, knowledge captured on just 22 items. Lightspeed says it's often unclear whether an issue is a platform bug or expected behaviour, and progress depends on a few known contacts.</div><div class="ins-meta">NPS Support 5.71 (lowest IPP dimension) &middot; Slack 19% resolved / 61% open / 35.5% knowledge-captured &middot; Lightspeed: weeks not days</div><div class="ins-q">&ldquo;Documentation often lacks and often when we try to implement functionality it does not work unless we have a conversation with support.&rdquo; &mdash; NPS, Quilt Software (NA, passive, 8/10)</div><div class="ins-rec"><span class="arr">&rarr;</span> Support quality + docs loop + engineering escalation so common tasks don't require a conversation.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">Test & Integration</span><span class="ins-jchip">BAU & Growth</span></div></div><div class="ins-card ins-med"><div class="ins-top"><span class="ins-rank">9</span><span class="sev sev-med">Medium-High</span></div><div class="ins-title">Payments configuration &amp; behavior (US Debit/PIN, limits, schemes)</div><div class="ins-desc">Merchants hit transaction limits needing increases, Amex not working on terminals, and US Debit/PIN routing confusion (POS runs debit as credit; PIN-bypass; correct debit/credit prompting). Low-volume in Unwrap but a repeated, sharp functional question in Slack.</div><div class="ins-meta">IPP Payments 10,673 (17.3%, largest rising theme) &middot; POS limit 1,189 &middot; Amex 434 &middot; US Debit ~130 &middot; Slack Payments 22.9%</div><div class="ins-q">&ldquo;The POS is running debit cards as credit, and I need the setting enabled so that debit transactions require a PIN instead.&rdquo; &mdash; Salesforce ticket, Jan 2026 (via Unwrap)</div><div class="ins-rec"><span class="arr">&rarr;</span> Payments config self-service: US Debit/PIN + limit self-service + scheme provisioning.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">Go Live</span><span class="ins-jchip">BAU & Growth</span></div></div><div class="ins-card ins-high"><div class="ins-top"><span class="ins-rank">10</span><span class="sev sev-high">High</span></div><div class="ins-title">Localization / regional fit blocks markets</div><div class="ins-desc">Weak local fit can lock Adyen out of entire countries. In Japan, merchants cite language auto-switching on foreign cards, receipt formatting, and no language metrics; across the EU, meal-voucher setup (Conecs/Satispay) and receipt printing recur.</div><div class="ins-meta">Market-blocking in JP &middot; meal vouchers/Conecs 402 &middot; receipts 241 &middot; NPS &middot; YouTrack SME-124/319</div><div class="ins-q">&ldquo;Need to understand the Japanese market landscape in Adyen global; the Adyen Japan team is struggling to serve their Japanese customers.&rdquo; &mdash; NPS, Dinii Inc. (Japan, passive, 8/10)</div><div class="ins-rec"><span class="arr">&rarr;</span> Localization parity + telemetry, JP-first.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">Exploration</span><span class="ins-jchip">Go Live</span></div></div><div class="ins-card ins-med"><div class="ins-top"><span class="ins-rank">11</span><span class="sev sev-med">Medium-High</span></div><div class="ins-title">Store &amp; Forward / offline is inconsistent</div><div class="ins-desc">Offline behaviour surprises merchants &mdash; from double payments on network loss to offline refunds that only work by inserting the card &mdash; and missing offline webhooks break downstream reporting until support replays events.</div><div class="ins-meta">Unwrap offline-payments 546-558 &middot; Lightspeed missing offline webhooks &middot; double-payment reports (Case 06412123)</div><div class="ins-q">&ldquo;Offline payments&hellip; we often experience that in these situations we receive double payments.&rdquo; &mdash; NPS, Georg Jensen A/S (EMEA, promoter, 10/10)</div><div class="ins-rec"><span class="arr">&rarr;</span> Predictable Store &amp; Forward + complete offline webhooks.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">BAU & Growth</span></div></div><div class="ins-card ins-med"><div class="ins-top"><span class="ins-rank">12</span><span class="sev sev-med">Medium</span></div><div class="ins-title">No business-value / actionable-reporting layer on fleet data</div><div class="ins-desc">Reporting is one of IPP's lowest-rated areas. Merchants and partners want fleet data tied to money and a next action &mdash; not just graphs and raw status.</div><div class="ins-meta">NPS Reporting 5.74 (2nd-lowest IPP dimension) &middot; Lightspeed: &lsquo;informative graphs but lacks actionable insights&rsquo; &middot; low direct Unwrap signal</div><div class="ins-q">&ldquo;I need Adyen to generate a report showing the Standalone function status for every V400m device in our stores so we can ensure they are all enabled and working.&rdquo; &mdash; Salesforce ticket, Sep 2026 (via Unwrap)</div><div class="ins-rec"><span class="arr">&rarr;</span> A business-value + actionable reporting layer on fleet data.</div><div class="ins-journey"><span class="ins-jlabel">In journey</span><span class="ins-jchip">BAU & Growth</span><span class="ins-jchip">Fleet Operation</span></div></div></div>
+
+  <!-- Cross-cutting root cause + bets -->
+  <div class="card prose" style="margin-top:24px;margin-bottom:22px">
+    <h3>Cross-cutting root cause &mdash; two bets</h3>
+    <p style="margin-bottom:12px">Insights 1&ndash;11 worsen for merchants without a payments team and for partners integrating at platform scale. Two bets relieve the most pressure:</p>
+    <ol class="exec-list">
+      <li><b>A guided / assisted-service mode</b> with sensible defaults for smaller merchants (relieves 1&ndash;5, 7&ndash;11).</li>
+      <li><b>A platform-grade API/tooling contract</b> &mdash; accurate specs, bulk/real-time endpoints, complete webhooks, usable logs, engineering escalation &mdash; for ISVs like Lightspeed (insight 6, and the reliability edges of 3, 5, 8, 11).</li>
+    </ol>
+    <p style="margin:0"><b>Separately, terminal fulfilment / logistics</b> (insight 2) is the single largest untracked operational gap and needs a clear owner.</p>
+  </div>
+
+  <!-- Roadmap shortlist -->
+  <h3 style="font-size:16px;margin:0 0 14px">Roadmap shortlist for H1 2027</h3>
+  <div class="card" style="overflow:hidden;padding:0">
+    <table class="roadtbl">
+      <thead><tr><th style="width:64px">Priority</th><th>Item</th><th style="width:34%">Anchor sources</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pri pri-p0">P0</span></td><td>Counter reliability + battery safety</td><td>Unwrap, NPS, DINT-2014/2373, PCF-15</td></tr>
+        <tr><td><span class="pri pri-p0">P0</span></td><td>Tap to Pay reliability (attestation, SDK boarding, reboard)</td><td>Unwrap, NPS, DF-12469, SME-471</td></tr>
+        <tr><td><span class="pri pri-p0">P0</span></td><td>Boarding/reassignment/provisioning: enforced key injection + data-wipe + auto-provision</td><td>Unwrap, Lightspeed, Onboarding</td></tr>
+        <tr><td><span class="pri pri-p0">P0</span></td><td>Settings legibility + fix V2 UI regressions</td><td>Unwrap, NPS, IPPPL-17966, Settings PRD</td></tr>
+        <tr><td><span class="pri pri-p0">P0</span></td><td>Safe, staged, API-driven fleet/firmware updates + LTS tracks</td><td>Unwrap, Lightspeed, IPPPL-15999</td></tr>
+        <tr><td><span class="pri pri-p1">P1</span></td><td>Terminal fulfilment / logistics as a product surface (new)</td><td>Unwrap</td></tr>
+        <tr><td><span class="pri pri-p1">P1</span></td><td>Platform/API contract: accurate specs + changelog, bulk/real-time endpoints, richer webhooks (new)</td><td>Lightspeed</td></tr>
+        <tr><td><span class="pri pri-p1">P1</span></td><td>Support quality + docs loop + engineering escalation</td><td>NPS, IPP Q&amp;A, Lightspeed, VOS-7869</td></tr>
+        <tr><td><span class="pri pri-p1">P1</span></td><td>Payments config: US Debit/PIN + limit self-service + scheme provisioning</td><td>Unwrap, IPP Q&amp;A, Payments Q&amp;A</td></tr>
+        <tr><td><span class="pri pri-p2">P2</span></td><td>Localization parity + telemetry (JP-first)</td><td>SME-124/319, Japan, NPS</td></tr>
+        <tr><td><span class="pri pri-p2">P2</span></td><td>Predictable Store &amp; Forward + complete offline webhooks</td><td>Unwrap, Lightspeed</td></tr>
+        <tr><td><span class="pri pri-p2">P2</span></td><td>Business-value + actionable reporting layer on fleet data</td><td>NPS, Lightspeed, Fleet value</td></tr>
+        <tr><td><span class="pri pri-p3">P3</span></td><td>&ldquo;Terminal&rdquo; &rarr; &ldquo;Device&rdquo; display-copy consistency</td><td>Naming (no customer signal)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<section class="view" id="business">
+  <div class="viewhead"><h2>Business context</h2>
+    <p class="sub">Adyen's Unified Commerce bet for in-store: a differentiated in-store experience tied to online/mobile across the shopper lifecycle for Enterprise, Franchise and Platform customers &mdash; unifying reliable hardware, best-in-class software and loyalty. Framing and metrics from the In-Store Experience (IPP) 2027 strategy; figures are directional and internal.</p>
+  </div>
+
+  <div class="kpis" style="margin-bottom:22px">
+    <div class="kpi"><div class="v">23%</div><div class="l">of Adyen <b>payment volume</b> is in-person (~$311B in '25)</div></div>
+    <div class="kpi accent"><div class="v">35&ndash;48%</div><div class="l"><b>YoY IPP growth</b> ('25 / '24) &mdash; outpacing the rest of payments</div></div>
+    <div class="kpi"><div class="v">8.8Tn</div><div class="l">in-store <b>TAM</b>; ~48% of F&amp;B/Hospitality/Retail volume is already IPP</div></div>
+    <div class="kpi"><div class="v">57.7</div><div class="l"><b>IPP NPS</b> (major customers) vs 66.2 base &mdash; &minus;8.5 pts to close</div></div>
+  </div>
+
+  <div class="grid2" style="margin-bottom:22px">
+    <div class="card prose">
+      <h3>The bet</h3>
+      <p>Win in-store by shipping an <b>end-to-end unified offering</b> &mdash; supply chain, hardware relationships, best-in-class devices, on-device software and connectivity &mdash; so Adyen devices &ldquo;just work&rdquo; for each customer's use case. Software and loyalty lead the value proposition, on a reliable hardware foundation.</p>
+      <p style="margin-bottom:0">The differentiator is durability: even as SoftPos and bring-your-own-device grow, a unified stack keeps merchants sticky across the prioritised verticals (Retail, F&amp;B, Hospitality, Healthcare).</p>
+    </div>
+    <div class="card prose">
+      <h3>Fleet snapshot</h3>
+      <ul class="why-list">
+        <li><span class="ix">&bull;</span><span><b>2&times; terminals</b> deployed in the last 2.5 years</span></li>
+        <li><span class="ix">&bull;</span><span>Device <b>replacement rate 14% &rarr; 6.3%</b> ('23&rarr;'26)</span></li>
+        <li><span class="ix">&bull;</span><span><b>53% Android</b> &middot; <b>32% Talon One-ready</b> models in field</span></li>
+        <li><span class="ix">&bull;</span><span><b>H2H 8.8%</b> of volume &middot; <b>SoftPos 2.8%</b> (+300% YoY)</span></li>
+        <li><span class="ix">&bull;</span><span>Escalation rate <b>3.5% &rarr; 2.6%</b> ('25&rarr;'26)</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="font-size:16px;margin:0 0 14px">2027 strategy &mdash; three pillars</h3>
+  <div class="grid3" style="margin-bottom:24px">
+    <div class="card prose">
+      <h3>1 &middot; Unified end-to-end offering</h3>
+      <p>Better-quality devices mapped to customer use cases: a slimmed, focused <b>PCI-7 device portfolio</b>, a stronger <b>quality &amp; reliability</b> testing/launch framework, improved data connectivity, and validated peripherals.</p>
+    </div>
+    <div class="card prose">
+      <h3>2 &middot; Seamless software (OmniEngine)</h3>
+      <p>One software engine across terminals and SoftPos &mdash; a device abstraction layer + modular components. Shared software <b>~25% &rarr; 95%</b> by end of '27, closing feature parity (only <b>~40%</b> of features are consistent across form factors today) and speeding new use cases.</p>
+    </div>
+    <div class="card prose">
+      <h3>3 &middot; Expand beyond the basics</h3>
+      <p><b>H2H</b> for the largest, most sophisticated merchants/platforms, and progress on <b>Adyen-on-Device</b> (bring-your-own-device) via the shared architecture &mdash; enabling loyalty/identity at the counter.</p>
+    </div>
+  </div>
+
+  <div class="card prose" style="margin-bottom:24px">
+    <h3>Top objectives (2027)</h3>
+    <ol class="exec-list">
+      <li><b>Raise IPP NPS</b> toward the Adyen base.</li>
+      <li><b>Grow IPP to 24% of total volume</b> in '27 (stretch 27%).</li>
+      <li>Ship a <b>focused PCI-7 device portfolio</b> mapped to customer use cases.</li>
+      <li><b>Fleet monitoring with automated alerting</b> &mdash; 99%+ of in-field devices hitting metric thresholds.</li>
+      <li>Reduce <b>per-terminal data cost ~50%</b> and improve connectivity reliability.</li>
+      <li><b>OmniEngine</b>: majority of in-person use cases on shared code by H1, most by H2.</li>
+    </ol>
+  </div>
+
+  <h3 style="font-size:16px;margin:0 0 4px">How customer pain maps to the strategy</h3>
+  <p class="sub" style="margin:0 0 14px;color:var(--ink-soft);font-size:var(--fs-caption)">Connecting what merchants tell us (Customer context) to the 2027 bets.</p>
+  <div class="card" style="overflow:hidden;padding:0">
+    <table class="roadtbl">
+      <thead><tr><th style="width:44%">Customer pain</th><th>Strategy response</th></tr></thead>
+      <tbody>
+        <tr><td>Hardware &amp; connectivity reliability (#1)</td><td>Pillar 1 &mdash; quality &amp; reliability plan + fleet monitoring (99% healthy)</td></tr>
+        <tr><td>Tap to Pay / SoftPOS second-class (#4)</td><td>Pillar 2 &mdash; SoftPos feature prioritisation on the shared engine</td></tr>
+        <tr><td>Developer / API &amp; platform overhead (#6)</td><td>Pillars 2 &amp; 3 &mdash; OmniEngine shared software + H2H for platforms</td></tr>
+        <tr><td>Fleet &amp; firmware updates risky (#5)</td><td>Pillar 1 &mdash; safe, staged, API-driven updates + alerting</td></tr>
+        <tr><td>Settings / feature inconsistency (#7)</td><td>Pillar 2 &mdash; feature parity across form factors (40% &rarr; 95%)</td></tr>
+        <tr><td>Fulfilment &amp; logistics (#2)</td><td>Flagged as the largest untracked operational gap &mdash; needs a clear owner</td></tr>
+      </tbody>
+    </table>
+  </div>
 </section>
 
 
@@ -1007,7 +1277,7 @@ section.view{padding:var(--b-spacer-100) 0 var(--b-spacer-140)} /* 32 / 64 */
   <div class="viewhead"><h2>System context &amp; documentation</h2>
     <p class="sub">Technical architecture, configuration hierarchy, and documentation references gathered from Hub and Adyen Docs &mdash; grounding the journey map in how the system actually works.</p></div>
 
-  <div class="grid3" style="margin-bottom:28px">
+  <div class="grid3" style="margin-bottom:24px">
     <div class="card prose">
       <h3>Supply chain journey</h3>
       <p>The IPP Platform Supply Chain team smooths the terminal's journey from <b>warehouse to merchant</b>:</p>
@@ -1068,7 +1338,7 @@ section.view{padding:var(--b-spacer-100) 0 var(--b-spacer-140)} /* 32 / 64 */
     </div>
   </div>
 
-  <div class="card prose" style="margin-top:28px">
+  <div class="card prose" style="margin-top:24px">
     <h3>AfP terminal onboarding</h3>
     <p class="lead" style="border-left:3px solid var(--accent);padding-left:14px;margin:14px 0">"Onboarding the terminal can be a source of friction and therefore impact the extent to which users fully adopt the solution. If the setup process is too difficult, users may drop off before they have fully adopted terminal payments."</p>
     <p style="font-size:12px;color:var(--ink-faint)">— Adyen Docs, Platforms Quickstart Guide</p>
@@ -2001,7 +2271,7 @@ renderSolutions();
 
 <script>
 (function(){
-var IPP_INSIGHTS = [{"n": "1", "sev": "crit", "sevlbl": "Critical", "title": "Hardware &amp; connectivity failures at the counter", "short": "Hardware & connectivity", "desc": "Terminals that freeze, won't charge, or drop connectivity cost sales on the spot &mdash; the biggest pain by volume, including a physical battery-safety risk. The one bright spot: this theme is trending down.", "meta": "Unwrap #1 (EFTPOS 26,369 = 42.6%) &middot; ~9,100 reliability &middot; leading NPS detractor", "quote": "&ldquo;An urgent safety issue with our three terminals&hellip; severe battery swelling, one unusable, another unable to charge.&rdquo; &mdash; Salesforce ticket, Sep 2026", "rec": "Stand up a named reliability + battery-safety workstream with merchant-visible device health.", "phases": [3, 4]}, {"n": "2", "sev": "high", "sevlbl": "High", "title": "Terminal fulfilment: warehousing, logistics &amp; orders (new)", "short": "Fulfilment & logistics", "desc": "Shipping delays, lost terminals and wrong items are a quarter of all IPP feedback with no improvement trend &mdash; but they hide in support tickets, so they barely show in NPS or Slack. A large operational drag with no clear product owner.", "meta": "Unwrap #2 &middot; W&amp;L 15,778 (25.5%), flat &middot; Orders &amp; Returns 4,128", "quote": "&ldquo;Drop shipping is not working for Monzo&hellip; still an error saying drop shipping not configured.&rdquo; &mdash; IPP support Slack", "rec": "Treat fulfilment as a product surface: order/shipment tracking, lost-terminal self-service, fulfilment SLAs.", "phases": [1, 2, 4]}, {"n": "3", "sev": "high", "sevlbl": "High", "title": "Boarding, reassignment &amp; provisioning", "short": "Boarding & provisioning", "desc": "Terminals get stuck in &lsquo;Deployed,&rsquo; reassignment isn't self-serve, and boarding silently fails when no payment method is set &mdash; some go live without encryption keys, and apps/memory can persist after reassignment (data-leak risk).", "meta": "Boarding cluster ~7,500+ &middot; keys-missing 1,825 &middot; part-mapping 5,384 &middot; methods not provisioned 4,288", "quote": "&ldquo;I am unable to access terminal S1F2&hellip; it is requesting a boarding password I cannot find how to change.&rdquo; &mdash; Salesforce ticket, Sep 2026", "rec": "Show boarding blockers in-product, enable self-serve reassignment with enforced data-wipe, auto-provision approved methods.", "phases": [2, 4]}, {"n": "4", "sev": "high", "sevlbl": "High", "title": "Tap to Pay / SoftPOS is second-class and unreliable", "short": "Tap to Pay / SoftPOS", "desc": "Boarding and attestation fail too often (false &lsquo;SecurityBlock,&rsquo; setup-token errors) and the tooling lags fixed terminals &mdash; device-level config is blocked, there's no phone-model targeting, and reboarding needs a reinstall.", "meta": "~4,800+ entries, worst sentiment of any IPP theme &middot; SDK failures 2,652 &middot; Slack Integrations 26.3%", "quote": "&ldquo;Persistent HTTP 400 (1029_617) &lsquo;Invalid combination of merchant account and setup token&rsquo; integrating Tap to Pay on Android.&rdquo; &mdash; Salesforce ticket, Sep 2026", "rec": "Bring SoftPOS to parity with terminals: reliable attestation/boarding, device-level config, phone-model targeting.", "phases": [1, 3]}, {"n": "5", "sev": "high", "sevlbl": "High", "title": "Fleet &amp; firmware updates are risky and uncontrollable", "short": "Fleet & firmware updates", "desc": "Saving a profile can push a fleet-wide install mid-trading, upgrades sometimes uninstall apps, and recovery is undocumented. Partners want the missing controls to validate before going wide.", "meta": "Lightspeed &middot; IPPMOB-7350 &middot; IPPPL-15999", "quote": "&ldquo;My terminal is stuck at 71% during a software update, showing the wrong timezone and &lsquo;terminal not boarded.&rsquo;&rdquo; &mdash; Salesforce ticket, Sep 2026", "rec": "API-driven deployment, staged rollout, and stable LTS tracks.", "phases": [3, 4]}, {"n": "6", "sev": "high", "sevlbl": "High", "title": "Developer &amp; platform / API integration overhead", "short": "API integration overhead", "desc": "Partners who embed Adyen hit heavy integration overhead: API specs that don't match production, 7&ndash;9 onboarding calls where Stripe needs 0, no bulk payment-method endpoints, missing fields (MCC, midNumber), missing offline webhooks, and no real-time payout API.", "meta": "Lightspeed developer feedback", "quote": "&ldquo;Integrating with Adyen creates disproportionate engineering overhead&hellip; critical API gaps, inaccurate specs, unusable log-tracing, poor device deployment controls.&rdquo; &mdash; Lightspeed", "rec": "Close the API/tooling gaps before strategic partners benchmark toward competitors.", "phases": [1]}, {"n": "7", "sev": "high", "sevlbl": "High", "title": "Settings &amp; Customer Area are opaque &mdash; and the UI regressed", "short": "Opaque settings / CA", "desc": "~955 terminal settings, each settable at six cascading levels (PSP &rarr; Company &rarr; Merchant &rarr; Store &rarr; Profile &rarr; Terminal), yet nothing is labeled device-only &mdash; so merchants can't tell what a setting is, where it came from, or what else changes. The new &lsquo;Ekiben&rsquo; UI also broke working controls.", "meta": "IPPPL-17966 &middot; PF-4562 &middot; Settings PRD, Unwrap, Lightspeed", "quote": "&ldquo;Too many settings are invisible to the customer and can only be viewed by Adyen support&hellip; you don't know what you don't know.&rdquo; &mdash; NPS, Dick's Sporting Goods (2/10)", "rec": "Make settings legible: show current value + provenance + blast radius, and label device-only settings.", "phases": [1, 2, 3]}, {"n": "8", "sev": "med", "sevlbl": "Medium", "title": "Thin docs, slow support, low self-serve", "short": "Docs & support", "desc": "Merchants can't self-serve: docs lack detail and functionality often only works after a conversation with support. Support and Reporting are IPP's lowest-rated NPS dimensions.", "meta": "NPS H1 2026 &middot; lowest-rated dimensions", "quote": "&ldquo;Documentation often lacks and often when we try to implement functionality it does not work unless we have a conversation with support.&rdquo; &mdash; NPS, Quilt Software (8/10)", "rec": "Invest in docs + self-serve so common tasks don't require support.", "phases": [1, 3]}, {"n": "9", "sev": "med", "sevlbl": "Medium-High", "title": "Payments configuration &amp; behavior (US debit/PIN, limits, schemes)", "short": "Payments config", "desc": "Config behaviour surprises merchants &mdash; e.g. debit cards running as credit, or PIN not prompting &mdash; smaller by ticket volume but high-severity at the counter.", "meta": "~1,600 Salesforce tickets &middot; recurring in Slack", "quote": "&ldquo;The POS is running debit cards as credit, and I need the setting enabled so debit requires a PIN.&rdquo; &mdash; Salesforce ticket, Jan 2026", "rec": "Make payment-config outcomes predictable and self-serviceable.", "phases": [2, 3]}, {"n": "10", "sev": "med", "sevlbl": "Medium", "title": "Localization / regional fit blocks markets", "short": "Localization", "desc": "Regional gaps (Japan, France/Conecs, receipts, language) can gate whole markets for local teams and merchants.", "meta": "NPS H1 2026 &middot; regional detractors/passives", "quote": "&ldquo;The Adyen Japan team is struggling to serve their Japanese customers.&rdquo; &mdash; NPS, Dinii Inc. (Japan, 8/10)", "rec": "Prioritise regional fit where it unblocks whole markets.", "phases": [0, 2]}, {"n": "11", "sev": "med", "sevlbl": "Medium", "title": "Store &amp; Forward / offline is inconsistent", "short": "Offline / Store & Forward", "desc": "Offline / Store &amp; Forward behaves unexpectedly on unstable networks &mdash; including double payments &mdash; eroding trust exactly when reliability matters most.", "meta": "NPS H1 2026 &middot; EMEA", "quote": "&ldquo;Offline payments&hellip; we often experience double payments in these situations.&rdquo; &mdash; NPS, Georg Jensen A/S (10/10)", "rec": "Make offline payments deterministic (no double charges/declines).", "phases": [3]}, {"n": "12", "sev": "med", "sevlbl": "Medium", "title": "No business-value / reporting layer on fleet data", "short": "Fleet reporting", "desc": "Merchants want actionable reporting from device/fleet data (e.g. per-device feature status) and today have to ask support for it.", "meta": "Salesforce tickets &middot; fleet reporting requests", "quote": "&ldquo;I need a report showing the Standalone status for every V400m device in our stores.&rdquo; &mdash; Salesforce ticket, Sep 2026", "rec": "Add a reporting layer that turns fleet data into merchant-visible insight.", "phases": [3, 4]}];
+var IPP_INSIGHTS = [{"n": "1", "sev": "crit", "sevlbl": "Critical", "title": "Hardware &amp; connectivity failures at the counter", "short": "Hardware & connectivity", "desc": "Terminals that freeze, won't charge, or drop connectivity cost sales on the spot. It's the biggest pain by volume and includes a physical battery-safety risk (echoing the Burberry V400m near-miss). The one bright spot: Unwrap shows these themes trending down, so recent fixes are landing.", "meta": "Unwrap #1 (EFTPOS 26,369 = 42.6%) &middot; ~9,100 hardware-reliability &middot; Hardware+Reliability ~24% of Slack Q&amp;A &middot; leading NPS detractor", "quote": "&ldquo;I am reporting an urgent safety issue with our three credit card terminals, all experiencing severe battery swelling, with one terminal logged out and unusable.&rdquo; &mdash; Salesforce ticket (via Unwrap)", "rec": "Stand up a named reliability + battery-safety workstream with merchant-visible device health.", "phases": [3, 4]}, {"n": "2", "sev": "high", "sevlbl": "High", "title": "Terminal fulfilment: warehousing, logistics &amp; orders", "short": "Fulfilment & logistics", "desc": "Getting physical terminals to merchants is a mess: shipments arrive late, devices go missing, and the wrong items turn up. It's about a quarter of all IPP feedback and isn't getting better &mdash; and it hides in support tickets, so it barely shows in surveys or Slack.", "meta": "Unwrap #2 &middot; W&amp;L 15,778 (25.5%), flat &middot; Orders &amp; Returns 4,128 &middot; lost 438 &middot; under-reported in NPS/Slack", "quote": "&ldquo;Drop shipping is not working for Monzo&hellip; during the order flow there is still an error saying drop shipping is not configured.&rdquo; &mdash; IPP support Slack", "rec": "Treat fulfilment as a product surface: order/shipment tracking, lost-terminal self-service, fulfilment SLAs, and a clear owner.", "phases": [1, 2, 4]}, {"n": "3", "sev": "high", "sevlbl": "High", "title": "Boarding, reassignment &amp; provisioning", "short": "Boarding & provisioning", "desc": "Terminals get stuck in &lsquo;Deployed,&rsquo; reassignment isn't self-serve, and boarding silently fails when no payment method is set. Two gaps stand out: terminals going live without encryption keys, and approved methods not auto-configured after underwriting. Lightspeed adds a data-leak risk &mdash; apps/memory persist after reassignment.", "meta": "Highest-volume cluster (~19,900) &middot; keys-missing 1,825 &middot; part mapping 5,384 &middot; methods not provisioned 4,288 &middot; Slack Boarding 4.3%", "quote": "&ldquo;I am unable to access terminal S1F2-000158213602755 because it is requesting a boarding password that I cannot find how to change.&rdquo; &mdash; Salesforce ticket, Sep 2026 (via Unwrap)", "rec": "Show boarding blockers in-product, enable self-serve reassignment with enforced data-wipe, auto-provision approved methods.", "phases": [2, 4]}, {"n": "4", "sev": "high", "sevlbl": "High", "title": "Tap to Pay / SoftPOS is second-class and unreliable", "short": "Tap to Pay / SoftPOS", "desc": "Boarding and attestation fail too often (false &lsquo;SecurityBlock,&rsquo; setup-token errors) and the tooling lags fixed terminals &mdash; device-level config is blocked, there's no phone-model targeting, and reboarding needs a reinstall. So merchants don't trust it.", "meta": "~4,800+ entries, worst sentiment of any theme &middot; SDK payment failures 2,652 &middot; Slack Integrations 26.3% (largest topic)", "quote": "&ldquo;Persistent HTTP 400 error (1029_617): &lsquo;Invalid combination of merchant account and setup token&rsquo; integrating Tap to Pay on Android using the POS Mobile SDK.&rdquo; &mdash; Salesforce ticket, Sep 2026 (via Unwrap)", "rec": "Bring SoftPOS to parity with terminals: reliable attestation/boarding, device-level config, phone-model targeting, in-place reboard.", "phases": [1, 3]}, {"n": "5", "sev": "high", "sevlbl": "High", "title": "Fleet &amp; firmware updates are risky and uncontrollable", "short": "Fleet & firmware updates", "desc": "Terminal software updates are risky and out of the merchant's hands: saving a settings change can force an update onto every terminal at once, mid-trading &mdash; sometimes knocking out apps. Merchants want to stage rollouts, schedule quiet hours, and stay on a proven version.", "meta": "Firmware/reliability 2,520 + 561 manual-update entries (&lsquo;Chain Validation failed,&rsquo; bricked, stuck at 71%) &middot; Lightspeed: auto-enrolment is the only option", "quote": "&ldquo;My terminal is stuck at 71% during a software update, showing the wrong timezone and &lsquo;terminal not boarded,&rsquo; causing issues with transactions and refunds.&rdquo; &mdash; Salesforce ticket, Sep 2026 (via Unwrap)", "rec": "Safe, staged, API-driven fleet/firmware updates with scheduling and stable LTS tracks.", "phases": [3, 4]}, {"n": "6", "sev": "high", "sevlbl": "High", "title": "Developer &amp; platform / API integration overhead", "short": "API integration overhead", "desc": "Partners like Lightspeed embed Adyen and sign up thousands of shops, but connecting takes far too much engineering: developer manuals are wrong, signing up one shop takes 7&ndash;9 steps where a rival needs none, there's no bulk settings API, and key data and payment alerts are missing. If unaddressed, big partners move to easier rivals like Stripe.", "meta": "Strategic (ISV/platform) &middot; Lightspeed developer report &middot; Slack Integrations 26.3% + Platform 8.0% &middot; no Unwrap volume", "quote": "&ldquo;Integrating with Adyen creates disproportionate engineering overhead compared to alternatives like Stripe &mdash; critical API gaps, inaccurate OpenAPI specs, unusable log-tracing, poor device deployment controls.&rdquo; &mdash; Lightspeed developer feedback, v5", "rec": "A platform-grade API/tooling contract: accurate specs + changelog, bulk/real-time endpoints, complete webhooks, usable logs, engineering escalation.", "phases": [1]}, {"n": "7", "sev": "high", "sevlbl": "High", "title": "Settings are confusing &mdash; and the Customer Area got worse", "short": "Opaque settings / CA", "desc": "Each terminal has ~955 settings, any settable at six levels (company, store, device&hellip;) where the most specific wins &mdash; but nothing marks which setting belongs where. Merchants can't tell what a setting is, where it was set, or what else breaks, so they ask support instead of self-serving. A UI redesign (&lsquo;Terminal Settings V2&rsquo;) also broke working controls.", "meta": "Menu &amp; Settings 2,215 Unwrap &middot; Slack 8.7% &middot; CA times out on large fleets (Lightspeed)", "quote": "&ldquo;Too many settings are invisible to the customer and can only be viewed by Adyen support. Makes it difficult when you don't know what you don't know.&rdquo; &mdash; NPS, Dick's Sporting Goods (NA, detractor, 2/10)", "rec": "Make settings legible: show current value + provenance + blast radius, label device-only settings, and fix the V2 UI regressions.", "phases": [1, 2, 3]}, {"n": "8", "sev": "high", "sevlbl": "High", "title": "Thin docs, slow support, low self-serve", "short": "Docs & support", "desc": "Self-serve fails and support is slow. Slack shows only 62 of 323 questions resolved, 197 open, avg resolution ~32h, knowledge captured on just 22 items. Lightspeed says it's often unclear whether an issue is a platform bug or expected behaviour, and progress depends on a few known contacts.", "meta": "NPS Support 5.71 (lowest IPP dimension) &middot; Slack 19% resolved / 61% open / 35.5% knowledge-captured &middot; Lightspeed: weeks not days", "quote": "&ldquo;Documentation often lacks and often when we try to implement functionality it does not work unless we have a conversation with support.&rdquo; &mdash; NPS, Quilt Software (NA, passive, 8/10)", "rec": "Support quality + docs loop + engineering escalation so common tasks don't require a conversation.", "phases": [1, 3]}, {"n": "9", "sev": "med", "sevlbl": "Medium-High", "title": "Payments configuration &amp; behavior (US Debit/PIN, limits, schemes)", "short": "Payments config", "desc": "Merchants hit transaction limits needing increases, Amex not working on terminals, and US Debit/PIN routing confusion (POS runs debit as credit; PIN-bypass; correct debit/credit prompting). Low-volume in Unwrap but a repeated, sharp functional question in Slack.", "meta": "IPP Payments 10,673 (17.3%, largest rising theme) &middot; POS limit 1,189 &middot; Amex 434 &middot; US Debit ~130 &middot; Slack Payments 22.9%", "quote": "&ldquo;The POS is running debit cards as credit, and I need the setting enabled so that debit transactions require a PIN instead.&rdquo; &mdash; Salesforce ticket, Jan 2026 (via Unwrap)", "rec": "Payments config self-service: US Debit/PIN + limit self-service + scheme provisioning.", "phases": [2, 3]}, {"n": "10", "sev": "high", "sevlbl": "High", "title": "Localization / regional fit blocks markets", "short": "Localization", "desc": "Weak local fit can lock Adyen out of entire countries. In Japan, merchants cite language auto-switching on foreign cards, receipt formatting, and no language metrics; across the EU, meal-voucher setup (Conecs/Satispay) and receipt printing recur.", "meta": "Market-blocking in JP &middot; meal vouchers/Conecs 402 &middot; receipts 241 &middot; NPS &middot; YouTrack SME-124/319", "quote": "&ldquo;Need to understand the Japanese market landscape in Adyen global; the Adyen Japan team is struggling to serve their Japanese customers.&rdquo; &mdash; NPS, Dinii Inc. (Japan, passive, 8/10)", "rec": "Localization parity + telemetry, JP-first.", "phases": [0, 2]}, {"n": "11", "sev": "med", "sevlbl": "Medium-High", "title": "Store &amp; Forward / offline is inconsistent", "short": "Offline / Store & Forward", "desc": "Offline behaviour surprises merchants &mdash; from double payments on network loss to offline refunds that only work by inserting the card &mdash; and missing offline webhooks break downstream reporting until support replays events.", "meta": "Unwrap offline-payments 546-558 &middot; Lightspeed missing offline webhooks &middot; double-payment reports (Case 06412123)", "quote": "&ldquo;Offline payments&hellip; we often experience that in these situations we receive double payments.&rdquo; &mdash; NPS, Georg Jensen A/S (EMEA, promoter, 10/10)", "rec": "Predictable Store &amp; Forward + complete offline webhooks.", "phases": [3]}, {"n": "12", "sev": "med", "sevlbl": "Medium", "title": "No business-value / actionable-reporting layer on fleet data", "short": "Fleet reporting", "desc": "Reporting is one of IPP's lowest-rated areas. Merchants and partners want fleet data tied to money and a next action &mdash; not just graphs and raw status.", "meta": "NPS Reporting 5.74 (2nd-lowest IPP dimension) &middot; Lightspeed: &lsquo;informative graphs but lacks actionable insights&rsquo; &middot; low direct Unwrap signal", "quote": "&ldquo;I need Adyen to generate a report showing the Standalone function status for every V400m device in our stores so we can ensure they are all enabled and working.&rdquo; &mdash; Salesforce ticket, Sep 2026 (via Unwrap)", "rec": "A business-value + actionable reporting layer on fleet data.", "phases": [3, 4]}];
 
 /* ---- DATA ---- */
 const STEPS = [
@@ -3214,6 +3484,156 @@ document.querySelectorAll('#srcTabs button').forEach(btn=>{
   });
 });
 
+})();
+</script>
+
+<button id="cxFab" class="cx-fab" title="Comments" aria-label="Comments">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  <span class="cx-fab-count" id="cxFabCount" style="display:none">0</span>
+</button>
+<aside id="cxPanel" class="cx-panel" aria-hidden="true">
+  <div class="cx-head"><span class="cx-title">Comments</span>
+    <div class="cx-head-actions"><button id="cxAdd" class="cx-btn cx-btn-primary">+ Comment</button><button id="cxClose" class="cx-iconbtn" aria-label="Close">&#10005;</button></div></div>
+  <div class="cx-who">Commenting as <b id="cxWho">-</b> &middot; <a id="cxWhoEdit" href="#">change</a></div>
+  <div class="cx-tabs"><button class="cx-tab on" data-tab="open">Open</button><button class="cx-tab" data-tab="resolved">Resolved</button>
+    <span class="cx-tabmenu"><a id="cxExport" href="#">Export</a> &middot; <a id="cxImport" href="#">Import</a></span></div>
+  <div class="cx-list" id="cxList"></div>
+  <input type="file" id="cxImportFile" accept="application/json" style="display:none">
+</aside>
+<button id="cxHelp" class="cx-help-btn" title="How to use" aria-label="How to use"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></button>
+<div id="cxHelpModal" class="cx-help-modal" aria-hidden="true">
+  <div class="cx-help-card">
+    <div class="cx-help-head"><span>How to use this journey</span><button id="cxHelpClose" class="cx-iconbtn" aria-label="Close">&#10005;</button></div>
+    <div class="cx-help-body">
+      <h4>Navigate</h4>
+      <ul><li>Use the left <b>sidebar</b> to switch views: <b>Journey map</b>, <b>Business context</b>, <b>Customer context</b>, <b>System context</b>, <b>Data source</b>. Collapse it with the panel icon.</li></ul>
+      <h4>Journey map</h4>
+      <ul>
+        <li>Switch <b>View</b>: <b>Journey map</b> (cards), <b>Blueprint</b> (swimlane), <b>Ownership</b> (team &times; phase).</li>
+        <li>Filter by <b>Team</b>, <b>Persona</b> or <b>Opportunity size</b>; use <b>Expand</b> for a full-screen view.</li>
+        <li>Open each phase's <b>Friction &amp; sentiment</b> box for pain points + customer-sentiment insights &mdash; click a chip for detail.</li>
+      </ul>
+      <h4>Business &amp; Customer context</h4>
+      <ul><li><b>Customer context</b> ranks 12 insights from real feedback, each tied to evidence and journey phases. <b>Business context</b> frames the 2027 strategy and maps pains to the bets.</li></ul>
+      <h4>Comment</h4>
+      <ul>
+        <li>Click the green <b>bubble</b> (bottom-right) to open Comments. Hit <b>+ Comment</b>, then click anywhere on a page to drop a pin.</li>
+        <li><b>Reply</b> to discuss; <b>Resolve</b> to archive it to the <b>Resolved</b> tab (history).</li>
+        <li>Comments are saved in <b>your browser</b>; use <b>Export / Import</b> to share them.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<script>window.CX_SUPABASE={url:'https://icnwiwchwdzzsknbxduf.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imljbndpd2Nod2R6enNrbmJ4ZHVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyMzIyNzcsImV4cCI6MjEwNTgwODI3N30._c_4T5YdZdpuTjvojrqcExVkPClOxTx52QHSC6745Wo'};</script>
+
+<script>
+(function(){
+  var LS='ipp_comments_v1', LSA='ipp_comment_author';
+  var CX=(window.CX_SUPABASE||{url:'',key:''});
+  function remote(){return !!(CX.url&&CX.key);}
+  function load(){try{return JSON.parse(localStorage.getItem(LS))||[]}catch(e){return[]}}
+  function save(d){try{localStorage.setItem(LS,JSON.stringify(d||data))}catch(e){}}
+  function sbFetch(path,opts){opts=opts||{};opts.headers=Object.assign({apikey:CX.key,Authorization:'Bearer '+CX.key,'Content-Type':'application/json'},opts.headers||{});return fetch(CX.url.replace(/\/$/,'')+'/rest/v1/'+path,opts);}
+  function pushRemote(t){if(!remote())return;sbFetch('comments',{method:'POST',headers:{'Prefer':'resolution=merge-duplicates,return=minimal'},body:JSON.stringify([{id:t.id,data:t,updated_at:new Date().toISOString()}])}).catch(function(){});}
+  function delRemote(id){if(!remote())return;sbFetch('comments?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{'Prefer':'return=minimal'}}).catch(function(){});}
+  function pullRemote(cb){if(!remote()){cb&&cb();return;}sbFetch('comments?select=id,data&order=updated_at.asc').then(function(r){return r.ok?r.json():null;}).then(function(rows){if(Array.isArray(rows)){data=rows.map(function(r){return r.data;}).filter(Boolean);save();}cb&&cb();}).catch(function(){cb&&cb();});}
+  var data=load(), panel,list,fab,who,curTab='open',adding=false,composer=null;
+  function author(){return localStorage.getItem(LSA)||''}
+  function setAuthor(n){localStorage.setItem(LSA,n);}
+  function ensureAuthor(){var a=author();if(!a){a=(prompt('Your name (shown on your comments):','')||'').trim();if(!a)return'';setAuthor(a);updateWho();}return a;}
+  function updateWho(){if(who)who.textContent=author()||'anonymous';}
+  function viewName(id){var m={journey:'Journey map',business:'Business context',overview:'Customer context',sysinfo:'System context',datasource:'Data source'};return m[id]||id;}
+  function activeView(){var s=document.querySelector('section.view.active');return s?s.id:'journey';}
+  function uid(){return 't'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+  function rel(ts){var s=(Date.now()-ts)/1000;if(s<60)return'just now';var m=s/60;if(m<60)return Math.floor(m)+'m ago';var h=m/60;if(h<24)return Math.floor(h)+'h ago';var d=h/24;if(d<7)return Math.floor(d)+'d ago';return new Date(ts).toLocaleDateString();}
+  function esc(t){return(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function get(id){return data.filter(function(t){return t.id===id;})[0];}
+  function clearPins(){document.querySelectorAll('.cx-pin').forEach(function(p){p.remove();});}
+  function renderPins(){
+    clearPins();var v=activeView(),sec=document.getElementById(v);if(!sec)return;
+    if(getComputedStyle(sec).position==='static')sec.style.position='relative';
+    data.forEach(function(t){if(t.view!==v||t.resolved)return;
+      var pin=document.createElement('button');pin.className='cx-pin';pin.style.left=t.x+'px';pin.style.top=t.y+'px';
+      pin.textContent=(t.messages[0].author||'?').slice(0,1).toUpperCase();
+      pin.title=(t.messages[0].author||'')+': '+t.messages[0].text;
+      pin.onclick=function(e){e.stopPropagation();focus(t.id);};
+      sec.appendChild(pin);});
+  }
+  function closeComposer(){if(composer){composer.remove();composer=null;}}
+  function openComposer(v,x,y){
+    closeComposer();var sec=document.getElementById(v);if(!sec)return;
+    if(getComputedStyle(sec).position==='static')sec.style.position='relative';
+    composer=document.createElement('div');composer.className='cx-composer';composer.style.left=x+'px';composer.style.top=y+'px';
+    composer.innerHTML='<textarea class="cx-ta" rows="3" placeholder="Add a comment..."></textarea><div class="cx-crow"><button class="cx-btn cx-btn-primary cx-post">Comment</button><button class="cx-btn cx-cancel">Cancel</button></div>';
+    sec.appendChild(composer);var ta=composer.querySelector('.cx-ta');ta.focus();
+    composer.querySelector('.cx-cancel').onclick=function(){closeComposer();};
+    composer.querySelector('.cx-post').onclick=function(){var txt=ta.value.trim();if(!txt)return;var a=ensureAuthor();if(!a)return;
+      var nt={id:uid(),view:v,x:x,y:y,resolved:false,createdAt:Date.now(),resolvedAt:null,messages:[{author:a,text:txt,at:Date.now()}]};
+      data.push(nt);save();pushRemote(nt);closeComposer();exitAdd();setTab('open');render();openPanel();};
+    ta.addEventListener('keydown',function(e){if((e.metaKey||e.ctrlKey)&&e.key==='Enter')composer.querySelector('.cx-post').click();if(e.key==='Escape')closeComposer();});
+  }
+  function enterAdd(){adding=true;document.body.classList.add('cx-adding');}
+  function exitAdd(){adding=false;document.body.classList.remove('cx-adding');}
+  function onContentClick(e){if(!adding)return;if(e.target.closest('.cx-pin,.cx-composer,.cx-panel,.cx-fab'))return;
+    e.preventDefault();e.stopPropagation();var v=activeView(),sec=document.getElementById(v);if(!sec){exitAdd();return;}
+    var r=sec.getBoundingClientRect();openComposer(v,e.clientX-r.left,e.clientY-r.top);exitAdd();}
+  function resolve(id){var t=get(id);if(t){t.resolved=true;t.resolvedAt=Date.now();save();pushRemote(t);render();}}
+  function reopen(id){var t=get(id);if(t){t.resolved=false;t.resolvedAt=null;save();pushRemote(t);render();}}
+  function del(id){if(!confirm('Delete this comment thread?'))return;data=data.filter(function(t){return t.id!==id;});save();delRemote(id);render();}
+  function reply(id,txt){var t=get(id);if(!t)return;var a=ensureAuthor();if(!a)return;t.messages.push({author:a,text:txt,at:Date.now()});save();pushRemote(t);render();}
+  function focus(id){var t=get(id);if(!t)return;if(typeof window.switchTab==='function')window.switchTab(t.view);openPanel();
+    setTimeout(function(){renderPins();var el=document.getElementById('cxItem-'+id);if(el){el.scrollIntoView({block:'nearest'});el.classList.add('cx-flash');setTimeout(function(){el.classList.remove('cx-flash');},1200);}},60);}
+  function setTab(t){curTab=t;document.querySelectorAll('.cx-tab').forEach(function(b){b.classList.toggle('on',b.dataset.tab===t);});}
+  function render(){
+    updateWho();
+    var open=data.filter(function(t){return !t.resolved;}),res=data.filter(function(t){return t.resolved;});
+    var cnt=document.getElementById('cxFabCount');if(cnt){cnt.textContent=open.length;cnt.style.display=open.length?'':'none';}
+    var arr=(curTab==='open'?open:res).slice().sort(function(a,b){return b.createdAt-a.createdAt;});
+    if(!arr.length){list.innerHTML='<div class="cx-empty">'+(curTab==='open'?'No open comments. Click <b>+ Comment</b>, then click anywhere on the page to drop a pin.':'No resolved comments yet.')+'</div>';renderPins();return;}
+    list.innerHTML=arr.map(function(t){
+      var msgs=t.messages.map(function(m){return '<div class="cx-msg"><div class="cx-msg-h"><b>'+esc(m.author)+'</b><span>'+rel(m.at)+'</span></div><div class="cx-msg-t">'+esc(m.text)+'</div></div>';}).join('');
+      var actions=t.resolved?'<button class="cx-mini" data-act="reopen" data-id="'+t.id+'">Reopen</button><button class="cx-mini" data-act="del" data-id="'+t.id+'">Delete</button>':'<button class="cx-mini" data-act="replytog" data-id="'+t.id+'">Reply</button><button class="cx-mini cx-resolve" data-act="resolve" data-id="'+t.id+'">Resolve</button>';
+      return '<div class="cx-item" id="cxItem-'+t.id+'"><div class="cx-item-top"><span class="cx-vbadge" data-act="focus" data-id="'+t.id+'">'+viewName(t.view)+'</span><span class="cx-item-time">'+rel(t.createdAt)+'</span></div>'+msgs+'<div class="cx-reply" id="cxReply-'+t.id+'" style="display:none"><textarea class="cx-ta" rows="2" placeholder="Reply..."></textarea><div class="cx-crow"><button class="cx-btn cx-btn-primary cx-mini" data-act="replysend" data-id="'+t.id+'">Reply</button></div></div><div class="cx-actions">'+actions+'</div></div>';
+    }).join('');
+    renderPins();
+  }
+  function openPanel(){panel.classList.add('on');panel.setAttribute('aria-hidden','false');}
+  function closePanel(){panel.classList.remove('on');panel.setAttribute('aria-hidden','true');closeComposer();exitAdd();}
+  function exportJSON(){var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ipp-comments.json';a.click();}
+  function importJSON(file){var fr=new FileReader();fr.onload=function(){try{var d=JSON.parse(fr.result);if(Array.isArray(d)&&confirm('Replace current comments with the imported file?')){data=d;save();if(remote())d.forEach(pushRemote);render();}}catch(e){alert('Invalid JSON file');}};fr.readAsText(file);}
+  function init(){
+    fab=document.getElementById('cxFab');panel=document.getElementById('cxPanel');list=document.getElementById('cxList');who=document.getElementById('cxWho');
+    if(!fab||!panel)return;
+    fab.onclick=function(){panel.classList.contains('on')?closePanel():openPanel();};
+    document.getElementById('cxClose').onclick=closePanel;
+    document.getElementById('cxAdd').onclick=function(){if(!ensureAuthor())return;enterAdd();};
+    document.getElementById('cxWhoEdit').onclick=function(e){e.preventDefault();var n=(prompt('Your name for comments:',author())||'').trim();if(n){setAuthor(n);render();}};
+    document.querySelectorAll('.cx-tab').forEach(function(b){b.onclick=function(){setTab(b.dataset.tab);render();};});
+    document.getElementById('cxExport').onclick=function(e){e.preventDefault();exportJSON();};
+    document.getElementById('cxImport').onclick=function(e){e.preventDefault();document.getElementById('cxImportFile').click();};
+    document.getElementById('cxImportFile').onchange=function(e){if(e.target.files[0])importJSON(e.target.files[0]);};
+    list.addEventListener('click',function(e){var b=e.target.closest('[data-act]');if(!b)return;var id=b.dataset.id,act=b.dataset.act;
+      if(act==='resolve')resolve(id);else if(act==='reopen')reopen(id);else if(act==='del')del(id);else if(act==='focus')focus(id);
+      else if(act==='replytog'){var r=document.getElementById('cxReply-'+id);if(r){r.style.display=r.style.display==='none'?'block':'none';var ta=r.querySelector('textarea');if(ta&&r.style.display!=='none')ta.focus();}}
+      else if(act==='replysend'){var r=document.getElementById('cxReply-'+id),ta=r&&r.querySelector('textarea'),v=ta&&ta.value.trim();if(v)reply(id,v);}});
+    var mc=document.querySelector('.main-content')||document.body;
+    mc.addEventListener('click',onContentClick,true);
+    if(typeof window.switchTab==='function'){var _st=window.switchTab;window.switchTab=function(v){_st(v);setTimeout(renderPins,0);};}
+    // seed one sample comment on first visit (local-only mode)
+    if(!remote() && !data.length && !localStorage.getItem('ipp_comments_seeded')){
+      data=[{id:'sample1',view:'journey',x:150,y:170,resolved:false,createdAt:Date.now(),resolvedAt:null,
+        messages:[{author:'Eva (example)',text:'Welcome! This is a sample comment. Click + Comment, then click anywhere on a page to leave your own. Reply to discuss, and Resolve when done - it moves to the Resolved tab (history).',at:Date.now()}]}];
+      save(data);localStorage.setItem('ipp_comments_seeded','1');
+    }
+    // how-to help modal
+    var hb=document.getElementById('cxHelp'),hm=document.getElementById('cxHelpModal');
+    if(hb&&hm){hb.onclick=function(){hm.classList.add('on');};document.getElementById('cxHelpClose').onclick=function(){hm.classList.remove('on');};
+      hm.addEventListener('click',function(e){if(e.target===hm)hm.classList.remove('on');});
+      document.addEventListener('keydown',function(e){if(e.key==='Escape')hm.classList.remove('on');});}
+    updateWho();render();
+    if(remote()){ pullRemote(render); setInterval(function(){ if(!adding && !composer) pullRemote(render); },15000); }
+  }
+  if(document.readyState!=='loading')init();else document.addEventListener('DOMContentLoaded',init);
 })();
 </script>
 
