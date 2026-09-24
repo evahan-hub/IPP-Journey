@@ -764,6 +764,13 @@ body{background:var(--bg);color:var(--ink);
 /* Cards view: let the frame hug all columns (so nothing is clipped) and scroll as one unit */
 .bp-canvas.bp-canvas--hug{border:none;background:none;padding:0;border-radius:0}
 .bp-canvas--hug .bp-flow{width:max-content;min-width:min-content;padding:4px 0 24px;border:none;border-radius:0;background:transparent}
+/* scroll-hint fade at the canvas edges (shown only when more content is off-screen) */
+.bp-canvas-frame{position:relative}
+.bp-fade{position:absolute;top:0;bottom:14px;width:52px;pointer-events:none;z-index:20;opacity:0;transition:opacity .18s ease}
+.bp-fade-l{left:0;background:linear-gradient(to right,#ffffff 15%,rgba(255,255,255,0))}
+.bp-fade-r{right:0;background:linear-gradient(to left,#ffffff 15%,rgba(255,255,255,0))}
+.bp-canvas-frame.sc-left .bp-fade-l{opacity:1}
+.bp-canvas-frame.sc-right .bp-fade-r{opacity:1}
 /* transparent canvas, no outline box, left-aligned with the View control */
 .bp-canvas,.journey-canvas{background:transparent;border:none;border-radius:0;padding-left:0;padding-right:0}
 /* Journey map summary — Bento summary-block style: one container, divided cells */
@@ -1267,8 +1274,11 @@ function toggleNav(){var c=document.body.classList.toggle('nav-collapsed');try{l
     <button class="bp-expand" id="bpExpandBtn" aria-label="Expand" title="Expand" onclick="toggleJourneyExpand()" style="margin-left:auto"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg></button>
   </div>
   
-  <div class="bp-canvas" id="bpCanvasWrap">
-    <div class="bp-flow" id="bpCanvas"></div>
+  <div class="bp-canvas-frame">
+    <span class="bp-fade bp-fade-l"></span><span class="bp-fade bp-fade-r"></span>
+    <div class="bp-canvas" id="bpCanvasWrap">
+      <div class="bp-flow" id="bpCanvas"></div>
+    </div>
   </div>
 </section>
 
@@ -2261,6 +2271,7 @@ function toggleJourneyExpand(){
       ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h5V4"/><path d="M20 15h-5v5"/><path d="M15 4v5h5"/><path d="M9 20v-5H4"/></svg>'
       : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>';
   }
+  if(typeof bpFades==='function') setTimeout(bpFades,260);
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){const w=document.getElementById('bpCanvasWrap');if(w&&w.classList.contains('is-expanded'))toggleJourneyExpand();}});
 
@@ -3112,15 +3123,24 @@ function bpInjectFriction(){
     if(anchor && anchor.nextSibling) col.insertBefore(box, anchor.nextSibling); else col.appendChild(box);
   });
 }
+function bpFades(){
+  var w=document.getElementById('bpCanvasWrap'); if(!w) return; var f=w.parentNode;
+  if(!f||!f.classList||!f.classList.contains('bp-canvas-frame')) return;
+  var can=w.scrollWidth>w.clientWidth+2;
+  f.classList.toggle('sc-left', can && w.scrollLeft>2);
+  f.classList.toggle('sc-right', can && (w.scrollLeft+w.clientWidth < w.scrollWidth-2));
+}
 var bpLayout='stacked';
 var renderStacked = render;
 render = function(){
   var canvas=document.getElementById('bpCanvas'); if(!canvas) return;
   var wrap=document.getElementById('bpCanvasWrap'); if(wrap) wrap.classList.toggle('bp-canvas--hug', bpLayout==='stacked');
-  if(bpLayout==='stacked'){ canvas.style.display='flex'; renderStacked(); bpFitSubs(); bpInjectFriction(); return; }
+  if(bpLayout==='stacked'){ canvas.style.display='flex'; renderStacked(); bpFitSubs(); bpInjectFriction(); setTimeout(bpFades,0); return; }
   canvas.style.display='block';
   canvas.innerHTML = (bpLayout==='matrix') ? renderMatrix(getFilters()) : renderSwimlane(getFilters());
+  setTimeout(bpFades,0);
 };
+(function(){var w=document.getElementById('bpCanvasWrap'); if(w){w.addEventListener('scroll',bpFades,{passive:true}); window.addEventListener('resize',bpFades);}})();
 (function(){ var tg=document.getElementById('bpLayoutToggle'); if(!tg) return; tg.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; bpLayout=b.dataset.l; tg.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);}); render(); }); })();
 render();
 
